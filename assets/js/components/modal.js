@@ -109,7 +109,7 @@ function buildContent(projeto, close) {
         icon("close"),
       ),
     ),
-    h("div", { class: "modal__body" }, resumo ? h("p", {}, resumo) : null, steps, techs, repo),
+    h("div", { class: "modal__body" }, resumo ? h("p", {}, resumo) : null, techs, steps, repo),
   );
 }
 
