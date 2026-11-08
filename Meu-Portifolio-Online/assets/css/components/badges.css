@@ -1,0 +1,22 @@
+/* Badges (ex.: tecnologias de um projeto) */
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.8rem;
+  background: var(--accent-subtle);
+  color: var(--text-main);
+  border: 1px solid var(--accent-detail);
+  border-radius: var(--radius-pill);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+}

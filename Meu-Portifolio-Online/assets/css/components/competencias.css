@@ -1,0 +1,24 @@
+/* Competências: grid de cards com imagem circular, título, descrição e botão */
+
+.competencia {
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  text-align: center;
+  height: 100%;
+}
+
+.competencia .avatar {
+  margin-bottom: var(--space-2);
+}
+
+.competencia__desc {
+  margin-bottom: var(--space-3);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* Empurra o botão para a base: cards com textos de tamanhos diferentes alinham */
+.competencia .btn {
+  margin-top: auto;
+}

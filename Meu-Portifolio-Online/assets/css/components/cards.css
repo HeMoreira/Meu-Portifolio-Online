@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Base compartilhada de cards e grids (competências, certificações, projetos).
+   ========================================================================== */
+
+.grid {
+  display: grid;
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Quantas colunas couberem, sem breakpoints — aceita qualquer nº de itens */
+.grid--cards {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+/* Destaque do alvo quando o usuário chega por um link interno (#projeto-x) */
+.card:target {
+  outline: 3px solid var(--accent-detail);
+  outline-offset: 4px;
+}
+
+/* Imagem circular reutilizável (perfil, competências) */
+.avatar {
+  display: block;
+  width: var(--avatar-size, 6.5rem);
+  height: var(--avatar-size, 6.5rem);
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--surface-2);
+  border: 3px solid var(--accent-detail);
+}

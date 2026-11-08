@@ -1,0 +1,82 @@
+/* ==========================================================================
+   Botões.
+   Variantes:
+     .btn--primary  preenchido com a cor de destaque (fill) + borda detail
+     .btn--outline  contorno e texto na cor detail
+     .btn--neutral  tons neutros, sem identidade (ex.: link de competência)
+   No hover, primary e outline invertem para detail/on-accent-detail,
+   mantendo contraste >= 4.5:1 nos dois temas.
+   ========================================================================== */
+
+.btn {
+  --btn-bg: var(--surface-2);
+  --btn-fg: var(--text-main);
+  --btn-border: var(--border);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: var(--space-2) 1.15rem;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: 1.5px solid var(--btn-border);
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn--primary {
+  --btn-bg: var(--accent-fill);
+  --btn-fg: var(--on-accent-fill);
+  --btn-border: var(--accent-detail);
+}
+
+.btn--outline {
+  --btn-bg: transparent;
+  --btn-fg: var(--accent-detail);
+  --btn-border: var(--accent-detail);
+}
+
+.btn--primary:hover,
+.btn--outline:hover {
+  --btn-bg: var(--accent-detail);
+  --btn-fg: var(--on-accent-detail);
+}
+
+.btn--neutral:hover {
+  --btn-bg: var(--border);
+  --btn-border: var(--text-muted);
+}
+
+/* Indisponível: sem destino real. Tracejado + texto secundário, sem hover. */
+.btn:disabled {
+  --btn-bg: transparent;
+  --btn-fg: var(--text-muted);
+  --btn-border: var(--border);
+  border-style: dashed;
+  cursor: not-allowed;
+}
+
+.btn--sm {
+  min-height: 2.5rem;
+  padding-inline: var(--space-4);
+}
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
