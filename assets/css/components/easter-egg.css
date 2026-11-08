@@ -157,6 +157,12 @@
   visibility: hidden;
 }
 
+@media (min-width: 1024px) {
+  .egg__caption {
+    margin: -55px 0 0 0;
+  }
+}
+
 /* ---------- Setas (triângulos achatados de cantos arredondados) ---------- */
 .egg__arrow--up { grid-area: up; }
 .egg__arrow--left { grid-area: left; }
