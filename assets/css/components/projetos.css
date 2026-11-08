@@ -110,7 +110,7 @@
   display: block;
   width: var(--value, 0%);
   height: 100%;
-  background: var(--accent-detail);
+  background: var(--accent-fill);
   border-radius: var(--radius-pill);
 }
 
