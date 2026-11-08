@@ -12,6 +12,7 @@
   --btn-bg: var(--surface-2);
   --btn-fg: var(--text-main);
   --btn-border: var(--border);
+  --btn-shadow-offset: 6px;
 
   display: inline-flex;
   align-items: center;
@@ -21,8 +22,6 @@
   padding: var(--space-2) 1.15rem;
   background: var(--btn-bg);
   color: var(--btn-fg);
-  border: 1.5px solid var(--btn-border);
-  border-radius: var(--radius-pill);
   font: inherit;
   font-size: var(--fs-sm);
   font-weight: 600;
@@ -30,12 +29,26 @@
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease),
-    border-color var(--dur) var(--ease);
+  
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--btn-shadow-offset) var(--btn-shadow-offset) 0 0 var(--btn-border);
+  
+  transition: background-color var(--dur) var(--ease),
+              color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease),
+              transform var(--dur) var(--ease);
 }
 
 .btn:hover {
   text-decoration: none;
+  color: var(--btn-border);
+}
+
+.btn:active:not(:disabled) {
+  transform: translate(4px, 4px);
+  box-shadow: calc(var(--btn-shadow-offset) - 4px) calc(var(--btn-shadow-offset) - 4px) 0 0 var(--btn-border);
 }
 
 .btn--primary {
@@ -50,29 +63,31 @@
   --btn-border: var(--accent-detail);
 }
 
-.btn--primary:hover,
-.btn--outline:hover {
-  --btn-bg: var(--accent-detail);
-  --btn-fg: var(--on-accent-detail);
+.btn--neutral {
+  --btn-bg: var(--surface-2);
+  --btn-fg: var(--text-main);
+  --btn-border: var(--border);
 }
 
 .btn--neutral:hover {
-  --btn-bg: var(--border);
   --btn-border: var(--text-muted);
 }
 
-/* Indisponível: sem destino real. Tracejado + texto secundário, sem hover. */
+/* Indisponível: sem destino real. Tracejado + texto secundário, sem hover. */ 
 .btn:disabled {
   --btn-bg: transparent;
   --btn-fg: var(--text-muted);
   --btn-border: var(--border);
   border-style: dashed;
+  box-shadow: none;
+  transform: none;
   cursor: not-allowed;
 }
 
 .btn--sm {
   min-height: 2.5rem;
   padding-inline: var(--space-4);
+  --btn-shadow-offset: 5px;
 }
 
 .btn-group {
