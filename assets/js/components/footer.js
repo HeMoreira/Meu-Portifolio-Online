@@ -10,7 +10,6 @@ export function createFooter(perfil) {
       "div",
       { class: "container site-footer__inner" },
       h("p", {}, `© ${new Date().getFullYear()} ${perfil.nome}`),
-      h("a", { class: "btn btn--neutral btn--sm", href: "#topo" }, icon("up"), "Voltar ao topo"),
     ),
   );
 }
