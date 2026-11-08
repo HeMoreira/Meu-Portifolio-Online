@@ -8,7 +8,7 @@ import { PERFIL } from "./perfil.js";
 
 const MIDIA_PADRAO = {
   tipo: "imagem",
-  src: "inicio/placeholder-1x1.svg", // PLACEHOLDER: substituir por mídia real
+  src: "inicio/placeholder-1x1.svg",
   alt: "",
 };
 
@@ -39,30 +39,6 @@ export default {
       texto:
         "Já tendo desenvolvido uma série de websites completos, possuo amplo conhecimento de UI/UX, HTML5, CSS3, Javascript, Cores, princípios de design e acessibilidade, além de conhecer ferramentas diversas para aumentar minha produtividade.",
       botao: "Ver currículo Front-End",
-      midia: MIDIA_PADRAO,
-    },
-    {
-      slug: "desenvolvedor-backend",
-      titulo: "Desenvolvedor Back-End",
-      texto:
-        "Embora não possua conhecimento profundo de APIs ou arquitetura, sou capaz de desenvolver sistemas com a ajuda de agentes de IA generativa sem me perder no processo graças a minha experiência com projetos pessoais e pensamento lógico.",
-      botao: "Ver currículo Back-End",
-      midia: MIDIA_PADRAO,
-    },
-    {
-      slug: "desenvolvedor-versatil",
-      titulo: "Desenvolvedor Versátil",
-      texto:
-        "Por já ter desenvolvido uma variedade de sistemas, incluindo sites completos com segurança avançada, jogos, bots para o discord, entre outros, estou seguro de que tenho o interesse e sou capaz de desenvolver qualquer coisa com o devido treinamento.",
-      botao: "Ver currículo Desenvolvedor",
-      midia: MIDIA_PADRAO,
-    },
-    {
-      slug: "desenvolvedor-freelancer",
-      titulo: "Desenvolvedor Freelancer",
-      texto:
-        "Sou iniciante, mas prezo pela qualidade. Aprenderei o que for preciso para garantir uma entrega eficiente e segura.",
-      botao: "Ver currículo Freelancer",
       midia: MIDIA_PADRAO,
     },
     {
