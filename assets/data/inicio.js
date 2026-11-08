@@ -1,10 +1,6 @@
 /* ==========================================================================
    Conteúdo da PÁGINA INICIAL — só dados. Marcadores [Seu Nome]/[Exemplo] = substituir.
 
-   Mídias de cada área (16:9):
-     imagem → { tipo: "imagem", src: "inicio/arquivo.webp", alt: "…" }   (assets/images/inicio/)
-     vídeo  → { tipo: "video",  src: "inicio/arquivo.mp4", mime: "video/mp4",
-                poster: "inicio/capa.webp", alt: "…" }                    (assets/videos/inicio/)
    A ordem de `curriculos` define a ordem das seções e a alternância
    (mídia à esquerda / à direita). `slug` deve ser o nome de uma página existente.
    ========================================================================== */
@@ -13,16 +9,17 @@ import { PERFIL } from "./perfil.js";
 const MIDIA_PADRAO = {
   tipo: "imagem",
   src: "inicio/placeholder-1x1.svg", // PLACEHOLDER: substituir por mídia real
-  alt: "Imagem ilustrativa da área (substituir)",
+  alt: "",
 };
 
 export default {
   perfil: { ...PERFIL, funcao: "Portfólio profissional" },
 
   apresentacao: {
-    titulo: "Olá, eu sou [Seu Nome]",
+    titulo: "Henrique F. Moreira",
     paragrafos: [
-      "Texto de apresentação pessoal (substituir): quem você é, o que faz e o que move seu trabalho. Este portfólio reúne as áreas em que atuo, cada uma com seu próprio currículo.",
+      "Olá! Meu nome é Henrique Ferreira Moreira e tenho 18 anos. Sou um desenvolvedor curioso que começou pelo Minecraft em 2020, mas que hoje já desenvolve websites completos, jogos, entre muitos outros.",
+      "Tenho conhecimentos diversos e estou disponível para trabalhar em diferentes cargos da área de TI, então sinta-se para explorar!",
     ],
     legendaFoto: "Contra o mundo",
   },
@@ -32,7 +29,7 @@ export default {
       slug: "suporte-de-ti",
       titulo: "Suporte de TI",
       texto:
-        "Atendimento, diagnóstico e resolução de incidentes, com foco em redes, sistemas e documentação que evita problemas repetidos.",
+        "Formado como técnico de informática, tenho conhecimentos variados de hardware, software, infraestrutura, redes e segurança, o que me permite resolver uma variedade de problemas e encontrar soluções novas rapidamente.",
       botao: "Ver currículo de Suporte",
       midia: MIDIA_PADRAO,
     },
@@ -40,7 +37,7 @@ export default {
       slug: "desenvolvedor-frontend",
       titulo: "Desenvolvedor Front-End",
       texto:
-        "Interfaces responsivas, acessíveis e rápidas, construídas com HTML semântico, CSS organizado e JavaScript sem excessos.",
+        "Já tendo desenvolvido uma série de websites completos, possuo amplo conhecimento de UI/UX, HTML5, CSS3, Javascript, Cores, princípios de design e acessibilidade, além de conhecer ferramentas diversas para aumentar minha produtividade.",
       botao: "Ver currículo Front-End",
       midia: MIDIA_PADRAO,
     },
@@ -48,31 +45,31 @@ export default {
       slug: "desenvolvedor-backend",
       titulo: "Desenvolvedor Back-End",
       texto:
-        "APIs e serviços confiáveis, com modelagem de dados cuidadosa, testes automatizados e deploys previsíveis.",
+        "Embora não possua conhecimento profundo de APIs ou arquitetura, sou capaz de desenvolver sistemas com a ajuda de agentes de IA generativa sem me perder no processo graças a minha experiência com projetos pessoais e pensamento lógico.",
       botao: "Ver currículo Back-End",
       midia: MIDIA_PADRAO,
     },
     {
-      slug: "desenvolvedor-fullstack",
-      titulo: "Desenvolvedor Full Stack",
+      slug: "desenvolvedor-versatil",
+      titulo: "Desenvolvedor Versátil",
       texto:
-        "Funcionalidades completas, da interface ao banco de dados, entendendo como cada camada afeta as outras.",
-      botao: "Ver currículo Full Stack",
+        "Por já ter desenvolvido uma variedade de sistemas, incluindo sites completos com segurança avançada, jogos, bots para o discord, entre outros, estou seguro de que tenho o interesse e sou capaz de desenvolver qualquer coisa com o devido treinamento.",
+      botao: "Ver currículo Desenvolvedor",
       midia: MIDIA_PADRAO,
     },
     {
       slug: "desenvolvedor-freelancer",
       titulo: "Desenvolvedor Freelancer",
       texto:
-        "Sites e sistemas sob medida, do briefing à entrega, com comunicação transparente e prazos realistas.",
+        "Sou iniciante, mas prezo pela qualidade. Aprenderei o que for preciso para garantir uma entrega eficiente e segura.",
       botao: "Ver currículo Freelancer",
       midia: MIDIA_PADRAO,
     },
     {
       slug: "domador-de-ias",
-      titulo: "Domador de IAs",
+      titulo: "Engenheiro de IA",
       texto:
-        "Prompts, automações e integrações com inteligência artificial generativa, sempre com avaliação e uso responsável.",
+        "Como uma boa bagagem em áreas como UI, UX, design, segurança, desenvolvimento de testes, lógica de programação e prompt engineering, sou capaz de trabalhar em stacks com as quais tenho pouca familiaridade sem grandes dificuldades, permitindo que eu me concentre na intenção enquanto LLMs escrevem o código.",
       botao: "Ver currículo de IAs",
       midia: MIDIA_PADRAO,
     },
