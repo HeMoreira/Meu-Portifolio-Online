@@ -12,7 +12,7 @@ import { PERFIL } from "./perfil.js";
 
 const MIDIA_PADRAO = {
   tipo: "imagem",
-  src: "inicio/placeholder-16x9.svg", // PLACEHOLDER: substituir por mídia real
+  src: "inicio/placeholder-1x1.svg", // PLACEHOLDER: substituir por mídia real
   alt: "Imagem ilustrativa da área (substituir)",
 };
 

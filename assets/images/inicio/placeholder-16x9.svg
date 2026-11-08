@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="Imagem de exemplo 16:9">
-  <rect width="1280" height="720" fill="#cfd5da"/>
-  <rect x="140" y="100" width="1000" height="520" rx="28" fill="#e4e8eb"/>
-  <circle cx="470" cy="300" r="56" fill="#aab3bb"/>
-  <path d="M250 540 440 380l120 100 150-170 330 230z" fill="#aab3bb"/>
-  <rect x="780" y="190" width="260" height="22" rx="8" fill="#c0c7cd"/>
-  <rect x="780" y="236" width="200" height="22" rx="8" fill="#c0c7cd"/>
-</svg>
