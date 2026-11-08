@@ -5,7 +5,7 @@
 
 export const PERFIL = {
   nome: "Henrique Ferreira Moreira",
-  foto: { src: "perfil/placeholder.svg", alt: "Retrato de Henrique Ferreira Moreira" },
+  foto: { src: "perfil/foto-perfil_icon.jpeg", alt: "Retrato de Henrique Ferreira Moreira" },
 };
 
 const CONTATOS = {
