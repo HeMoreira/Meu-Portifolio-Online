@@ -6,10 +6,9 @@ export default {
 
   sobre: {
     paragrafos: [
-      "Atendo clientes que precisam de sites e sistemas sob medida, cuidando de tudo: entender a necessidade, combinar escopo e prazo, desenvolver, entregar e dar suporte depois.",
-      "Acredito que bom trabalho freelance depende tanto de código limpo quanto de comunicação transparente e entregas previsíveis.",
+      "Esta rota ainda não foi implementada. As informações presentes nessa página são genéricas e não representam experiências reais.",
     ],
-    links: contatos("email", "linkedin", "github"),
+    links: contatos("email", "github", "linkedin"),
   },
 
   competencias: {

@@ -6,8 +6,7 @@ export default {
 
   sobre: {
     paragrafos: [
-      "Desenvolvo APIs e serviços confiáveis, com modelagem de dados cuidadosa, tratamento correto de erros e foco em segurança e manutenção a longo prazo.",
-      "Prefiro soluções simples e bem testadas: contratos claros entre sistemas, registros úteis para diagnóstico e deploys previsíveis.",
+      "Esta rota ainda não foi implementada. As informações presentes nessa página são genéricas e não representam experiências reais.",
     ],
     links: contatos("email", "github", "linkedin"),
   },

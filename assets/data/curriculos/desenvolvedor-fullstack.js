@@ -6,10 +6,9 @@ export default {
 
   sobre: {
     paragrafos: [
-      "Entrego funcionalidades completas, da interface ao banco de dados, entendendo como cada camada afeta as outras e o que isso significa para quem usa o produto.",
-      "Gosto de trabalhar em projetos de ponta a ponta: levantar requisitos, desenhar a solução, implementar, publicar e acompanhar o resultado.",
+      "Esta rota ainda não foi implementada. As informações presentes nessa página são genéricas e não representam experiências reais.",
     ],
-    links: contatos("email", "linkedin", "github"),
+    links: contatos("email", "github", "linkedin"),
   },
 
   competencias: {

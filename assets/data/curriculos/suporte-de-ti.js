@@ -2,111 +2,148 @@
 import { PERFIL, contatos } from "../perfil.js";
 
 export default {
-  perfil: { ...PERFIL, funcao: "Analista de Suporte de TI" },
+  perfil: { ...PERFIL, funcao: "Suporte de TI / Help Desk" },
 
   sobre: {
     paragrafos: [
-      "Atuo no atendimento e na resolução de incidentes de tecnologia, garantindo que pessoas e equipes voltem a trabalhar o mais rápido possível, com clareza na comunicação e foco na causa raiz dos problemas.",
-      "Gosto de transformar soluções recorrentes em documentação e processos simples, reduzindo chamados repetidos e deixando o ambiente de TI mais previsível.",
+      "Estudante do 3º semestre da graduação em Análise e Desenvolvimento de Sistemas, sou formado como técnico em informática na Fundação Oswaldo Cruz e estou aberto a oportunidades como estagiário na área de Suporte de TI / Help Desk.",
+      "Possuo conhecimento variado na área de informática, o que inclui operação e instalação de hardware e software; Instalação, atualização e configuração de sistemas operacionais (Windows/Linux); Arquitetura de redes; Segurança digital; Aplicações de uso variado (Excel, Word, Powerpoint, Canva, etc.) e muito mais.",
+      "Possuo ainda uma grande bagagem como desenvolvedor e operador de agentes de IA generativa, fazendo de mim um profissional muito versátil.",
     ],
     links: contatos("email", "linkedin", "github"),
   },
 
   competencias: {
-    intro: "Áreas em que concentro meu trabalho de suporte.",
+    intro: "Capacidades relacionadas ao meu trabalho como Suporte de TI / Help Desk.",
     itens: [
-      {
-        titulo: "Atendimento ao usuário",
-        descricao: "Triagem, diagnóstico e resolução de incidentes com comunicação objetiva e empática.",
-        imagem: "competencias/suporte.svg",
-        relacao: { tipo: "projeto", id: "central-de-chamados" },
-      },
       {
         titulo: "Redes e conectividade",
         descricao: "Diagnóstico de acesso, Wi-Fi, VPN e infraestrutura básica de rede local.",
         imagem: "competencias/rede.svg",
-        relacao: { tipo: "projeto", id: "inventario-de-ativos" },
+        relacao: { tipo: "certificacao", id: "tecnico-de-informatica" },
       },
       {
         titulo: "Sistemas e manutenção",
-        descricao: "Instalação, configuração e manutenção preventiva de estações, sistemas e periféricos.",
+        descricao: "Instalação, configuração e manutenção preventiva de computadores e periféricos.",
         imagem: "competencias/servidor.svg",
-        relacao: { tipo: "certificacao", id: "fundamentos-de-ti" },
+        relacao: { tipo: "certificacao", id: "tecnico-de-informatica" },
       },
       {
-        titulo: "Documentação e processos",
-        descricao: "Bases de conhecimento e procedimentos que reduzem chamados repetidos.",
+        titulo: "Atendimento ao usuário",
+        descricao: "Triagem, diagnóstico e resolução de incidentes com comunicação objetiva e empática.",
+        imagem: "competencias/suporte.svg",
+      },
+      {
+        titulo: "Ferramentas Gerais",
+        descricao: "Uso de ferramentas específicas como Canva, Trello, Miro, CapCut, ChatGPT, Manus, etc.",
+        imagem: "competencias/ferramentas.svg",
+        relacao: { tipo: "projeto", id: "ai-tests" },
+      },
+      {
+        titulo: "Atividades de Escritório",
+        descricao: "Uso de ferramentas como Excel, Word, Powerpoint e Word para atividades ocasionais.",
         imagem: "competencias/documentacao.svg",
-        relacao: { tipo: "projeto", id: "central-de-chamados" },
+        relacao: { tipo: "certificacao", id: "tecnico-de-informatica" },
+      },
+      {
+        titulo: "Tecnologias de Desenvolvimento",
+        descricao: "Amplo conhecimento em tecnologias como HTML5, CSS3, Javascript, Python, SQL, etc.",
+        imagem: "competencias/codigo.svg",
+        relacao: { tipo: "projeto", id: "meu-portifolio-online" },
       },
     ],
   },
 
   projetos: {
-    intro: "Projetos que demonstram organização, método e atenção ao usuário.",
+    intro: "Projetos diversos que demonstram minhas capacidades na prática.",
     itens: [
       {
-        id: "central-de-chamados",
-        titulo: "[Exemplo] Central de chamados interna",
+        id: "ai-tests",
+        titulo: "AI-Tests",
         descricao:
-          "Fluxo de abertura, priorização e acompanhamento de chamados com base de conhecimento associada. O objetivo é reduzir o tempo de resposta e dar visibilidade ao andamento de cada solicitação.",
-        repositorio: null, // PLACEHOLDER: URL do repositório
-        media: { tipo: "imagem", src: "projetos/placeholder.svg", alt: "Imagem ilustrativa do projeto (substituir)" },
+          "Projeto com o objetivo de testar e avaliar diferentes modelos de IA. Foco em testagem e documentação para solucionar problemas de eficiência e agilizar processos.",
+        repositorio: "https://github.com/HeMoreira/AI-Tests",
+        media: { tipo: "video", src: "projetos/ai_tests_project.mp4", alt: "Vídeo ilustrativo do projeto" },
         metricas: [
-          { rotulo: "Tempo de resposta", valor: 90 },
-          { rotulo: "Resolução no 1º contato", valor: 75 },
-          { rotulo: "Satisfação do usuário", valor: 88 },
-          { rotulo: "Cobertura da documentação", valor: 70 },
-        ],
-        detalhes: {
-          resumo: "Descrição complementar do projeto (substituir): contexto, problema enfrentado e resultados obtidos.",
-          etapas: [
-            { titulo: "Levantamento", descricao: "Mapeamento dos tipos de chamado e dos gargalos." },
-            { titulo: "Definição do fluxo", descricao: "Categorias, prioridades e prazos de atendimento." },
-            { titulo: "Implantação", descricao: "Configuração da ferramenta e treinamento dos usuários." },
-            { titulo: "Melhoria contínua", descricao: "Revisão de indicadores e atualização da base de conhecimento." },
-          ],
-          tecnologias: ["ITSM", "Active Directory", "Windows", "Linux", "Documentação"],
-        },
-      },
-      {
-        id: "inventario-de-ativos",
-        titulo: "[Exemplo] Inventário de ativos de TI",
-        descricao:
-          "Controle centralizado de equipamentos, licenças e responsáveis, facilitando manutenção preventiva, auditorias e planejamento de renovação do parque.",
-        repositorio: null, // PLACEHOLDER
-        media: { tipo: "imagem", src: "projetos/placeholder.svg", alt: "Imagem ilustrativa do projeto (substituir)" },
-        metricas: [
-          { rotulo: "Equipamentos catalogados", valor: 95 },
-          { rotulo: "Licenças regularizadas", valor: 80 },
-          { rotulo: "Manutenção em dia", valor: 65 },
+          { rotulo: "Documentação de processos", valor: 95 },
+          { rotulo: "Processo de testagem", valor: 80 },
+          { rotulo: "Design de apresentações", valor: 65 },
           { rotulo: "Dados atualizados", valor: 85 },
         ],
         detalhes: {
-          resumo: "Descrição complementar do projeto (substituir).",
-          etapas: ["Coleta de dados", "Padronização dos registros", "Rotina de atualização"],
-          tecnologias: ["Planilhas", "Redes", "Hardware", "Licenciamento"],
+          resumo: "O projeto teve como objetivo testar e documentar as capacidades de cada modelo de IA avaliado, tendo utilizado múltiplas ferramentas para atingir esse objetivo pensando no consumidor.",
+          etapas: [
+            { titulo: "Definição dos requisitos", descricao: "Planejamento do objetivo a ser alcançado, critérios de avaliação justos, seleção das LLMs, etc." },
+            { titulo: "Análise cuidadosa", descricao: "Cada teste foi realizado com cautela para garantir um resultado agradável e funcional considerando o objetivo final da avaliação." },
+            { titulo: "Anotações organizadas", descricao: "Ferranentas como o Trello e o Word foram utilizadas para anotar os resultados obtidos." },
+            { titulo: "Desenvolvimento da apresentação", descricao: "Para garantir que o resultado fosse apresentável ao público geral, os documentos desenvolvidos foram reorganizados em uma apresentação simples e curta feita pelo Canva/Powerpoint e que foca só no essencial." },
+          ],
+          tecnologias: ["ChatGPT", "Claude", "Copilot", "DeepSeek", "Gemini", "Powerpoint", "Word", "Canva", "Documentação", "Trello"],
+        },
+      },
+      {
+        id: "meu-portifolio-online",
+        titulo: "Meu Portifolio Online",
+        descricao:
+          "Website completo desenvolvido para exibição do meu portifólio (esse em que você está agora). Utiliza tecnologias de desenvolvimento diversas como HTML5, CSS3 e Javascript.",
+        repositorio: "https://github.com/HeMoreira/Meu-Portifolio-Online",
+        media: { tipo: "video", src: "projetos/meu_portifolio_online_project.mp4" },
+        metricas: [
+          { rotulo: "Organização", valor: 90 },
+          { rotulo: "Simplificação de processos", valor: 85 },
+          { rotulo: "Design de Interfaces", valor: 95 },
+          { rotulo: "Cobertura da documentação", valor: 70 },
+        ],
+        detalhes: {
+          resumo: "O processo de desenvolvimento da página envolveu múltiplas etapas que envolveram mais do que as tecnologias em si, mas o pensamento de resolução do problema.",
+          etapas: [
+            { titulo: "Definição dos requisitos", descricao: "Mapeamento dos problemas que a página precisava resolver. Precisei considerar os tipos de usuários que consumiriam a página e encontrar um equilíbrio entre múltiplas funcionalidades e escalabilidade." },
+            { titulo: "Desenvolvimento com IA", descricao: "Com a base definida, usei agentes de IA para fazerem o trabalho braçal." },
+            { titulo: "Revisão e Ajustes", descricao: "Para garantir que o resultado fosse adequado, múltiplos testes e correções foram aplicadas." },
+          ],
+          tecnologias: ["HTML5", "CSS3", "Git", "ChatGPT", "Documentação", "Javascript"],
         },
       },
     ],
   },
 
   certificacoes: {
-    intro: "Formações e certificados na área de suporte.",
+    intro: "Formações e certificados relevantes para a área.",
     itens: [
       {
         id: "fundamentos-de-ti",
-        titulo: "[Exemplo] Fundamentos de TI",
-        descricao: "Instituição, carga horária e ano de conclusão (substituir).",
-        imagem: "certificacoes/placeholder.svg",
-        imagemAlt: "Imagem ilustrativa de certificado (substituir)",
+        titulo: "Fundamentos de TI: Hardware e Software",
+        descricao: "Emitido pela Fundação Bradesco em outubro de 2026. Mais detalhes no LinkedIn.",
+        imagem: "certificacoes/certificado-fundamentos-de-ti-bradesco.jpeg",
+        imagemAlt: "",
       },
       {
-        id: "atendimento-ao-cliente",
-        titulo: "[Exemplo] Atendimento e experiência do usuário",
-        descricao: "Instituição, carga horária e ano de conclusão (substituir).",
+        id: "tecnico-de-informatica",
+        titulo: "Ensino Técnico em Informática",
+        descricao: "Emitido pela Fundação Oswaldo Cruz em dezembro de 2025. Mais detalhes no LinkedIn.",
         imagem: "certificacoes/placeholder.svg",
-        imagemAlt: "Imagem ilustrativa de certificado (substituir)",
+        imagemAlt: "",
+      },
+      {
+        id: "devops-e-agile-culture",
+        titulo: "DevOps & Agile Culture",
+        descricao: "Emitido pela FIAP em outubro de 2026. Mais detalhes no LinkedIn.",
+        imagem: "certificacoes/certificado-devops-e-agile-culture-fiap.jpeg",
+        imagemAlt: "",
+      },
+      {
+        id: "ef-set-ingles",
+        titulo: "Certificado oficial EF SET 56/100 (B2 Independente).",
+        descricao: "Emitido pela EF SET em outubro de 2026. Mais detalhes no LinkedIn.",
+        imagem: "certificacoes/certificado-ef-set-ingles.jpeg",
+        imagemAlt: "",
+      },
+      {
+        id: "cursa-excel",
+        titulo: "Excel do básico ao avançado",
+        descricao: "Emitido pelo Cursa em fevereiro de 2025. Mais detalhes no LinkedIn.",
+        imagem: "certificacoes/certificado-cursa-excel.png",
+        imagemAlt: "",
       },
     ],
   },

@@ -1,4 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Ícone de exemplo">
-  <rect width="200" height="200" fill="#d3d9de"/>
-  <path d="m82 70-40 30 40 30M118 70l40 30-40 30" fill="none" stroke="#7a8590" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect width="200" height="200" fill="#2db0d4"/>
+  <path d="m82 70-40 30 40 30M118 70l40 30-40 30" fill="none" stroke="#113b67" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
