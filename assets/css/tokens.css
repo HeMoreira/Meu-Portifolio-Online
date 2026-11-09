@@ -1,0 +1,102 @@
+/* ==========================================================================
+   tokens.css — design tokens globais.
+
+   1. Neutros (tema claro = padrão, tema escuro via [data-theme="dark"]).
+   2. Tokens semânticos de destaque, que "ligam" a identidade do currículo
+      (accents.css) ao tema ativo.
+   3. Tipografia, espaçamento, raios, sombras.
+
+   Convenção de nomes
+   - Neutros:   --bg, --surface, --surface-2, --border, --text-main, --text-muted
+   - Destaque (cru, por identidade, em accents.css):
+                --accent-{light|dark}-{fill|detail}
+   - Destaque (semântico, usado pelos componentes — NUNCA use os crus):
+                --accent-fill, --accent-detail, --on-accent-fill, --on-accent-detail
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ---------- Neutros — tema claro ---------- */
+  --bg: #f6f7f8;
+  --surface: #ffffff;
+  --surface-2: #eceff1;
+  --border: #cfd5da;
+  --text-main: #16191d;
+  --text-muted: #4a5259;
+  --overlay: rgb(15 18 20 / 0.6);
+  --shadow-1: 0 1px 2px rgb(15 18 20 / 0.06), 0 4px 14px rgb(15 18 20 / 0.06);
+  --shadow-3: 0 12px 40px rgb(15 18 20 / 0.25);
+
+  /* ---------- Destaque — papéis no tema claro ----------
+     fill   = cor CLARA: preenchimentos (botão, número de etapa). O texto sobre
+              ela é o próprio --text-main (contraste >= 4.5:1, validado).
+     detail = cor ESCURA: texto, links, bordas, ícones e indicadores sobre as
+              superfícies claras (contraste >= 4.5:1 com bg/surface/surface-2). */
+  --accent-fill: var(--accent-light-fill);
+  --accent-detail: var(--accent-light-detail);
+  --on-accent-fill: var(--text-main);
+  --on-accent-detail: var(--surface);
+  --accent-subtle: color-mix(in srgb, var(--accent-fill) 16%, var(--surface));
+  --focus-ring: var(--accent-detail);
+
+  /* ---------- Tipografia ---------- */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --fs-sm: 0.9375rem;
+  --fs-base: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-h3: 1.25rem;
+  --fs-h2: clamp(1.6rem, 1.3rem + 1.2vw, 2.15rem);
+  --fs-h1: clamp(2rem, 1.5rem + 2.5vw, 3.25rem);
+  --lh-body: 1.65;
+  --lh-tight: 1.2;
+  --measure: 68ch;
+
+  /* ---------- Espaçamento, forma, layout ---------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 5rem;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-pill: 999px;
+
+  --container: 72rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --header-h: 4rem;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur: 160ms;
+}
+
+/* ---------- Neutros — tema escuro ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #0f1214;
+  --surface: #171b1f;
+  --surface-2: #20262b;
+  --border: #343c43;
+  --text-main: #eceff1;
+  --text-muted: #a9b2b9;
+  --overlay: rgb(0 0 0 / 0.7);
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 14px rgb(0 0 0 / 0.35);
+  --shadow-3: 0 12px 40px rgb(0 0 0 / 0.6);
+
+  /* Papéis invertidos no escuro:
+     detail = cor CLARA (texto/bordas/ícones sobre fundo escuro);
+     fill   = cor ESCURA e saturada (preenchimentos, com texto branco). */
+  --accent-fill: var(--accent-dark-fill);
+  --accent-detail: var(--accent-dark-detail);
+  --on-accent-fill: #ffffff;
+  --on-accent-detail: var(--surface);
+}

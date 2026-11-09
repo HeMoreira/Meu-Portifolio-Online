@@ -1,0 +1,309 @@
+/* ==========================================================================
+   Easter egg da foto — estilos isolados. Estados em .egg[data-egg-state]:
+   disabled | idle | active | code | secret   (ver assets/js/easter-egg/config.js)
+   Usa só tokens existentes (accent-*, neutros): vale para os dois temas.
+   ========================================================================== */
+
+/* Fonte pixel LOCAL (Press Start 2P, licença OFL em assets/fonts/). Só é baixada
+   quando o campo de código aparece. */
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("../../fonts/press-start-2p-latin-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.egg {
+  --egg-photo: 11rem;
+  --egg-arrow: 2.75rem;
+  --egg-gap: 0.75rem;
+
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+}
+
+/* Grade 3×3: setas nas bordas, foto no centro. O pad (setas) repete a mesma grade
+   por cima, então as setas nunca cobrem a foto. */
+.egg__stage,
+.egg__pad {
+  display: grid;
+  grid-template-columns: var(--egg-arrow) var(--egg-photo) var(--egg-arrow);
+  grid-template-rows: var(--egg-arrow) var(--egg-photo) var(--egg-arrow);
+  grid-template-areas:
+    ". up ."
+    "left photo right"
+    ". down .";
+  gap: var(--egg-gap);
+  place-items: center;
+}
+
+.egg__pad {
+  grid-area: 1 / 1 / -1 / -1;
+  pointer-events: none; /* só as setas recebem cliques */
+}
+
+.egg__pad[hidden] {
+  display: none;
+}
+
+/* Desabilitado (≤ 1024px ou antes do JS): só a foto, sem espaço para setas */
+.egg[data-egg-state="disabled"] .egg__stage {
+  grid-template-columns: var(--egg-photo);
+  grid-template-rows: var(--egg-photo);
+  grid-template-areas: "photo";
+}
+
+.egg[data-egg-state="disabled"] .egg__pad {
+  display: none;
+}
+
+/* ---------- Foto ---------- */
+.egg__photo {
+  grid-area: photo;
+  position: relative;
+  width: var(--egg-photo);
+  aspect-ratio: 1;
+  background: var(--surface-2);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+
+.egg__trigger {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+/* o foco global define border-radius: 4px; aqui o contorno acompanha a foto */
+.egg__trigger:focus-visible {
+  border-radius: inherit;
+}
+
+.egg[data-egg-state="idle"] .egg__trigger {
+  cursor: pointer;
+}
+
+.egg__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.egg__tint {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+  transition: background-color 0.35s var(--ease);
+}
+
+/* Indicação de interatividade: borda com brilho + tom levemente azulado.
+   Vale ao passar o mouse na foto OU na área maior (inclui a região das setas)
+   e ao focar o gatilho pelo teclado. */
+:is(
+    .egg[data-egg-state="idle"] .egg__stage:is(:hover, :focus-within),
+    .egg[data-egg-state="active"] .egg__stage:hover
+  )
+  .egg__photo {
+  border-color: var(--accent-detail);
+  box-shadow:
+    0 0 0 1px var(--accent-detail),
+    0 0 14px 2px color-mix(in srgb, var(--accent-detail) 55%, transparent),
+    0 0 34px color-mix(in srgb, var(--accent-detail) 28%, transparent);
+}
+
+:is(
+    .egg[data-egg-state="idle"] .egg__stage:is(:hover, :focus-within),
+    .egg[data-egg-state="active"] .egg__stage:hover
+  )
+  .egg__tint {
+  background: color-mix(in srgb, var(--accent-fill) 28%, transparent);
+}
+
+/* Telas de toque não têm hover: o mesmo realce fica permanente enquanto ocioso */
+@media (hover: none) {
+  .egg[data-egg-state="idle"] .egg__photo {
+    border-color: var(--accent-detail);
+    box-shadow:
+      0 0 0 1px var(--accent-detail),
+      0 0 14px 2px color-mix(in srgb, var(--accent-detail) 55%, transparent);
+  }
+
+  .egg[data-egg-state="idle"] .egg__tint {
+    background: color-mix(in srgb, var(--accent-fill) 24%, transparent);
+  }
+}
+
+/* Foto escurecida enquanto o campo de código está visível */
+.egg:is([data-egg-state="code"], [data-egg-state="secret"]) .egg__tint {
+  background: rgb(4 6 10 / 0.9);
+}
+
+/* ---------- Legenda "Contra o mundo": sai com fade ao ativar ---------- */
+.egg__caption {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  transition: opacity 0.4s var(--ease), visibility 0.4s;
+}
+
+.egg:not([data-egg-state="disabled"]):not([data-egg-state="idle"]) .egg__caption {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media (min-width: 1024px) {
+  .egg__caption {
+    margin: -55px 0 0 0;
+  }
+}
+
+/* ---------- Setas (triângulos achatados de cantos arredondados) ---------- */
+.egg__arrow--up { grid-area: up; }
+.egg__arrow--left { grid-area: left; }
+.egg__arrow--right { grid-area: right; }
+.egg__arrow--down { grid-area: down; }
+
+.egg__arrow {
+  pointer-events: auto;
+  display: grid;
+  place-items: center;
+  width: var(--egg-arrow);
+  height: var(--egg-arrow);
+  padding: 0;
+  background: transparent;
+  color: var(--accent-detail);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.egg__arrow .icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.egg__arrow--right .icon { transform: rotate(90deg); }
+.egg__arrow--down .icon { transform: rotate(180deg); }
+.egg__arrow--left .icon { transform: rotate(270deg); }
+
+.egg__arrow:hover {
+  background: var(--accent-subtle);
+  border-color: var(--accent-detail);
+  transform: scale(1.06);
+}
+
+.egg__arrow:active {
+  background: var(--accent-fill);
+  color: var(--on-accent-fill);
+  transform: scale(0.94);
+}
+
+.egg__pad:not([hidden]) .egg__arrow {
+  animation: egg-pop 0.28s var(--ease) both;
+}
+
+@keyframes egg-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+
+/* ---------- Campo de código "Faça!" (estética pixel art, branco sobre preto) ---------- */
+.egg__code {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.9rem;
+  padding: 0.5rem;
+  margin: 0;
+  color: #fff;
+  font-family: "Press Start 2P", ui-monospace, "Courier New", monospace;
+  text-align: center;
+}
+
+.egg__code[hidden] {
+  display: none;
+}
+
+.egg__code:not([hidden]) {
+  animation: egg-fade 0.3s var(--ease) both;
+}
+
+.egg__label {
+  font-size: 0.8rem;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-shadow: 2px 2px 0 #4b5563;
+}
+
+.egg__input {
+  width: 6.25rem;
+  padding: 0.7rem 0.4rem 0.7rem calc(0.4rem + 0.45em); /* compensa o espaço final do letter-spacing */
+  background: #000;
+  color: #fff;
+  border: 4px solid #fff;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #6b7280;
+  caret-color: #fff;
+  font: inherit;
+  font-size: 1.35rem;
+  letter-spacing: 0.45em; /* separação maior entre as duas letras */
+  text-align: center;
+  text-transform: uppercase; /* só visual: o valor digitado não é alterado */
+}
+
+.egg__input::placeholder {
+  color: #9aa4ad;
+  opacity: 1;
+}
+
+.egg__input:focus {
+  outline: none;
+}
+
+.egg__input:focus-visible {
+  outline: 3px solid #6bb6ff;
+  outline-offset: 3px;
+  border-radius: 0;
+}
+
+.egg__input[aria-invalid="true"] {
+  border-style: dashed;
+  animation: egg-shake 0.3s steps(4) both;
+}
+
+.egg__input:disabled {
+  opacity: 1;
+  -webkit-text-fill-color: #fff;
+}
+
+@keyframes egg-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes egg-shake {
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}

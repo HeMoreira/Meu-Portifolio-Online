@@ -1,0 +1,215 @@
+/* ==========================================================================
+   layout.css — container, header/navegação, seções e rodapé.
+   ========================================================================== */
+
+.container {
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+
+/* ---------- Seções ---------- */
+.section {
+  padding-block: var(--space-8);
+  scroll-margin-top: var(--header-h);
+}
+
+.section + .section {
+  border-top: 1px solid var(--border);
+}
+
+.section__head {
+  display: grid;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.section__title::after {
+  content: "";
+  display: block;
+  width: 4rem;
+  height: 0.3rem;
+  margin-top: var(--space-3);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--accent-detail) 0 60%, var(--accent-fill) 60% 100%);
+}
+
+.section__intro {
+  max-width: var(--measure);
+  color: var(--text-muted);
+  font-size: var(--fs-lg);
+}
+
+/* Alvos de âncora não ficam escondidos sob o header fixo */
+[id] {
+  scroll-margin-top: calc(var(--header-h) + var(--space-4));
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: var(--header-h);
+}
+
+.site-header__brand {
+  display: grid;
+  line-height: 1.2;
+  color: var(--text-main);
+  text-decoration: none;
+  border-left: 4px solid var(--accent-detail);
+  padding-left: var(--space-3);
+}
+
+.site-header__name {
+  font-weight: 700;
+}
+
+.site-header__role {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+/* Botões de ícone (tema e menu) */
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  background: transparent;
+  color: var(--text-main);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.icon-btn:hover {
+  background: var(--surface-2);
+  border-color: var(--accent-detail);
+}
+
+.icon-btn .icon {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+/* Tema: mostra o ícone da AÇÃO disponível (lua no claro, sol no escuro) */
+:root[data-theme="dark"] .theme-toggle .icon-moon,
+:root:not([data-theme="dark"]) .theme-toggle .icon-sun {
+  display: none;
+}
+
+/* Menu mobile: alterna hambúrguer/fechar */
+.menu-toggle[aria-expanded="true"] .icon-menu,
+.menu-toggle[aria-expanded="false"] .icon-close {
+  display: none;
+}
+
+/* ---------- Navegação (mobile primeiro) ---------- */
+.site-nav {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  padding: var(--space-3) var(--gutter) var(--space-4);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-1);
+}
+
+.site-nav[data-open="true"] {
+  display: block;
+}
+
+.site-nav__list {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav__link {
+  display: block;
+  padding: 0.7rem var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-nav__link:hover {
+  background: var(--surface-2);
+}
+
+.site-nav__link[aria-current="location"] {
+  color: var(--accent-detail);
+  box-shadow: inset 0 -3px 0 var(--accent-detail);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.menu-toggle {
+  display: inline-grid;
+}
+
+@media (min-width: 48rem) {
+  .menu-toggle {
+    display: none;
+  }
+
+  .site-nav {
+    display: block;
+    position: static;
+    margin-left: auto;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .site-nav__list {
+    display: flex;
+    gap: var(--space-1);
+  }
+
+  .site-header__actions {
+    margin-left: 0;
+  }
+}
+
+/* ---------- Rodapé ---------- */
+.site-footer {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding-block: var(--space-6);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}

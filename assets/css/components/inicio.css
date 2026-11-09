@@ -1,0 +1,129 @@
+/* ==========================================================================
+   Página inicial: seções alternadas (texto | mídia) e mídias 16:9.
+   ========================================================================== */
+
+.sections-group {
+  border-top: 1px solid var(--border);
+  overflow-x: clip; /* o movimento sutil das mídias nunca gera rolagem horizontal */
+}
+
+/* ---------- Seção dividida em texto + mídia ---------- */
+.split__inner {
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.split__texto {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: var(--space-4);
+}
+
+.split__paragrafo {
+  max-width: var(--measure);
+  color: var(--text-muted);
+  font-size: var(--fs-lg);
+}
+
+.split__midia {
+  min-width: 0;
+}
+
+.apresentacao__foto {
+  display: grid;
+  justify-items: center;
+}
+
+@media (min-width: 56rem) {
+  .split__inner {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+    gap: var(--space-8);
+  }
+
+  .split--media-first .split__inner {
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  }
+
+  .split--media-first .split__midia {
+    order: -1;
+  }
+}
+
+/* ---------- Mídia 1:1 ---------- */
+.media {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
+}
+
+.media__content {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--surface-2);
+  border: 15px solid var(--surface-2);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    var(--shadow-1),
+    0 0 10px -3px var(--accent-detail),
+    0 0 20px -10px var(--accent-detail);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.media__content :is(img, video) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+/* Camada de interação reservada (hitboxes futuras). Cobre a mídia, não captura
+   eventos enquanto estiver inativa e acompanha a mídia em qualquer movimento. */
+.media__layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.media__layer[data-active="true"] {
+  pointer-events: auto;
+}
+
+/* ---------- Animação sutil: duas variações, nunca em fase ----------
+   esquerda: sobe devagar e inclina para a esquerda (7s)
+   direita:  desce devagar e inclina para a direita (9s, defasada)
+   Mídias adjacentes alternam de lado, então nunca repetem o mesmo movimento.
+   (Para o modo secreto futuro: [data-secret-mode] .media { animation: none }.) */
+@media (prefers-reduced-motion: no-preference) {
+  .media[data-side="left"] {
+    animation: media-drift-left 6s ease-in-out infinite alternate;
+  }
+
+  .media[data-side="right"] {
+    animation: media-drift-right 8s ease-in-out -3s infinite alternate;
+  }
+
+  @keyframes media-drift-left {
+    from {
+      transform: translate(5px, 9px) rotate(1deg);
+    }
+    to {
+      transform: translate(-5px, -9px) rotate(-1deg);
+    }
+  }
+
+  @keyframes media-drift-right {
+    from {
+      transform: translate(-5px, -9px) rotate(-1deg);
+    }
+    to {
+      transform: translate(5px, 9px) rotate(1deg);
+    }
+  }
+}

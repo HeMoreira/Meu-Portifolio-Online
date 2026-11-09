@@ -1,0 +1,31 @@
+/* Apenas a barra de teste de identidades. Não é usada nas páginas finais. */
+
+.styleguide-bar {
+  position: fixed;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border: 1.5px solid var(--accent-detail);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+  font-size: var(--fs-sm);
+}
+
+.styleguide-bar label {
+  font-weight: 700;
+}
+
+.styleguide-bar select {
+  min-height: 2.5rem;
+  padding: 0 var(--space-3);
+  background: var(--surface-2);
+  color: var(--text-main);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+}

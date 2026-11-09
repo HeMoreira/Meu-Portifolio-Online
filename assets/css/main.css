@@ -1,0 +1,26 @@
+/* ==========================================================================
+   main.css — ponto de entrada único dos estilos.
+   Cada página linka apenas este arquivo; a ordem abaixo é a ordem da cascata.
+   Para publicação, os @import podem ser concatenados por uma etapa de build
+   (opcional — o projeto funciona sem build).
+   ========================================================================== */
+
+/* Fundação */
+@import url("tokens.css");
+@import url("accents.css");
+@import url("base.css");
+@import url("layout.css");
+
+/* Componentes */
+@import url("components/buttons.css");
+@import url("components/badges.css");
+@import url("components/cards.css");
+@import url("components/sobre.css");
+@import url("components/competencias.css");
+@import url("components/projetos.css");
+@import url("components/certificacoes.css");
+@import url("components/modal.css");
+
+/* Página inicial (mídias, seções alternadas) e easter egg da foto */
+@import url("components/inicio.css");
+@import url("components/easter-egg.css");

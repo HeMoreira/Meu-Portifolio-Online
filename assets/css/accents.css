@@ -1,0 +1,82 @@
+/* ==========================================================================
+   accents.css — identidade de cor de cada currículo.
+
+   A identidade é escolhida pelo atributo <html data-accent="{slug}">.
+   Cada identidade define 4 valores crus:
+
+     --accent-light-fill     cor clara   (tema claro)  — preenchimentos
+     --accent-light-detail   cor escura  (tema claro)  — texto/bordas/ícones
+     --accent-dark-fill      cor escura  (tema escuro) — preenchimentos
+     --accent-dark-detail    cor clara   (tema escuro) — texto/bordas/ícones
+
+   Todos os pares foram validados com a fórmula WCAG 2.x:
+     - --text-main sobre light-fill        >= 4.5:1
+     - texto branco sobre dark-fill        >= 4.5:1
+     - detail sobre bg / surface / surface-2 / accent-subtle >= 4.5:1
+   Ao alterar uma cor, revalide estes pares (ver README, "Contraste").
+   ========================================================================== */
+
+/* Fallback (sem data-accent): azul-petróleo neutro */
+:root {
+  --accent-light-fill: #7dd3fc;
+  --accent-light-detail: #0c4a6e;
+  --accent-dark-fill: #0369a1;
+  --accent-dark-detail: #7dd3fc;
+}
+
+/* Página inicial — azul-cobalto claro / azul-royal (claro); azul neon / azul escuro (escuro).
+   Distinta das seis identidades de currículo. */
+:root[data-accent="inicio"] {
+  --accent-light-fill: #5b9dff;
+  --accent-light-detail: #1e40af;
+  --accent-dark-fill: #1d4ed8;
+  --accent-dark-detail: #4da3ff;
+}
+
+/* Suporte de TI — turquesa / azul-escuro */
+:root[data-accent="suporte-de-ti"] {
+  --accent-light-fill: #2dd4bf;
+  --accent-light-detail: #0b3c6e;
+  --accent-dark-fill: #0f766e;
+  --accent-dark-detail: #5eead4;
+}
+
+/* Front-End — magenta / roxo-escuro */
+:root[data-accent="desenvolvedor-frontend"] {
+  --accent-light-fill: #e879f9;
+  --accent-light-detail: #4c1d95;
+  --accent-dark-fill: #a21caf;
+  --accent-dark-detail: #f0abfc;
+}
+
+/* Back-End — azul-claro / verde-escuro */
+:root[data-accent="desenvolvedor-backend"] {
+  --accent-light-fill: #7dd3fc;
+  --accent-light-detail: #14532d;
+  --accent-dark-fill: #166534;
+  --accent-dark-detail: #7dd3fc;
+}
+
+/* Full Stack — índigo-violeta / azul-escuro */
+:root[data-accent="desenvolvedor-fullstack"] {
+  --accent-light-fill: #a5b4fc;
+  --accent-light-detail: #1e2a78;
+  --accent-dark-fill: #4338ca;
+  --accent-dark-detail: #a5b4fc;
+}
+
+/* Freelancer — laranja / marrom-escuro */
+:root[data-accent="desenvolvedor-freelancer"] {
+  --accent-light-fill: #fdba74;
+  --accent-light-detail: #6b3410;
+  --accent-dark-fill: #9a3412;
+  --accent-dark-detail: #fdba74;
+}
+
+/* Domador de IAs — ciano / turquesa-escuro */
+:root[data-accent="domador-de-ias"] {
+  --accent-light-fill: #22d3ee;
+  --accent-light-detail: #0b4f5c;
+  --accent-dark-fill: #0e7490;
+  --accent-dark-detail: #67e8f9;
+}
