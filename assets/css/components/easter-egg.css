@@ -146,10 +146,11 @@
 
 /* ---------- Legenda "Contra o mundo": sai com fade ao ativar ---------- */
 .egg__caption {
-  margin: 0;
+  margin: -55px 0 0 0;
   color: var(--text-muted);
   font-size: var(--fs-sm);
   transition: opacity 0.4s var(--ease), visibility 0.4s;
+  display: none;
 }
 
 .egg:not([data-egg-state="disabled"]):not([data-egg-state="idle"]) .egg__caption {
@@ -159,7 +160,7 @@
 
 @media (min-width: 1024px) {
   .egg__caption {
-    margin: -55px 0 0 0;
+    display: block;
   }
 }
 
