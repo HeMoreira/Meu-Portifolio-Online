@@ -116,11 +116,10 @@
     0 0 0 1px var(--accent-detail),
     0 0 14px 2px color-mix(in srgb, var(--accent-detail) 55%, transparent),
     0 0 34px color-mix(in srgb, var(--accent-detail) 28%, transparent);
-}
+  }
 
 :is(
-    .egg[data-egg-state="idle"] .egg__stage:is(:hover, :focus-within),
-    .egg[data-egg-state="active"] .egg__stage:hover
+    .egg[data-egg-state="idle"] .egg__stage .egg__photo:is(:hover, :focus-within)
   )
   .egg__tint {
   background: color-mix(in srgb, var(--accent-fill) 28%, transparent);
