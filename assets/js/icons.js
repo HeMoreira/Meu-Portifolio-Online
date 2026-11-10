@@ -16,7 +16,7 @@ const PATHS = {
   external: '<path d="M7 17 17 7M7 7h10v10"/>',
   up: '<path d="m18 15-6-6-6 6"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
-  triangle: '<path d="M8 11 L32 2 L56 11 Z"/>', // triângulo achatado (setas do easter egg)
+  triangle: '<path d="M8 11 L32 2 L56 11 Z" stroke="var(--accent-detail)" stroke-width="0.8"/>', // triângulo achatado (setas do easter egg)
 };
 
 const VIEWBOXES = {

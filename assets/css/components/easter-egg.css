@@ -175,9 +175,9 @@
   pointer-events: auto;
   display: block;
   padding: 0;
-  border: 0;                      /* a borda de 1.5px comia espaço do SVG */
+  border: 0;
   background: transparent;
-  color: var(--accent-detail);
+  color: var(--accent-fill);
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: background-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
