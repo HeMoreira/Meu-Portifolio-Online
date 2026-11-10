@@ -16,7 +16,11 @@ const PATHS = {
   external: '<path d="M7 17 17 7M7 7h10v10"/>',
   up: '<path d="m18 15-6-6-6 6"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
-  triangle: '<path d="M5 16.5 12 8l7 8.5Z"/>', // triângulo achatado (setas do easter egg)
+  triangle: '<path d="M8 11 L32 2 L56 11 Z"/>', // triângulo achatado (setas do easter egg)
+};
+
+const VIEWBOXES = {
+  triangle: "0 0 64 14",
 };
 
 /**
@@ -25,7 +29,7 @@ const PATHS = {
  */
 export function icon(name, extraClass = "") {
   const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("viewBox", VIEWBOXES[name] ?? "0 0 24 24");
   svg.setAttribute("class", `icon ${extraClass}`.trim());
   svg.setAttribute("aria-hidden", "true");
   svg.setAttribute("focusable", "false");

@@ -16,21 +16,22 @@
 
 .egg {
   --egg-photo: 11rem;
-  --egg-arrow: 2.75rem;
-  --egg-gap: 0.75rem;
+  --egg-arrow-len: 10rem;                                   /* área de clique: comprimento */
+  --egg-arrow-thick: calc(var(--egg-arrow-len) * 14 / 64);  /* área de clique: espessura */
+  --egg-icon-len: calc(var(--egg-arrow-len) - 10px);        /* seta visível: 10px menor */
+  --egg-icon-thick: calc(var(--egg-icon-len) * 14 / 64);    /* mantém a proporção 64:14 */
+  --egg-gap: 0.4rem;
 
   display: grid;
   justify-items: center;
   gap: var(--space-3);
 }
 
-/* Grade 3×3: setas nas bordas, foto no centro. O pad (setas) repete a mesma grade
-   por cima, então as setas nunca cobrem a foto. */
 .egg__stage,
 .egg__pad {
   display: grid;
-  grid-template-columns: var(--egg-arrow) var(--egg-photo) var(--egg-arrow);
-  grid-template-rows: var(--egg-arrow) var(--egg-photo) var(--egg-arrow);
+  grid-template-columns: var(--egg-arrow-thick) var(--egg-photo) var(--egg-arrow-thick);
+  grid-template-rows: var(--egg-arrow-thick) var(--egg-photo) var(--egg-arrow-thick);
   grid-template-areas:
     ". up ."
     "left photo right"
@@ -146,7 +147,7 @@
 
 /* ---------- Legenda "Contra o mundo": sai com fade ao ativar ---------- */
 .egg__caption {
-  margin: -55px 0 0 0;
+  margin: -45px 0 0 0;
   color: var(--text-muted);
   font-size: var(--fs-sm);
   transition: opacity 0.4s var(--ease), visibility 0.4s;
@@ -171,33 +172,61 @@
 .egg__arrow--down { grid-area: down; }
 
 .egg__arrow {
+  position: relative;
   pointer-events: auto;
-  display: grid;
-  place-items: center;
-  width: var(--egg-arrow);
-  height: var(--egg-arrow);
+  display: block;
   padding: 0;
+  border: 0;                      /* a borda de 1.5px comia espaço do SVG */
   background: transparent;
   color: var(--accent-detail);
-  border: 1.5px solid transparent;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease),
+  transition: background-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
     transform var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
-.egg__arrow .icon {
-  width: 2.25rem;
-  height: 2.25rem;
-  fill: currentColor;
-  stroke: currentColor;
-  stroke-width: 3;
-  stroke-linejoin: round;
+/* caixa == área visível da seta */
+.egg__arrow--up,
+.egg__arrow--down {
+  width: var(--egg-arrow-len);
+  height: var(--egg-arrow-thick);
 }
 
-.egg__arrow--right .icon { transform: rotate(90deg); }
-.egg__arrow--down .icon { transform: rotate(180deg); }
-.egg__arrow--left .icon { transform: rotate(270deg); }
+.egg__arrow--left,
+.egg__arrow--right {
+  width: var(--egg-arrow-thick);
+  height: var(--egg-arrow-len);
+}
+
+/* O SVG tem sempre len × thick e é girado em torno do centro da caixa;
+   assim o layout das setas laterais não depende da rotação. */
+.egg__arrow .icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--egg-icon-len);
+  height: var(--egg-icon-thick);
+  max-width: none;     /* impede o reset global de espremer o SVG nas setas laterais */
+  max-height: none;
+  min-width: 0;
+  min-height: 0;
+  flex: none;
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  transform: translate(-50%, -50%);
+}
+
+.egg__arrow--right .icon { transform: translate(-50%, -50%) rotate(90deg); }
+.egg__arrow--down .icon  { transform: translate(-50%, -50%) rotate(180deg); }
+.egg__arrow--left .icon  { transform: translate(-50%, -50%) rotate(270deg); }
+
+.egg__arrow:hover {
+  background: var(--accent-subtle);
+  box-shadow: inset 0 0 0 1.5px var(--accent-detail); /* borda sem alterar o tamanho */
+  transform: scale(1.06);
+}
 
 .egg__arrow:hover {
   background: var(--accent-subtle);
