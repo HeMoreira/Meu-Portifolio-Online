@@ -51,6 +51,12 @@ export default {
         imagem: "competencias/codigo.svg",
         relacao: { tipo: "projeto", id: "meu-portifolio-online" },
       },
+      {
+        titulo: "Comunicação e Didática",
+        descricao: "Facilidade de comunicação e ensino com pessoas de todas as idades.",
+        imagem: "competencias/codigo.svg",
+        relacao: { tipo: "projeto", id: "professor-python" },
+      },
     ],
   },
 
@@ -102,6 +108,28 @@ export default {
             { titulo: "Revisão e Ajustes", descricao: "Para garantir que o resultado fosse adequado, múltiplos testes e correções foram aplicadas." },
           ],
           tecnologias: ["HTML5", "CSS3", "Git", "ChatGPT", "Documentação", "Javascript"],
+        },
+      },
+      {
+        id: "professor-python",
+        titulo: "Professor de Python",
+        descricao:
+          "Entre agosto de 2025 e fevereiro de 2026, fui professor de Python para alguns senhores de idade, o que me deu experiência real com comunicação clara e didática.",
+        media: { tipo: "imagem", src: "projetos/professor.jpeg" },
+        metricas: [
+          { rotulo: "Organização", valor: 90 },
+          { rotulo: "Preparo de apresentações", valor: 90 },
+          { rotulo: "Didática e Comunicação", valor: 95 },
+          { rotulo: "Experiência Real", valor: 90 },
+        ],
+        detalhes: {
+          resumo: "Já possuia o hábito de ensinar programação para colegas e amigos, mas a partir de agosto de 2025 o serviço evoluiu para aulas pagas para pais e conhecidos mais velhos de alguns dos meus amigos.",
+          etapas: [
+            { titulo: "Preparação de apresentações", descricao: "Antes de cada aula, preparei aprentações com o Canva e Powerpoint para facilitar o aprendizado." },
+            { titulo: "Didática e Paciência", descricao: "Como a maioria dos alunos tinha mais de 50 anos, me esforçei para apresentar o conteúdo de forma didática, parando para entender os problemas dos alunos assim que surgissem com calma e empatia." },
+            { titulo: "Aprendizado contínuo", descricao: "Analisando o perfil dos alunos, fui adaptando o material continuamente para associar os problemas novos à antigos e facilitar o aprendizado." },
+          ],
+          tecnologias: ["Python", "Powerpoint", "Canva", "Documentação", "Didática e comunicação"],
         },
       },
     ],
