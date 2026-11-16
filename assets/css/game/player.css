@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Modo secreto — mundo do jogo e personagem. Sob demanda (loader.js).
+
+   .game-world fica ancorado na ORIGEM DO DOCUMENTO (position: absolute, sem
+   tamanho) e o personagem é posicionado por transform em coordenadas do
+   documento: rola junto com a página, então câmera e hitboxes nunca se
+   desalinham do conteúdo. Abaixo do cabeçalho fixo (50): ao subir, o personagem passa POR BAIXO dele; acima do conteúdo e abaixo do HUD (58–60).
+   ========================================================================== */
+
+.game-world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+
+/* O elemento tem EXATOS 32×32 px com o spritesheet em tamanho natural (JS);
+   a ampliação é um scale() inteiro com pixels nítidos. */
+.game-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  will-change: transform;
+}
+
+/* invulnerabilidade (etapa 3): pisca em passos */
+.game-player[data-invulnerable] {
+  animation: player-blink 0.24s steps(1, end) infinite;
+}
+
+@keyframes player-blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ---------- Depuração: ?debug-hitboxes ou game.setDebug(true) ---------- */
+.game-player__hitbox {
+  display: none;
+  position: absolute;
+  outline: 1px solid #00e060;
+  background: rgb(0 224 96 / 0.25);
+}
+
+:root[data-game-debug] .game-player__hitbox {
+  display: block;
+}
+
+/* a .media__layer é dimensionada igual à hitbox da plataforma (platforms.js) */
+:root[data-game-debug] .media__layer[data-hitbox] {
+  inset: auto;
+  left: var(--hitbox-x);
+  top: var(--hitbox-y);
+  width: var(--hitbox-w);
+  height: var(--hitbox-h);
+  outline: 2px dashed #ff2d9a;
+  background: rgb(255 45 154 / 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-player[data-invulnerable] {
+    animation: none;
+  }
+}

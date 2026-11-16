@@ -1,0 +1,316 @@
+/* ==========================================================================
+   Modo secreto — estética pixel art da página inteira.
+
+   CARREGADO SOB DEMANDA (loader.js) e REMOVIDO ao sair; além disso, toda regra
+   está escopada em <html data-secret-mode="on">. Os estilos normais do site não
+   são alterados em nenhum momento.
+
+   Como a estética é construída (nada de image-rendering: pixelated global):
+     1. TOKENS: raios 0, fonte e escala tipográfica pixel. Todo componente que já
+        usa var(--radius-*) / var(--font-sans) muda sozinho.
+     2. MOLDURA EM DEGRAUS: bordas desenhadas com 4 box-shadows de 1 "pixel" (--px)
+        deslocados — o canto fica sem o pixel de ponta, como num sprite. Mais uma
+        sombra "dura" deslocada para dar volume.
+     3. Paleta: só neutros do tema + accent-fill / accent-detail (mesmos tokens).
+   ========================================================================== */
+
+:root[data-secret-mode="on"] {
+  --px: 4px; /* tamanho do "pixel" da interface */
+  --font-pixel: "Press Start 2P", ui-monospace, "Courier New", monospace;
+
+  /* tinta neutra: bordas e sombras fortes, derivadas do tema (claro/escuro) */
+  --ink: color-mix(in srgb, var(--text-main) 90%, var(--bg));
+  --ink-soft: color-mix(in srgb, var(--text-muted) 55%, var(--bg));
+
+  /* 1. tokens */
+  --font-sans: var(--font-pixel);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-pill: 0;
+  --shadow-1: none;
+  --shadow-3: none;
+  --fs-sm: 0.625rem;
+  --fs-base: 0.75rem;
+  --fs-lg: 0.8125rem;
+  --fs-h3: 1rem;
+  --fs-h2: clamp(1.25rem, 0.9rem + 1vw, 1.5rem);
+  --fs-h1: clamp(1.5rem, 1rem + 1.4vw, 2rem);
+  --lh-body: 2;
+  --lh-tight: 1.5;
+  --focus-ring: var(--text-main);
+  --dur: 0ms;
+  scroll-behavior: auto; /* a câmera dirige a rolagem: sem suavização do CSS */
+
+  /* o zoom direcional amplia o conteúdo para além das bordas: nunca gera rolagem horizontal
+     (na raiz, `clip` vira `hidden` no viewport: sem barra horizontal e sem rolagem lateral) */
+  overflow-x: clip;
+
+  /* 2. moldura em degraus: cada componente define --frame (cor) e --drop (sombra dura) */
+  & :is(
+      .btn, .icon-btn, .card, .badge, .modal, .avatar, .skip-link, .media__content, .egg__photo,
+      .block-art, .game-hud__tag, .metrica__bar
+    ) {
+    --frame: var(--ink);
+    --drop: var(--ink-soft);
+    --px-frame:
+      calc(var(--px) * -1) 0 0 0 var(--frame), var(--px) 0 0 0 var(--frame),
+      0 calc(var(--px) * -1) 0 0 var(--frame), 0 var(--px) 0 0 var(--frame);
+    border: 0;
+    border-radius: 0;
+    box-shadow: var(--px-frame), calc(var(--px) * 2) calc(var(--px) * 2) 0 0 var(--drop);
+  }
+
+  /* ---------- Texto ---------- */
+  & body {
+    -webkit-font-smoothing: none;
+    font-smooth: never;
+    text-rendering: optimizeSpeed;
+    font-kerning: none;
+    font-synthesis: none;
+    letter-spacing: 0;
+  }
+
+  /* Press Start 2P só existe em 400: nada de negrito sintético */
+  & :is(h1, h2, h3, h4, b, strong, .btn, .site-header__name, .site-nav__link, .badge, .metrica__head) {
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  & :is(h1, h2, h3) {
+    text-shadow: 3px 3px 0 var(--accent-fill);
+  }
+
+  & .split__paragrafo,
+  & .prose {
+    letter-spacing: 0;
+  }
+
+  /* ---------- Foco: tracejado grosso, legível nos dois temas ---------- */
+  & :focus-visible {
+    outline: var(--px) dashed var(--focus-ring);
+    outline-offset: var(--px);
+    border-radius: 0;
+  }
+
+  /* ---------- Links neutros (sem a cor de destaque) ---------- */
+  & a {
+    color: var(--text-main);
+    text-decoration-style: dashed;
+    text-decoration-thickness: 2px;
+  }
+
+  & a[aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  /* ---------- Botões: neutros e quadrados; hover inverte ---------- */
+  & :is(.btn, .btn--primary, .btn--outline, .btn--neutral) {
+    --btn-bg: var(--surface-2);
+    --btn-fg: var(--text-main);
+    --btn-border: var(--ink);
+    --frame: var(--ink);
+    --drop: var(--ink-soft);
+  }
+
+  & .btn {
+    min-height: 3rem;
+    padding: 0.85rem 1.25rem;
+    text-transform: none;
+    transition: none;
+    line-height: 1.5;
+  }
+
+  & .btn:hover:not([aria-disabled="true"]) {
+    --btn-bg: var(--ink);
+    --btn-fg: var(--bg);
+    color: var(--bg);
+  }
+
+  & .btn[aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  & .btn:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(var(--px), var(--px));
+    box-shadow: var(--px-frame), var(--px) var(--px) 0 0 var(--drop);
+  }
+
+  & .icon-btn {
+    background: var(--surface-2);
+    color: var(--text-main);
+    transition: none;
+  }
+
+  & .icon-btn:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  /* ---------- Cabeçalho e navegação ---------- */
+  & .site-header {
+    background: var(--bg);
+    backdrop-filter: none;
+    border-bottom: var(--px) solid var(--ink);
+  }
+
+  & .site-header__brand {
+    border-left: calc(var(--px) * 2) solid var(--ink);
+  }
+
+  & .site-header__role {
+    font-size: 0.5rem; /* 8px: tamanho nativo da fonte */
+    line-height: 1.8;
+  }
+
+  & .site-nav__link {
+    color: var(--text-main);
+    line-height: 1.5;
+  }
+
+  & .site-nav__link:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  & .site-nav__link[aria-current="location"] {
+    color: var(--text-main);
+    box-shadow: inset 0 calc(var(--px) * -1) 0 var(--ink);
+  }
+
+  & .site-nav {
+    border-bottom: var(--px) solid var(--ink);
+  }
+
+  /* ---------- Seções, divisórias e decoração ---------- */
+  & .section + .section,
+  & .sections-group {
+    border-top: var(--px) dashed var(--ink-soft);
+  }
+
+  & .section__title::after {
+    height: calc(var(--px) * 2);
+    width: 5rem;
+    margin-top: var(--space-4);
+    border-radius: 0;
+    background: linear-gradient(90deg, var(--accent-detail) 0 60%, var(--accent-fill) 60% 100%);
+    box-shadow: var(--px) var(--px) 0 0 var(--ink-soft);
+  }
+
+  & .site-footer {
+    border-top: var(--px) solid var(--ink);
+    font-size: 0.625rem;
+  }
+
+  /* ---------- Cards, selos, avatar, modais, indicadores ---------- */
+  & .card {
+    background: var(--surface);
+    margin: var(--px);
+  }
+
+  & .card:target {
+    outline: var(--px) dashed var(--text-main);
+  }
+
+  & .badge {
+    background: var(--surface-2);
+    color: var(--text-main);
+    font-size: 0.5rem;
+    line-height: 2;
+    padding: 0.2rem 0.7rem;
+  }
+
+  & .avatar {
+    border: 0;
+    --frame: var(--accent-detail);
+  }
+
+  & .modal {
+    --frame: var(--ink);
+    --drop: var(--ink-soft);
+    background: var(--surface);
+    margin: auto;
+  }
+
+  & .modal::backdrop {
+    backdrop-filter: none;
+    background-color: var(--overlay);
+    background-image: conic-gradient(#0000 25%, rgb(0 0 0 / 0.28) 0 50%, #0000 0 75%, rgb(0 0 0 / 0.28) 0);
+    background-size: calc(var(--px) * 2) calc(var(--px) * 2); /* tramado de pixels */
+  }
+
+  & .modal__header {
+    border-top: calc(var(--px) * 2) solid var(--ink);
+    border-bottom: var(--px) solid var(--ink-soft);
+  }
+
+  & .steps__item::before {
+    border: 0;
+    border-radius: 0;
+    background: var(--surface-2);
+    color: var(--text-main);
+    box-shadow: var(--px-frame);
+    --frame: var(--ink);
+    --px-frame:
+      calc(var(--px) * -1) 0 0 0 var(--frame), var(--px) 0 0 0 var(--frame),
+      0 calc(var(--px) * -1) 0 0 var(--frame), 0 var(--px) 0 0 var(--frame);
+    font-weight: 400;
+    font-size: 0.625rem;
+  }
+
+  /* barras de métrica em segmentos (blocos de 8px) */
+  & .metrica__bar {
+    height: 1rem;
+    background: var(--surface-2);
+    overflow: visible;
+  }
+
+  & .metrica__fill {
+    border-radius: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--accent-detail) 0 calc(var(--px) * 2),
+      transparent calc(var(--px) * 2) calc(var(--px) * 3)
+    );
+  }
+
+  & .metrica__value {
+    color: var(--text-main);
+  }
+
+  & .projeto__media,
+  & .certificacao__media {
+    border: 0;
+    border-bottom: var(--px) solid var(--ink);
+  }
+
+  /* ---------- Reservado ao jogo: a deriva suave das mídias sai (plataformas ficam estáveis) ---------- */
+  & .media {
+    animation: none;
+  }
+
+  /* ---------- Egg: a foto vira o bloco de introdução do jogo ---------- */
+  & .egg {
+    width: 100%;
+    max-width: 450px;
+    margin-inline: auto;
+  }
+
+  & .egg__stage {
+    display: block;
+    width: 100%;
+  }
+
+  & .egg__code,
+  & .egg__tint,
+  & .egg__caption,
+  & .egg__pad {
+    display: none;
+  }
+
+  & .egg__trigger {
+    cursor: default;
+    inset: calc(var(--px) * 3);
+    border-radius: 0;
+  }
+}
