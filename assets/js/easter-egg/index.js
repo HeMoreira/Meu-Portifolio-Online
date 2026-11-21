@@ -50,6 +50,8 @@ export function initEasterEgg(root, { mediaQuery = window.matchMedia(ENABLE_QUER
   let state = root.dataset.eggState || S.DISABLED;
   let nudge = null; // animação em curso da foto
   let locked = false; // true entre a última seta correta e a abertura do campo
+  let arrowTurn = 0;
+  let busy = false; // true enquanto a animação de uma seta está em curso (1 s): sem outro clique
   let secretOn = false;
 
   const emit = (name, detail = {}) =>
@@ -110,6 +112,9 @@ export function initEasterEgg(root, { mediaQuery = window.matchMedia(ENABLE_QUER
     nudge?.cancel();
     nudge = null;
     locked = false;
+    busy = false;
+    arrowTurn++;
+    delete pad.dataset.busy;
     matcher.reset();
     input.value = "";
     clearFeedback();
@@ -139,20 +144,48 @@ export function initEasterEgg(root, { mediaQuery = window.matchMedia(ENABLE_QUER
   );
 
   /* ---------- Setas: movimento + sequência ---------- */
+  /** Quanto a foto deve andar para quase cobrir a seta `dir` (mede o layout real). */
+  function nudgeDistance(dir) {
+    const arrow = arrows.find((el) => el.dataset.eggDir === dir);
+    const [x, y] = DIRECTIONS[dir].vector;
+    const a = arrow?.getBoundingClientRect();
+    const p = photo.getBoundingClientRect();
+    if (!a || (!a.width && !a.height)) return NUDGE.distance;
+    // distância da borda da foto até a borda FAR da seta, menos o trecho que deve sobrar visível
+    const far = x > 0 ? a.right - p.right : x < 0 ? p.left - a.left : y > 0 ? a.bottom - p.bottom : p.top - a.top;
+    return far > 0 ? Math.max(far - NUDGE.reveal, 0) : NUDGE.distance;
+  }
+
   function playNudge(dir) {
     nudge?.cancel();
     nudge = null;
     if (reduceMotion.matches || typeof photo.animate !== "function") return Promise.resolve();
 
     const [x, y] = DIRECTIONS[dir].vector;
-    const d = NUDGE.distance;
+    const d = nudgeDistance(dir);
+    const there = `translate(${x * d}px, ${y * d}px)`;
     const animation = photo.animate(
       [
-        { transform: "translate(0, 0)" },
-        { transform: `translate(${x * d}px, ${y * d}px)`, offset: 0.45 },
-        { transform: "translate(0, 0)" },
+        {
+          transform: "translate(0, 0)",
+          offset: 0,
+          easing: "cubic-bezier(0.15, 0.75, 0.25, 1)",
+        },
+        {
+          transform: there,
+          offset: NUDGE.outAt,
+        },
+        {
+          transform: there,
+          offset: NUDGE.backAt,
+          easing: "cubic-bezier(0.35, 0.05, 0.25, 1)",
+        },
+        {
+          transform: "translate(0, 0)",
+          offset: 1,
+        },
       ],
-      { duration: NUDGE.duration, easing: "cubic-bezier(0.2, 0.8, 0.3, 1)" },
+      { duration: NUDGE.duration },
     );
     nudge = animation;
     // cancelar rejeita `finished`; o timeout garante que nada fique pendente
@@ -160,9 +193,18 @@ export function initEasterEgg(root, { mediaQuery = window.matchMedia(ENABLE_QUER
   }
 
   function onArrow(dir) {
-    if (state !== S.ACTIVE || locked) return; // cliques fora do contexto são ignorados
+    // fora do contexto, durante a abertura do campo ou durante a animação da seta anterior: ignora
+    if (state !== S.ACTIVE || locked || busy) return;
 
     const done = playNudge(dir);
+    busy = true;
+    pad.dataset.busy = "true";
+    const turn = ++arrowTurn;
+    const release = () => {
+      if (!busy || turn !== arrowTurn) return; // uma animação antiga (cancelada) não libera a nova
+      busy = false;
+      delete pad.dataset.busy;
+    };
     const result = matcher.push(dir);
     emit(EVENTS.SEQUENCE, { dir, ...result });
 
@@ -170,11 +212,14 @@ export function initEasterEgg(root, { mediaQuery = window.matchMedia(ENABLE_QUER
       locked = true; // bloqueia novas setas até a transição terminar
       done.then(() => {
         locked = false;
+        release();
         if (state !== S.ACTIVE) return; // o egg foi desabilitado nesse meio-tempo
         input.value = "";
         clearFeedback();
         if (setState(S.CODE)) input.focus();
       });
+    } else {
+      done.then(release);
     }
   }
 

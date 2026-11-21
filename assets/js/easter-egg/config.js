@@ -12,8 +12,14 @@ export const CODE_LENGTH = SECRET_CODE.length;
 /** O easter egg só funciona acima de 1024px de largura. */
 export const ENABLE_QUERY = "(min-width: 1025px)";
 
-/** Pequeno movimento da foto a cada seta (px, ms). */
-export const NUDGE = { distance: 10, duration: 240 };
+/**
+ * Movimento da foto a cada seta. A foto avança até quase cobrir a seta que a moveu
+ * (sobram `reveal` px visíveis), segura um instante e volta. `duration` é o tempo TOTAL
+ * e também o período em que nenhuma outra seta aceita clique (trava).
+ *   distance  deslocamento de reserva (px), usado se a geometria não puder ser medida
+ *   hold      fração (0–1) da animação em que a foto fica no ponto mais distante
+ */
+export const NUDGE = { distance: 30, reveal: 3, duration: 800, outAt: 0.35, backAt: 0.48 };
 
 /** Ordem do DOM = ordem de tabulação: cima, esquerda, direita, baixo. */
 export const DIRECTIONS = {
