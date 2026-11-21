@@ -1,0 +1,236 @@
+/* ==========================================================================
+   Modo secreto — controles do jogo (HUD). Sob demanda.
+   Reaproveita .btn (neutralizado em pixel-ui.css); aqui só o posicionamento.
+   Etapa 2: o botão de instruções e o popup entram neste contêiner.
+   ========================================================================== */
+
+.game-hud {
+  position: fixed;
+  left: var(--space-5);
+  bottom: var(--space-5);
+  z-index: 60; /* abaixo da camada de transição (9999) */
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.game-hud__tag {
+  padding: 0.6rem 0.85rem;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.game-hud__exit {
+  background: var(--surface-2);
+}
+
+/* ==========================================================================
+   Popup de instruções (ui/popup.js) — inferior, fundo preto translúcido.
+   Estados: hidden/gone (fora) · entering (invisível) · visible · leaving (fade lento).
+   ========================================================================== */
+.game-popup {
+  --k: 2px; /* "pixel" do popup */
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-5);
+  z-index: 58;
+  display: grid;
+  gap: 1rem;
+  width: min(42rem, calc(100vw - 34rem)); /* não invade o HUD (inferior esquerdo) */
+  padding: 1.1rem 1.4rem 1.2rem;
+  background: rgb(0 0 0 / 0.82);
+  color: #fff;
+  font-family: var(--font-pixel);
+  pointer-events: none;
+  /* moldura em degraus branca + sombra dura */
+  box-shadow:
+    calc(var(--k) * -2) 0 0 0 #fff, calc(var(--k) * 2) 0 0 0 #fff,
+    0 calc(var(--k) * -2) 0 0 #fff, 0 calc(var(--k) * 2) 0 0 #fff,
+    calc(var(--k) * 5) calc(var(--k) * 5) 0 0 rgb(0 0 0 / 0.55);
+}
+
+.game-popup[data-state="hidden"],
+.game-popup[data-state="gone"] {
+  display: none;
+}
+
+.game-popup[data-state="entering"] {
+  opacity: 0;
+  transform: translate(-50%, 1rem);
+}
+
+.game-popup[data-state="visible"] {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition:
+    opacity 600ms ease-out,
+    transform 600ms steps(5, end);
+}
+
+.game-popup[data-state="leaving"] {
+  opacity: 0;
+  transform: translate(-50%, 0);
+  transition: opacity 2600ms ease-out; /* desaparece lentamente */
+}
+
+.game-popup__row {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.game-popup__keys {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.game-popup__or {
+  font-size: 0.5rem;
+  opacity: 0.75;
+}
+
+.game-popup__text,
+.game-popup__goal {
+  margin: 0;
+  font-size: 0.625rem;
+  line-height: 1.9;
+}
+
+.game-popup__goal {
+  padding-top: 0.9rem;
+  border-top: var(--k) dashed rgb(255 255 255 / 0.55);
+  text-align: center;
+}
+
+/* teclas */
+.game-key {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.9rem;
+  height: 1.9rem;
+  padding: 0 0.35rem;
+  background: #e9e9e9;
+  color: #111;
+  font: inherit;
+  font-size: 0.625rem;
+  box-shadow:
+    calc(var(--k) * -1) 0 0 0 #fff, var(--k) 0 0 0 #fff,
+    0 calc(var(--k) * -1) 0 0 #fff, 0 var(--k) 0 0 #fff,
+    var(--k) calc(var(--k) * 2) 0 0 #6b6b6b;
+  transition: opacity 400ms;
+}
+
+.game-key__arrow {
+  display: block;
+  width: 14px; /* 7×7 de arte × 2 */
+  height: 14px;
+}
+
+.game-key--wide {
+  min-width: 4.4rem;
+}
+
+.game-key[data-done] {
+  opacity: 0.4; /* já feito: esmaece */
+}
+
+/* ==========================================================================
+   Vidas (ui/lives.js) — canto superior esquerdo, abaixo do cabeçalho fixo.
+   Corações de EXATOS 16×16 px.
+   ========================================================================== */
+.game-lives {
+  position: fixed;
+  top: calc(var(--header-h) + var(--space-5));
+  left: var(--space-5);
+  z-index: 60;
+  display: flex;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--surface);
+  box-shadow:
+    calc(var(--px) * -1) 0 0 0 var(--ink), var(--px) 0 0 0 var(--ink),
+    0 calc(var(--px) * -1) 0 0 var(--ink), 0 var(--px) 0 0 var(--ink),
+    calc(var(--px) * 2) calc(var(--px) * 2) 0 0 var(--ink-soft);
+}
+
+.game-heart {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.game-heart__svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  overflow: visible;
+}
+
+/* cheio: accent-fill + contorno accent-detail + brilho branco */
+.game-heart[data-state="full"] .game-heart__fill { fill: var(--accent-fill); }
+.game-heart[data-state="full"] .game-heart__outline { fill: var(--accent-detail); }
+.game-heart[data-state="full"] .game-heart__light { fill: #fff; }
+
+/* perdido: neutro, vazado */
+.game-heart[data-state="lost"] .game-heart__fill { fill: var(--surface-2); }
+.game-heart[data-state="lost"] .game-heart__outline { fill: var(--ink-soft); }
+.game-heart[data-state="lost"] .game-heart__light { fill: transparent; }
+
+/* perdendo: salta, pisca em branco, treme e esvazia (700 ms, em passos) */
+.game-heart[data-state="losing"] {
+  animation: heart-lose 700ms steps(7, end) 1 forwards;
+}
+.game-heart[data-state="losing"] .game-heart__fill { fill: #fff; }
+.game-heart[data-state="losing"] .game-heart__outline { fill: var(--accent-detail); }
+.game-heart[data-state="losing"] .game-heart__light { fill: transparent; }
+
+@keyframes heart-lose {
+  0% { transform: translate(0, 0) scale(1); }
+  15% { transform: translate(0, -4px) scale(1.5); }
+  30% { transform: translate(-3px, 0) scale(1.25); }
+  45% { transform: translate(3px, 0) scale(1.25); }
+  60% { transform: translate(-2px, 0) scale(1.1); }
+  75% { transform: translate(2px, 2px) scale(0.9); }
+  100% { transform: translate(0, 2px) scale(0.8); opacity: 0.7; }
+}
+
+/* telas baixas (notebooks pequenos): popup compacto, para não cobrir o personagem
+   (que fica a ~58 % da altura) nem os controles */
+@media (max-height: 720px) {
+  .game-popup {
+    gap: 0.55rem;
+    padding: 0.7rem 1rem 0.75rem;
+  }
+  .game-popup__row {
+    gap: 0.8rem;
+  }
+  .game-key {
+    min-width: 1.5rem;
+    height: 1.5rem;
+  }
+  .game-key--wide {
+    min-width: 3.6rem;
+  }
+  .game-popup__text,
+  .game-popup__goal {
+    font-size: 0.5rem;
+    line-height: 1.7;
+  }
+  .game-popup__goal {
+    padding-top: 0.55rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .game-popup {
+    width: min(42rem, calc(100vw - 2 * var(--space-5)));
+    bottom: 5.25rem; /* acima do HUD quando a tela é estreita */
+  }
+}

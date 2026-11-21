@@ -1,0 +1,275 @@
+/* ==========================================================================
+   Modo secreto — blocos de mídia (SVGs pixel art), orbes, pulso de energia e
+   introdução. Sob demanda e escopado em [data-secret-mode="on"].
+   O SVG é inline: cores vêm de accent-fill / accent-detail do tema ATIVO e
+   acompanham a troca claro/escuro em tempo real.
+   ========================================================================== */
+
+:root[data-secret-mode="on"] {
+  /* Paleta do orbe: 4 níveis de luz sobre accent-detail; cada nível tem 3 texturas
+     (base, célula alternada, linha de meridiano/paralelo) misturadas com accent-fill */
+  --orb-b0: color-mix(in srgb, var(--accent-detail) 52%, #000);
+  --orb-b1: color-mix(in srgb, var(--accent-detail) 82%, #000);
+  --orb-b2: var(--accent-detail);
+  --orb-b3: color-mix(in srgb, var(--accent-detail) 62%, #fff);
+  --orb-outline: color-mix(in srgb, var(--accent-detail) 38%, #000);
+
+  /* ---------- Moldura do bloco (mesmo "card" para plataformas e introdução) ---------- */
+  & :is(.media__content, .egg__photo) {
+    --frame: var(--accent-detail);
+    --drop: var(--ink-soft);
+    padding: calc(var(--px) * 3);
+    overflow: visible;
+    background: var(--surface-2);
+    transition: none;
+  }
+
+  & .egg__photo {
+    width: 100%;
+    aspect-ratio: 1;
+  }
+
+  & :is(.media__content, .egg__photo) > .block-art,
+  & .egg__trigger > .block-art {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    --frame: var(--ink);
+    --drop: transparent;
+    box-shadow: var(--px-frame);
+  }
+
+  /* ---------- Arte do bloco ---------- */
+  & .block-art__bg {
+    fill: var(--accent-fill);
+  }
+
+  & .block-art__vig {
+    fill: var(--accent-detail);
+  }
+  & .block-art__vig--1 { fill-opacity: 0.6; }
+  & .block-art__vig--2 { fill-opacity: 0.38; }
+  & .block-art__vig--3 { fill-opacity: 0.2; }
+
+  & .block-art__dots {
+    fill: var(--accent-detail);
+    fill-opacity: 0.26;
+  }
+
+  & .block-art__spark {
+    fill: #fff;
+    fill-opacity: 0.9;
+  }
+
+  & .block-art__shadow {
+    fill: var(--accent-detail);
+    fill-opacity: 0.38;
+  }
+
+  /* ---------- Orbe ---------- */
+  & .orb-c0 { fill: var(--orb-b0); }
+  & .orb-c1 { fill: color-mix(in srgb, var(--orb-b0) 80%, var(--accent-fill)); }
+  & .orb-c2 { fill: color-mix(in srgb, var(--orb-b0) 40%, var(--accent-fill)); }
+  & .orb-c3 { fill: var(--orb-b1); }
+  & .orb-c4 { fill: color-mix(in srgb, var(--orb-b1) 80%, var(--accent-fill)); }
+  & .orb-c5 { fill: color-mix(in srgb, var(--orb-b1) 40%, var(--accent-fill)); }
+  & .orb-c6 { fill: var(--orb-b2); }
+  & .orb-c7 { fill: color-mix(in srgb, var(--orb-b2) 80%, var(--accent-fill)); }
+  & .orb-c8 { fill: color-mix(in srgb, var(--orb-b2) 40%, var(--accent-fill)); }
+  & .orb-c9 { fill: var(--orb-b3); }
+  & .orb-c10 { fill: color-mix(in srgb, var(--orb-b3) 80%, var(--accent-fill)); }
+  & .orb-c11 { fill: color-mix(in srgb, var(--orb-b3) 40%, var(--accent-fill)); }
+
+  & .orb__outline { fill: var(--orb-outline); }
+  & .orb__rim { fill: #fff; fill-opacity: 0.3; }
+  & .orb__spec { fill: #fff; }
+  & .orb__glint { fill: #fff; fill-opacity: 0.75; }
+
+  /* Rotação horizontal: a tira de 24 quadros desliza em passos (movimento "de sprite") */
+  & .orb__strip {
+    animation: orb-spin 4.8s steps(24) var(--orb-delay, 0s) infinite;
+  }
+
+  /* ---------- Energia irradiando de cada bloco (sutil, repetitiva) ----------
+     Dois anéis com cantos em degraus nascem na borda do bloco, crescem em passos
+     e se dissipam, defasados em meio ciclo. Só transform + opacity. */
+  & [data-media-role] {
+    isolation: isolate;
+  }
+
+  & [data-media-role]::before,
+  & [data-media-role]::after {
+    --notch: var(--px);
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    border: var(--px) solid var(--accent-detail);
+    opacity: 0;
+    clip-path: polygon(
+      0 var(--notch), var(--notch) var(--notch), var(--notch) 0,
+      calc(100% - var(--notch)) 0, calc(100% - var(--notch)) var(--notch), 100% var(--notch),
+      100% calc(100% - var(--notch)), calc(100% - var(--notch)) calc(100% - var(--notch)),
+      calc(100% - var(--notch)) 100%, var(--notch) 100%, var(--notch) calc(100% - var(--notch)),
+      0 calc(100% - var(--notch))
+    );
+    animation: block-energy 3.6s steps(9, end) infinite;
+    will-change: transform, opacity;
+  }
+
+  & [data-media-role]::after {
+    animation-delay: -1.8s;
+  }
+
+  /* ---------- Introdução (primeiro bloco) ---------- */
+  & .game-intro {
+    position: absolute;
+    inset: calc(var(--px) * 3);
+    z-index: 0; /* abaixo de .media__layer (z-index 1): as hitboxes ficam por cima */
+    display: grid;
+    pointer-events: none;
+    outline: none;
+  }
+
+  & .game-intro__spawn {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+  }
+
+  & .game-intro__stage {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 1.25rem;
+    padding-top: 6%;
+  }
+
+  & .game-intro__character {
+    width: 34%;
+    height: auto;
+    aspect-ratio: 14 / 18;
+    overflow: visible;
+    animation: intro-bob 1.6s steps(1, end) infinite;
+  }
+
+  & .game-intro__prompt {
+    margin: 0;
+    color: var(--on-accent-fill);
+    font-family: var(--font-pixel);
+    font-size: 1rem;
+    line-height: 1;
+    text-align: center;
+    text-shadow: 2px 2px 0 color-mix(in srgb, var(--accent-detail) 55%, transparent);
+    white-space: nowrap;
+    animation: intro-blink 1.8s steps(1, end) infinite; /* piscagem lenta */
+  }
+
+  /* a introdução termina quando o personagem jogável surge */
+  & .game-intro[data-state="leaving"] .game-intro__character {
+    visibility: hidden;
+  }
+
+  & .game-intro[data-state="leaving"] .game-intro__prompt {
+    animation: none;
+    opacity: 0;
+    transition: opacity 200ms linear;
+  }
+
+  /* cores do personagem (accent-fill / accent-detail + brancos) */
+  & .px-o,
+  & .px-E,
+  & .px-f { fill: var(--orb-outline); }
+  & .px-h { fill: var(--accent-detail); }
+  & .px-H { fill: color-mix(in srgb, var(--accent-detail) 45%, #fff); }
+  & .px-s { fill: color-mix(in srgb, #fff 90%, var(--accent-fill)); }
+  & .px-p { fill: color-mix(in srgb, var(--accent-fill) 65%, #fff); }
+  & .px-a { fill: var(--accent-fill); }
+  & .px-b { fill: var(--orb-b1); }
+  & .px-W { fill: color-mix(in srgb, var(--accent-detail) 50%, #fff); }
+}
+
+@keyframes orb-spin {
+  to {
+    transform: translateX(var(--orb-travel));
+  }
+}
+
+@keyframes block-energy {
+  from {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(1.16);
+    opacity: 0;
+  }
+}
+
+@keyframes intro-bob {
+  50% {
+    transform: translateY(calc(var(--px) * -1));
+  }
+}
+
+@keyframes intro-blink {
+  0%,
+  58% {
+    opacity: 1;
+  }
+  58.01%,
+  100% {
+    opacity: 0.12;
+  }
+}
+
+/* Movimento reduzido: tudo estático (orbe parado no 1º quadro, sem anéis, texto fixo) */
+@media (prefers-reduced-motion: reduce) {
+  :root[data-secret-mode="on"] .orb__strip,
+  :root[data-secret-mode="on"] .game-intro__character,
+  :root[data-secret-mode="on"] .game-intro__prompt {
+    animation: none;
+  }
+
+  :root[data-secret-mode="on"] [data-media-role]::before,
+  :root[data-secret-mode="on"] [data-media-role]::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ---------- Luz de pouso: pisca no topo da imagem após um pouso válido (media-blocks.js) ----------
+   Faixa branca com degraus de luz descendo (tramado de pixels), só opacidade animada. */
+:root[data-secret-mode="on"] .block-flash {
+  position: absolute;
+  top: calc(var(--px) * 3);
+  left: calc(var(--px) * 3);
+  right: calc(var(--px) * 3);
+  height: calc(var(--px) * 7);
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    to bottom,
+    #fff 0 var(--px),
+    rgb(255 255 255 / 0.7) var(--px) calc(var(--px) * 2),
+    rgb(255 255 255 / 0.45) calc(var(--px) * 2) calc(var(--px) * 4),
+    rgb(255 255 255 / 0.22) calc(var(--px) * 4) calc(var(--px) * 5.5),
+    rgb(255 255 255 / 0.08) calc(var(--px) * 5.5) calc(var(--px) * 7)
+  );
+}
+
+:root[data-secret-mode="on"] .block-flash::after {
+  /* brilhos pontuais (sparks) nas pontas da faixa */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12%;
+  width: calc(var(--px) * 2);
+  height: calc(var(--px) * 2);
+  background: #fff;
+}

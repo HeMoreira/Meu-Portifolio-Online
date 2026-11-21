@@ -317,7 +317,8 @@
   animation: egg-shake 0.3s steps(4) both;
 }
 
-.egg__input:disabled {
+.egg__input:disabled,
+.egg__input[readonly] {
   opacity: 1;
   -webkit-text-fill-color: #fff;
 }
@@ -334,5 +335,155 @@
   }
   75% {
     transform: translateX(4px);
+  }
+}
+
+
+/* ==========================================================================
+   Código aceito — feedback de confirmação (estado "secret").
+   O campo e o rótulo alternam lentamente entre o verde e a cor padrão (branco).
+   O formulário fica sempre sobre a foto escurecida (quase preto) nos DOIS temas,
+   então um único verde claro garante contraste ≥ 10:1 em ambos. Só pinta
+   cor/borda/sombra: não muda foco, tamanho nem a interação com o campo.
+   ========================================================================== */
+.egg {
+  --egg-success: #4ade80;
+  --egg-success-deep: #166534;
+  --egg-feedback-cycle: 1.5s; /* ciclo completo: padrão → verde → padrão (2 ciclos = feedbackMs) */
+}
+
+.egg[data-egg-state="secret"] .egg__label {
+  animation: egg-ok-label var(--egg-feedback-cycle) steps(6, end) 2;
+}
+
+.egg[data-egg-state="secret"] .egg__input {
+  animation: egg-ok-input var(--egg-feedback-cycle) steps(6, end) 2;
+}
+
+@keyframes egg-ok-label {
+  50% {
+    color: var(--egg-success);
+    text-shadow: 2px 2px 0 var(--egg-success-deep);
+  }
+}
+
+@keyframes egg-ok-input {
+  50% {
+    border-color: var(--egg-success);
+    box-shadow: 4px 4px 0 var(--egg-success-deep), 0 0 14px 1px rgb(74 222 128 / 0.35);
+  }
+}
+
+/* ==========================================================================
+   Transição por pulsos (JS: easter-egg/transition.js, importado sob demanda).
+   A camada é fixa, acima de tudo e NÃO captura eventos até o momento em que a
+   tela fica coberta ([data-blocking="true"]). Os pulsos usam só transform.
+   Cores: apenas tokens (accent-fill / accent-detail) → vale para os dois temas.
+   ========================================================================== */
+html.is-secret-transition {
+  overflow: hidden; /* sem rolagem enquanto a tela está coberta (scrollbar-gutter evita salto) */
+  /* a camada fixa não cobre o "gutter" da barra de rolagem: pinta-o com a cor do pulso */
+  background-color: var(--accent-fill);
+  transition: background-color 1.2s ease-in-out;
+}
+
+.pulse-layer {
+  --pulse-d: 150vmax; /* diâmetro; o JS ajusta para a diagonal real da viewport */
+  position: fixed;
+  inset: 0;
+  z-index: 9999; /* acima do header (50), do skip link (100) e do HUD do jogo */
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
+.pulse-layer[data-blocking="true"] {
+  pointer-events: auto;
+  cursor: progress;
+}
+
+.pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--pulse-d);
+  height: var(--pulse-d);
+  margin: calc(var(--pulse-d) / -2) 0 0 calc(var(--pulse-d) / -2);
+  border-radius: 50%;
+  transform: scale(0);
+  will-change: transform;
+  /* miolo claro → cor de destaque → crista luminosa na borda; opaco até 90% do raio,
+     que (com o fator 1.15 do JS) já está além dos cantos da viewport */
+  --pulse-body: var(--accent-fill);
+  --pulse-core: color-mix(in srgb, var(--accent-fill) 55%, #fff);
+  --pulse-crest: color-mix(in srgb, var(--accent-fill) 35%, #fff);
+  /* faixas de cor com cortes DUROS (retrô): miolo → anel claro → corpo → crista luminosa */
+  background: radial-gradient(
+    circle closest-side,
+    var(--pulse-core) 0 24%,
+    color-mix(in srgb, var(--pulse-core) 50%, var(--pulse-body)) 24% 42%,
+    var(--pulse-body) 42% 89%,
+    var(--pulse-crest) 89% 94%,
+    color-mix(in srgb, var(--pulse-crest) 45%, transparent) 94% 98%,
+    transparent 98%
+  );
+}
+
+/* pulsos 1 e 2: levemente translúcidos (a página ainda "respira" por baixo) */
+.pulse[data-pulse="soft"] {
+  --pulse-body: color-mix(in srgb, var(--accent-fill) 92%, transparent);
+}
+
+.pulse-layer__loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: var(--on-accent-fill);
+  font-family: "Press Start 2P", ui-monospace, "Courier New", monospace;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+  text-shadow: 3px 3px 0 color-mix(in srgb, var(--accent-detail) 45%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pulse-layer__loading[data-visible="true"] {
+  opacity: 1;
+  animation: pulse-blink 1.8s ease-in-out infinite; /* piscagem lenta */
+}
+
+.pulse-layer__loading[data-error="true"] {
+  animation: none;
+  padding-inline: var(--space-5);
+  font-size: 0.75rem;
+}
+
+/* os "..." de "Carregando..." aparecem um a um (largura fixa: o texto não anda) */
+.pulse-layer__dots {
+  display: inline-block;
+  width: 3ch;
+  text-align: left;
+  animation: pulse-dots 1.2s steps(1, end) infinite;
+}
+
+@keyframes pulse-dots {
+  0% { clip-path: inset(0 100% 0 0); }
+  25% { clip-path: inset(0 66.6% 0 0); }
+  50% { clip-path: inset(0 33.3% 0 0); }
+  75% { clip-path: inset(0 0 0 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-layer__dots {
+    animation: none;
+  }
+}
+
+@keyframes pulse-blink {
+  50% {
+    opacity: 0.2;
   }
 }

@@ -71,9 +71,12 @@ export function initEasterEgg(root, { mediaQuery = window.matchMedia(ENABLE_QUER
   function renderState() {
     pad.hidden = state !== S.ACTIVE;
     form.hidden = state !== S.CODE && state !== S.SECRET;
-    input.disabled = state === S.SECRET;
+    // readOnly (e não disabled): o campo mantém o foco durante a confirmação verde
+    input.readOnly = state === S.SECRET;
     if (trigger.hasAttribute("role")) {
       trigger.setAttribute("aria-expanded", String(state !== S.IDLE));
+      // no modo secreto a foto vira o bloco de introdução do jogo, não é mais um botão
+      trigger.setAttribute("tabindex", state === S.SECRET ? "-1" : "0");
     }
   }
 
@@ -242,6 +245,23 @@ export function initEasterEgg(root, { mediaQuery = window.matchMedia(ENABLE_QUER
         clearFeedback();
         if (setState(S.ACTIVE)) trigger.focus();
       }
+    },
+    { signal },
+  );
+
+  /* ---------- Saída do modo secreto (botão "Sair" do jogo) ---------- */
+  // secret-mode.js emite SECRET_OFF ao desmontar. Se o egg ainda se considera no modo
+  // secreto (secretOn), a saída veio do usuário: volta ao estado ocioso, pronto para
+  // uma nova tentativa. Em disable() secretOn já é false, então nada acontece aqui.
+  root.addEventListener(
+    EVENTS.SECRET_OFF,
+    () => {
+      if (!secretOn) return;
+      secretOn = false;
+      matcher.reset();
+      input.value = "";
+      clearFeedback();
+      if (setState(S.IDLE)) trigger.focus({ preventScroll: true });
     },
     { signal },
   );
