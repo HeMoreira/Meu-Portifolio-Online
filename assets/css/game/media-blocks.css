@@ -40,21 +40,15 @@
     box-shadow: var(--px-frame);
   }
 
-  /* ---------- Arte do bloco ---------- */
-  & .block-art__bg {
-    fill: var(--accent-fill);
-  }
-
-  & .block-art__vig {
-    fill: var(--accent-detail);
-  }
-  & .block-art__vig--1 { fill-opacity: 0.6; }
-  & .block-art__vig--2 { fill-opacity: 0.38; }
-  & .block-art__vig--3 { fill-opacity: 0.2; }
-
-  & .block-art__dots {
-    fill: var(--accent-detail);
-    fill-opacity: 0.26;
+  /* ---------- Arte do bloco ----------
+     Fundo radial: círculo da cor --accent-fill no meio, escurecendo (accent-detail) em
+     direção às bordas — o gradiente existe ao redor de TODA a imagem (4 lados e cantos). */
+  & .block-art {
+    background: radial-gradient(
+      circle farthest-corner at 50% 50%,
+      var(--accent-fill) 0 32%,
+      color-mix(in srgb, var(--accent-detail) 70%, var(--accent-fill)) 100%
+    );
   }
 
   & .block-art__spark {
@@ -145,7 +139,7 @@
     display: grid;
     place-content: center;
     justify-items: center;
-    gap: 1.25rem;
+    gap: 0.9rem;
     padding-top: 6%;
   }
 
@@ -161,11 +155,12 @@
     margin: 0;
     color: var(--on-accent-fill);
     font-family: var(--font-pixel);
-    font-size: 1rem;
+    font-size: 1rem; /* tamanho nativo da fonte: "Press Enter" cabe no bloco menor */
     line-height: 1;
     text-align: center;
-    text-shadow: 2px 2px 0 color-mix(in srgb, var(--accent-detail) 55%, transparent);
-    white-space: nowrap;
+    text-shadow: 1px 1px 0 color-mix(in srgb, var(--accent-detail) 55%, transparent);
+    white-space: wrap;
+    line-height: 1.2;
     animation: intro-blink 1.8s steps(1, end) infinite; /* piscagem lenta */
   }
 

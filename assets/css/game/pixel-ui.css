@@ -49,7 +49,7 @@
   /* 2. moldura em degraus: cada componente define --frame (cor) e --drop (sombra dura) */
   & :is(
       .btn, .icon-btn, .card, .badge, .modal, .avatar, .skip-link, .media__content, .egg__photo,
-      .block-art, .game-hud__tag, .metrica__bar
+      .block-art, .metrica__bar
     ) {
     --frame: var(--ink);
     --drop: var(--ink-soft);
@@ -290,10 +290,19 @@
   }
 
   /* ---------- Egg: a foto vira o bloco de introdução do jogo ---------- */
+  /* A foto vira um bloco do tamanho da foto original (11rem), bem menor que as plataformas:
+     o personagem tem espaço livre acima do bloco e não some atrás do cabeçalho ao pular. */
   & .egg {
     width: 100%;
-    max-width: 450px;
+    max-width: var(--egg-photo, 11rem);
     margin-inline: auto;
+  }
+
+  /* a coluna da foto mantém a altura do antigo bloco de 450px: a seção não encolhe (o título não
+     encosta nas vidas) e o bloco fica um pouco mais abaixo, longe do cabeçalho */
+  & .apresentacao__foto {
+    min-height: 450px;
+    align-content: center;
   }
 
   & .egg__stage {

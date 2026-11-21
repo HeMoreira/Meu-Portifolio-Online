@@ -14,20 +14,6 @@
   gap: var(--space-4);
 }
 
-.game-hud__tag {
-  padding: 0.6rem 0.85rem;
-  background: var(--surface);
-  color: var(--text-muted);
-  font-family: var(--font-pixel);
-  font-size: 0.5rem;
-  line-height: 1.5;
-  text-transform: uppercase;
-}
-
-.game-hud__exit {
-  background: var(--surface-2);
-}
-
 /* ==========================================================================
    Popup de instruções (ui/popup.js) — inferior, fundo preto translúcido.
    Estados: hidden/gone (fora) · entering (invisível) · visible · leaving (fade lento).

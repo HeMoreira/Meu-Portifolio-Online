@@ -28,7 +28,6 @@ export function mountHud({ onExit }) {
   const hud = h(
     "div",
     { class: "game-hud", "data-game-ui": "" },
-    h("span", { class: "game-hud__tag", "aria-hidden": "true" }, "Modo secreto"),
     exit,
     live,
   );
