@@ -177,7 +177,7 @@
 }
 
 .game-heart[data-state="losing"] .game-heart__fill {
-  fill: #fff;
+  fill: var(--accent-detail);
 }
 
 @keyframes heart-lose {
