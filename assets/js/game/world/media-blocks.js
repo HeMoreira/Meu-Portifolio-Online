@@ -40,7 +40,7 @@ function findMedia(block) {
 
 function createIntro() {
   const character = createCharacter();
-  const prompt = h("p", { class: "game-intro__prompt" }, "Press Enter");
+  const prompt = h("p", { class: "game-intro__prompt" }, "Press enter");
   return h(
     "div",
     { class: "game-intro", "data-slot": "intro", tabindex: "-1" },

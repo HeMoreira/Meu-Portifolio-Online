@@ -40,7 +40,7 @@ export function createTransition() {
 
   /* ---------- Tamanho do pulso: círculo que cobre a diagonal da viewport ---------- */
   const sizePulse = () => {
-    const d = Math.ceil(Math.hypot(window.innerWidth, window.innerHeight) * 1.15);
+    const d = Math.ceil(Math.hypot(window.innerWidth, window.innerHeight) * 1.5);
     layer.style.setProperty("--pulse-d", `${d}px`);
   };
 

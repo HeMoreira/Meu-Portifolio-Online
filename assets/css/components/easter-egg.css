@@ -70,6 +70,7 @@
   border: 2px solid var(--border);
   border-radius: var(--radius-md);
   transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  z-index: 1; /* acima das setas: ao avançar sobre uma seta, a foto a encobre quase por inteiro */
 }
 
 .egg__trigger {
@@ -239,6 +240,11 @@
   transform: scale(0.94);
 }
 
+/* Animação de uma seta em curso (1 s): as outras não aceitam clique */
+.egg__pad[data-busy="true"] .egg__arrow {
+  cursor: progress;
+}
+
 .egg__pad:not([hidden]) .egg__arrow {
   animation: egg-pop 0.28s var(--ease) both;
 }
@@ -341,7 +347,9 @@
 
 /* ==========================================================================
    Código aceito — feedback de confirmação (estado "secret").
-   O campo e o rótulo alternam lentamente entre o verde e a cor padrão (branco).
+   O campo e o rótulo PISCAM entre a cor neutra (branco) e o verde com trocas
+   ABRUPTAS (steps(1): sem gradiente nem cores intermediárias). Ciclo rápido de
+   0,3 s repetido 10 vezes = 3 s (SECRET_TRANSITION.feedbackMs).
    O formulário fica sempre sobre a foto escurecida (quase preto) nos DOIS temas,
    então um único verde claro garante contraste ≥ 10:1 em ambos. Só pinta
    cor/borda/sombra: não muda foco, tamanho nem a interação com o campo.
@@ -349,18 +357,23 @@
 .egg {
   --egg-success: #4ade80;
   --egg-success-deep: #166534;
-  --egg-feedback-cycle: 1.5s; /* ciclo completo: padrão → verde → padrão (2 ciclos = feedbackMs) */
+  --egg-feedback-cycle: 0.3s; /* neutro 0,15 s → verde 0,15 s */
+  --egg-feedback-count: 10; /* 10 ciclos × 0,3 s = feedbackMs */
 }
 
 .egg[data-egg-state="secret"] .egg__label {
-  animation: egg-ok-label var(--egg-feedback-cycle) steps(6, end) 2;
+  animation: egg-ok-label var(--egg-feedback-cycle) steps(1, end) var(--egg-feedback-count);
 }
 
 .egg[data-egg-state="secret"] .egg__input {
-  animation: egg-ok-input var(--egg-feedback-cycle) steps(6, end) 2;
+  animation: egg-ok-input var(--egg-feedback-cycle) steps(1, end) var(--egg-feedback-count);
 }
 
 @keyframes egg-ok-label {
+  0% {
+    color: #fff;
+    text-shadow: 2px 2px 0 #4b5563;
+  }
   50% {
     color: var(--egg-success);
     text-shadow: 2px 2px 0 var(--egg-success-deep);
@@ -368,9 +381,29 @@
 }
 
 @keyframes egg-ok-input {
+  0% {
+    border-color: #fff;
+    box-shadow: 4px 4px 0 #6b7280;
+  }
   50% {
     border-color: var(--egg-success);
     box-shadow: 4px 4px 0 var(--egg-success-deep), 0 0 14px 1px rgb(74 222 128 / 0.35);
+  }
+}
+
+/* Movimento reduzido: sem piscar — o campo fica fixo em verde durante a confirmação */
+@media (prefers-reduced-motion: reduce) {
+  .egg[data-egg-state="secret"] .egg__label,
+  .egg[data-egg-state="secret"] .egg__input {
+    animation: none;
+  }
+  .egg[data-egg-state="secret"] .egg__label {
+    color: var(--egg-success);
+    text-shadow: 2px 2px 0 var(--egg-success-deep);
+  }
+  .egg[data-egg-state="secret"] .egg__input {
+    border-color: var(--egg-success);
+    box-shadow: 4px 4px 0 var(--egg-success-deep);
   }
 }
 
@@ -412,26 +445,10 @@ html.is-secret-transition {
   border-radius: 50%;
   transform: scale(0);
   will-change: transform;
-  /* miolo claro → cor de destaque → crista luminosa na borda; opaco até 90% do raio,
-     que (com o fator 1.15 do JS) já está além dos cantos da viewport */
-  --pulse-body: var(--accent-fill);
-  --pulse-core: color-mix(in srgb, var(--accent-fill) 55%, #fff);
-  --pulse-crest: color-mix(in srgb, var(--accent-fill) 35%, #fff);
-  /* faixas de cor com cortes DUROS (retrô): miolo → anel claro → corpo → crista luminosa */
-  background: radial-gradient(
-    circle closest-side,
-    var(--pulse-core) 0 24%,
-    color-mix(in srgb, var(--pulse-core) 50%, var(--pulse-body)) 24% 42%,
-    var(--pulse-body) 42% 89%,
-    var(--pulse-crest) 89% 94%,
-    color-mix(in srgb, var(--pulse-crest) 45%, transparent) 94% 98%,
-    transparent 98%
-  );
-}
-
-/* pulsos 1 e 2: levemente translúcidos (a página ainda "respira" por baixo) */
-.pulse[data-pulse="soft"] {
-  --pulse-body: color-mix(in srgb, var(--accent-fill) 92%, transparent);
+  /* Só a cor --accent-fill, OPACA em todos os pulsos. As bordas ficam esmaecidas (transparência
+     progressiva, efeito de desfoque): o círculo é opaco até 70% do raio — com o fator 1.45 do JS,
+     isso já passa dos cantos da viewport (1/1.45 ≈ 69%) — e some suavemente até 100%. */
+  background: radial-gradient(circle closest-side, var(--accent-fill) 0 80%, transparent 100%);
 }
 
 .pulse-layer__loading {

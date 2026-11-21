@@ -217,13 +217,13 @@ export const LIGHTS = {
   tailMax: 96,
 };
 
-/* ---------- Região final (acima do rodapé) ----------
-   height      altura da região luminosa (px)
+/* ---------- Região final (SOBRE o rodapé) ----------
+   height      altura usada só se a página não tiver rodapé (px); minHeight: piso da região
    enterDepth  fração da altura que o personagem precisa atravessar para "entrar"
    endDelay    s entre sumir e abrir o modal
    fallMargin  px abaixo da tela visível a partir dos quais uma queda fatal está "fora da área jogável"
    deathDelay  s entre a queda fatal sair da área e o modal */
-export const END_ZONE = { height: 220, enterDepth: 0.35, endDelay: 0.55, fallMargin: 60, deathDelay: 0.5, deathTimeout: 4 };
+export const END_ZONE = { height: 220, minHeight: 48, enterDepth: 0.35, endDelay: 0.55, fallMargin: 60, deathDelay: 0.5, deathTimeout: 4 };
 
 
 /* ---------- Pouso numa plataforma: luz que pisca no topo da imagem (media-blocks.js) ---------- */

@@ -1,7 +1,7 @@
 /* ==========================================================================
    Arte de fundo dos blocos de mídia (viewBox 64×64, pixel art):
-     • preenchimento em accent-fill
-     • vinheta lateral em accent-detail (faixas em degraus + pontilhado)
+     • fundo: radial-gradient em CSS (círculo accent-fill no centro, accent-detail nas bordas;
+       ver css/game/media-blocks.css) — nenhum elemento SVG é necessário para ele
      • estrelinhas/brilhos
      • variante "platform": orbe 3D no centro + sombra no chão
      • variante "intro": só o cenário (o personagem fica no overlay .game-intro)
@@ -12,41 +12,26 @@ import { createOrb, ORB } from "./orb.js";
 
 const W = 64;
 
-/** Faixas de vinheta: [x inicial, largura, camada de opacidade]. */
-const BANDS = [
-  [0, 3, 1],
-  [3, 3, 2],
-  [6, 3, 3],
-];
+function sparkles(variant) {
+  if (variant === "intro") return null;
 
-function vignette() {
-  const rects = [];
-  for (const [x, w, tone] of BANDS) {
-    rects.push(
-      svg("rect", { class: `block-art__vig block-art__vig--${tone}`, x, y: 0, width: w, height: W }),
-      svg("rect", { class: `block-art__vig block-art__vig--${tone}`, x: W - x - w, y: 0, width: w, height: W }),
+  const spots = [[15, 12], [49, 16], [17, 50], [47, 46]];
+  const pixels = [];
+
+  for (const [x, y] of spots) {
+    pixels.push(
+      [x, y],
+      [x - 1, y],
+      [x + 1, y],
+      [x, y - 1],
+      [x, y + 1]
     );
   }
-  // transição pontilhada (xadrez 1×1) depois das faixas sólidas
-  const dots = [];
-  for (let y = 0; y < W; y++) {
-    for (let x = 9; x < 13; x++) {
-      if ((x + y) % 2 === 0 || (x < 11 && y % 2 === 0)) {
-        dots.push([x, y], [W - 1 - x, y]);
-      }
-    }
-  }
-  return svg("g", { class: "block-art__vignette" }, ...rects, svg("path", { class: "block-art__dots", d: pathFromPixels(dots) }));
-}
 
-function sparkles(variant) {
-  const spots =
-    variant === "intro"
-      ? [[16, 10], [48, 14], [22, 26], [44, 30]]
-      : [[15, 12], [49, 16], [17, 50], [47, 46]];
-  const pixels = [];
-  for (const [x, y] of spots) pixels.push([x, y], [x - 1, y], [x + 1, y], [x, y - 1], [x, y + 1]);
-  return svg("path", { class: "block-art__spark", d: pathFromPixels(pixels) });
+  return svg("path", {
+    class: "block-art__spark",
+    d: pathFromPixels(pixels)
+  });
 }
 
 function groundShadow() {
@@ -75,8 +60,6 @@ export function createBlockArt({ variant, phase = 0 }) {
       "aria-hidden": "true",
       focusable: "false",
     },
-    svg("rect", { class: "block-art__bg", width: W, height: W }),
-    vignette(),
     sparkles(variant),
   );
 
