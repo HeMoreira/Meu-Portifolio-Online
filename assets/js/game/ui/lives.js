@@ -11,38 +11,53 @@
 import { h } from "../../core.js";
 import { svg, pathFromPixels } from "../world/svg/pixel.js";
 
-const SIZE = 16;
+const SIZE = 9;
 
-/** Máscara da curva do coração (16×16). */
+/** Máscara de coração em pixel art (16×16). */
 function heartPixels() {
-  const inside = (x, y) => {
-    const nx = (x + 0.5 - SIZE / 2) / 6.9;
-    const ny = -(y + 0.5 - SIZE / 2 - 1) / 6.9;
-    return (nx * nx + ny * ny - 1) ** 3 - nx * nx * ny ** 3 <= 0;
-  };
-  const fill = [];
-  const outline = [];
-  const light = [];
+  const rows = [
+    "011000110",
+    "111101111",
+    "111111111",
+    "111111111",
+    "011111110",
+    "001111100",
+    "000111000",
+    "000010000",
+    "000000000",
+  ];
+
+  const pixels = [];
+
   for (let y = 0; y < SIZE; y++) {
     for (let x = 0; x < SIZE; x++) {
-      if (!inside(x, y)) continue;
-      const edge = !inside(x - 1, y) || !inside(x + 1, y) || !inside(x, y - 1) || !inside(x, y + 1);
-      (edge ? outline : fill).push([x, y]);
+      if (rows[y][x] === "1") pixels.push([x, y]);
     }
   }
-  for (const [x, y] of fill) if ((x === 3 && y === 4) || (x === 4 && y === 4) || (x === 3 && y === 5)) light.push([x, y]);
-  return { fill, outline, light };
+
+  return pixels;
 }
 
 let cached = null;
+
 function createHeartSvg() {
   cached ??= heartPixels();
+
   return svg(
     "svg",
-    { class: "game-heart__svg", width: SIZE, height: SIZE, viewBox: `0 0 ${SIZE} ${SIZE}`, "shape-rendering": "crispEdges", "aria-hidden": "true", focusable: "false" },
-    svg("path", { class: "game-heart__fill", d: pathFromPixels(cached.fill) }),
-    svg("path", { class: "game-heart__outline", d: pathFromPixels(cached.outline) }),
-    svg("path", { class: "game-heart__light", d: pathFromPixels(cached.light) }),
+    {
+      class: "game-heart__svg",
+      width: SIZE,
+      height: SIZE,
+      viewBox: `0 0 ${SIZE} ${SIZE}`,
+      "shape-rendering": "crispEdges",
+      "aria-hidden": "true",
+      focusable: "false",
+    },
+    svg("path", {
+      class: "game-heart__fill",
+      d: pathFromPixels(cached),
+    }),
   );
 }
 

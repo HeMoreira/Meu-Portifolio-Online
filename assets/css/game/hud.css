@@ -143,8 +143,9 @@
 
 /* ==========================================================================
    Vidas (ui/lives.js) — canto superior esquerdo, abaixo do cabeçalho fixo.
-   Corações de EXATOS 16×16 px.
+   Corações em pixel art, preenchidos exclusivamente com accent.
    ========================================================================== */
+
 .game-lives {
   position: fixed;
   top: calc(var(--header-h) + var(--space-5));
@@ -155,41 +156,43 @@
   padding: 8px 10px;
   background: var(--surface);
   box-shadow:
-    calc(var(--px) * -1) 0 0 0 var(--ink), var(--px) 0 0 0 var(--ink),
-    0 calc(var(--px) * -1) 0 0 var(--ink), 0 var(--px) 0 0 var(--ink),
+    calc(var(--px) * -1) 0 0 0 var(--ink),
+    var(--px) 0 0 0 var(--ink),
+    0 calc(var(--px) * -1) 0 0 var(--ink),
+    0 var(--px) 0 0 var(--ink),
     calc(var(--px) * 2) calc(var(--px) * 2) 0 0 var(--ink-soft);
 }
 
 .game-heart {
   display: block;
-  width: 16px;
-  height: 16px;
+  width: 48px;
+  height: 48px;
 }
 
 .game-heart__svg {
   display: block;
-  width: 16px;
-  height: 16px;
+  width: 48px;
+  height: 48px;
   overflow: visible;
 }
 
-/* cheio: accent-fill + contorno accent-detail + brilho branco */
-.game-heart[data-state="full"] .game-heart__fill { fill: var(--accent-fill); }
-.game-heart[data-state="full"] .game-heart__outline { fill: var(--accent-detail); }
-.game-heart[data-state="full"] .game-heart__light { fill: #fff; }
+.game-heart__fill {
+  fill: var(--accent-fill);
+}
 
-/* perdido: neutro, vazado */
-.game-heart[data-state="lost"] .game-heart__fill { fill: var(--surface-2); }
-.game-heart[data-state="lost"] .game-heart__outline { fill: var(--ink-soft); }
-.game-heart[data-state="lost"] .game-heart__light { fill: transparent; }
+/* Perdido: coração neutro. */
+.game-heart[data-state="lost"] .game-heart__fill {
+  fill: var(--surface-2);
+}
 
-/* perdendo: salta, pisca em branco, treme e esvazia (700 ms, em passos) */
+/* Perdendo: salta, pisca, treme e desaparece. */
 .game-heart[data-state="losing"] {
   animation: heart-lose 700ms steps(7, end) 1 forwards;
 }
-.game-heart[data-state="losing"] .game-heart__fill { fill: #fff; }
-.game-heart[data-state="losing"] .game-heart__outline { fill: var(--accent-detail); }
-.game-heart[data-state="losing"] .game-heart__light { fill: transparent; }
+
+.game-heart[data-state="losing"] .game-heart__fill {
+  fill: #fff;
+}
 
 @keyframes heart-lose {
   0% { transform: translate(0, 0) scale(1); }
