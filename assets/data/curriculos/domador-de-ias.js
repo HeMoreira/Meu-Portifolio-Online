@@ -6,15 +6,15 @@ export default {
 
   sobre: {
     paragrafos: [
-      "Estudante do 3º semestre da graduação em Análise e Desenvolvimento de Sistemas, sou formado como técnico em informática na Fundação Oswaldo Cruz e estou aberto a oportunidades como estagiário na área de Engenharia de IA.",
+      "Estudante do 3º semestre da graduação em Análise e Desenvolvimento de Sistemas, sou formado como técnico em informática na Fundação Oswaldo Cruz e estou aberto a oportunidades como estagiário ou Júnior na área de Engenharia de IA.",
       "Possuo conhecimento variado na área de desenvolvimento, o que inclui Design de Interfaces; Conceitos de UI e UX; Tecnologias como HTML5, CSS3 e Javascript; Prompt Engineering e uso de LLMs no fluxo de trabalho; Versionamento de código e trabalho em equipe com Git/Github; Conhecimento em linguagens de programação como Python e C#; Aplicações de uso variado (Excel, Word, Powerpoint, Canva, etc.) e muito mais.",
-      "Possuo ainda uma grande bagagem como operador de agentes de IA generativa e suporte de TI, além de estar sempre disposto a usar meu repertório para aprender algo novo, fazendo de mim um profissional muito versátil e eficiente em minhas entregas.",
+      "Possuo ainda uma grande bagagem como desenvolvedor frontend, backend e suporte de TI, além de estar sempre disposto a usar meu repertório para aprender algo novo, fazendo de mim um profissional muito versátil e eficiente em minhas entregas.",
     ],
     links: contatos("email", "linkedin", "github"),
   },
 
   competencias: {
-    intro: "",
+    intro: "Não sou apenas um Vibe Coder. Sei o que pedir porque conheço as ferramentas e o processo.",
     itens: [
       {
         titulo: "Ferramentas Modernas",
@@ -29,8 +29,8 @@ export default {
         relacao: { tipo: "certificacao", id: "responsive-web-design" },
       },
       {
-        titulo: "JavaScript moderno",
-        descricao: "Código modular e legível, sem dependências desnecessárias, com atenção ao desempenho.",
+        titulo: "Prompt Engineering",
+        descricao: "Traduzo intenção em instruções claras para modelos de linguagem.",
         imagem: "competencias/codigo.svg",
         relacao: { tipo: "projeto", id: "meu-portifolio-online" },
       },
@@ -38,7 +38,7 @@ export default {
         titulo: "Acessibilidade",
         descricao: "Semântica, contraste, consciência de público, foco e ARIA aplicados desde o início do projeto.",
         imagem: "competencias/acessibilidade.svg",
-        relacao: { tipo: "projeto", id: "imaginaria-imobiliaria" },
+        relacao: { tipo: "projeto", id: "meu-portifolio-online" },
       },
       {
         titulo: "Desenvolvimento com IA",
@@ -67,19 +67,19 @@ export default {
         titulo: "Pesquisa de Público",
         descricao: "Não adivinho. Se eu não conheço o público eu pesquiso antes de desenvolver.",
         imagem: "competencias/pesquisa.svg",
+        relacao: { tipo: "projeto", id: "imaginaria-imobiliaria" },
       },
-      
     ],
   },
 
   projetos: {
-    intro: "Interfaces construídas com atenção a detalhes e a quem as usa.",
+    intro: "Sites completos desenvolvidos com foco em segurança, escalabilidade e design.",
     itens: [
       {
         id: "imaginaria-imobiliaria",
         titulo: "Imaginaria-Imobiliária",
         descricao:
-          "Website completo para anúncio e venda de imóveis com o objetivo de ser simples e robusto. Design pensado nos usuários considerando o público alvo antes de qualquer decisão.",
+          "Website completo para anúncio e venda de imóveis com o objetivo de ser simples e robusto. Desenvolvido por completo em um mês com segurança avançada, código organizado e design limpo com a ajuda de agentes de IA.",
         repositorio: "https://github.com/HeMoreira/imaginaria-imobiliaria",
         media: { tipo: "video", src: "projetos/imaginaria_imobiliaria_project.mp4", alt: "Vídeo ilustrativo do projeto" },
         metricas: [
@@ -89,14 +89,14 @@ export default {
           { rotulo: "Integração com backend", valor: 95 },
         ],
         detalhes: {
-          resumo: "Esse projeto não vive apenas de interface escalável e responsiva. Todo o design precisou ser pensado considerando um público alvo mais velho, além de ter sido integrado à um sistema CRUD real com foco em segurança e robustês.",
+          resumo: "Desenvolvido com o Framework Flask, o website de anúncio de imóveis possui um alto nível de segurança com sistema CRUD completo, autenticação, integração com banco de dados, integração com um sistema de mapas e muito mais. Tudo desenvolvido em 1 mês com foco em escalabilidade, segurança e design responsivo.",
           etapas: [
             { titulo: "Pesquisa de Design", descricao: "Antes mesmo de abrir o editor de código, pesquisei por alguns websites de venda de imóveis e analisei com calma cada detalhe." },
             { titulo: "Definição dos requisitos", descricao: "Após entender as necessidades do cliente e produto, comecei a definir o que era necessário para garantir uma boa experiência de usuário e conforto visual. Tudo integrado a um sistema real desenvolvido com o framework Flask" },
             { titulo: "Vibe Coding consciente", descricao: "Com a base definida, usei agentes de IA para fazerem o trabalho braçal. Algumas horas refinando os prompts ajudaram a garantir que o resultado cumprisse os requisitos." },
             { titulo: "Revisão e Ajustes", descricao: "Mesmo com todo o cuidado, sempre sobra algum ponto fora da curva. Felizmente, com minha bagagem técnica nas tecnologias utilizadas, não tive dificuldade em perceber e corrigir cada imprecisão." },
           ],
-          tecnologias: ["UX", "UI", "HTML5", "CSS3", "Javascript", "Jinja2", "Prompt Engineering", "Claude", "Gemini", "Git", "Integração com Backend", "Pesquisa"],
+          tecnologias: ["SQLAlchemy", "Flask", "Python", "Segurança", "UX", "UI", "HTML5", "CSS3", "Javascript", "Jinja2", "Prompt Engineering", "Claude", "Gemini", "Git", "Sistema de Logs", "Leaflet (biblioteca javascript)"],
         },
       },
       {
@@ -113,7 +113,7 @@ export default {
           { rotulo: "Vibe Coding consciente", valor: 85 },
         ],
         detalhes: {
-          resumo: "Planejado ao longo de dias... Desenvolvido em uma tarde. Esse projeto foi escrito quase inteiramente por modelos de IA, mas antes de qualquer prompt, existiu um planejamento profundo que olhou para a escalabilidade e resistência a atualizações antes de escrever qualquer linha.",
+          resumo: "Esse projeto foi escrito quase inteiramente por modelos de IA, mas antes de qualquer prompt, existiu um planejamento profundo que olhou para a escalabilidade e resistência a atualizações antes de escrever qualquer linha.",
           etapas: [
             { titulo: "Definição dos requisitos", descricao: "O site precisava funcionar independentemente de currículo, apresentando minhas capacidades para variados grupos de pessoa interessadas em diferentes habilidades. Toda a estrutura e design precisou ser desenvolvida considerando todos esses fatores." },
             { titulo: "Vibe Coding consciente", descricao: "Com a base definida, usei agentes de IA para fazerem o trabalho braçal. Algumas horas refinando os prompts ajudaram a garantir que o resultado cumprisse os requisitos." },
@@ -133,17 +133,17 @@ export default {
           { rotulo: "Design de Interfaces", valor: 95 },
           { rotulo: "Integração com Excel", valor: 85 },
           { rotulo: "Escalabilidade", valor: 70 },
-          { rotulo: "Solução de problemas complexos", valor: 95 },
+          { rotulo: "Solução de problemas", valor: 95 },
         ],
         detalhes: {
-          resumo: "Esse projeto me forçou a pensar fora da caixa para resolver um problema específico que nenhuma IA seria capaz de resolver por conta própria e me fez perceber que as vezes a melhor interface não é a que melhor aplica o padrão moderno genérico de páginas web, mas a que considera o contexto real da aplicação.",
+          resumo: "Esse projeto me forçou a pensar fora da caixa tanto em relação a design quanto em relação à lógica, isso porque LLMs são excelentes para desenvolver sites convencionais, mas deixam a desejar quando se vêem perante problemas específicos.",
           etapas: [
-            { titulo: "Definição dos requisitos", descricao: "O site usa matemática complexa para apresentar ao usuário múltiplas informações sobre os brawlers. Isso significa que manter o design limpo seria um desafio que precisava de atenção redobrada para dar várias opções para quem quer detalhes, mas sem poluir demais para quem só quer o resultado mais simples e rápido." },
+            { titulo: "Definição dos requisitos", descricao: "O site usa matemática complexa para apresentar ao usuário múltiplas informações sobre os brawlers. Desenvolver isso foi um grande desafio tanto para o backend quanto para o frontend, já que era necessário balancear as fórmulas para que trouxessem os resultados esperados e, ao mesmo tempo, o design precisava manter tudo acessível sem poluir a tela." },
             { titulo: "Vibe Coding consciente", descricao: "Com a base definida, usei agentes de IA para fazerem o trabalho braçal. Algumas horas refinando os prompts ajudaram a garantir que o resultado cumprisse os requisitos." },
-            { titulo: "O problema do design moderno genérico", descricao: "O código entregue possuia os mesmos elementos comuns de designs modernos genéricos de sempre, o que costuma funcionar bem, mas quando eu vi essa estética ao lado da imagem dos brawlers e seus seletores com uma estética muito mais colorida e cartunesca, logo ficou claro que aquilo não ia funcionar. Os inputs de nome, cards e status simplesmente não conversavam com as imagens ao lado." },
+            { titulo: "O problema do design moderno genérico", descricao: "O código entregue possuia os mesmos elementos comuns de designs modernos genéricos de sempre, o que costuma funcionar bem, mas quando eu vi essa estética ao lado da imagem dos brawlers e seus seletores com uma estética muito mais colorida e cartunesca, logo ficou claro que aquilo não iria funcionar. Os inputs de nome, cards e status simplesmente não conversavam com as imagens ao lado." },
             { titulo: "Revisão e Ajustes", descricao: "Com os vários problemas descobertos na fase anterior, o objetivo aqui não era só ajustar, mas buscar refazer o estilo de vários elementos para que o site seguisse uma única estética que remetesse ao jogo." },
           ],
-          tecnologias: ["UX", "UI", "HTML5", "CSS3", "Javascript", "Prompt Engineering", "Claude", "ChatGPT", "Gemini", "Git", "Github", "Excel", "Integração com Backend"],
+          tecnologias: ["Django", "Python", "SQLite", "UX", "UI", "HTML5", "CSS3", "Javascript", "Prompt Engineering", "Claude", "ChatGPT", "Gemini", "Git", "Github", "Excel", "Integração com Backend"],
         },
       },
     ],

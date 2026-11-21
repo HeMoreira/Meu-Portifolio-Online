@@ -14,7 +14,7 @@ export default {
   },
 
   competencias: {
-    intro: "",
+    intro: "Competências relacionadas ao meu trabalho como desenvolvedor front-end.",
     itens: [
       {
         titulo: "Ferramentas Modernas",
@@ -38,7 +38,7 @@ export default {
         titulo: "Acessibilidade",
         descricao: "Semântica, contraste, consciência de público, foco e ARIA aplicados desde o início do projeto.",
         imagem: "competencias/acessibilidade.svg",
-        relacao: { tipo: "projeto", id: "imaginaria-imobiliaria" },
+        relacao: { tipo: "projeto", id: "meu-portifolio-online" },
       },
       {
         titulo: "Desenvolvimento com IA",
@@ -67,6 +67,7 @@ export default {
         titulo: "Pesquisa de Público",
         descricao: "Não adivinho. Se eu não conheço o público eu pesquiso antes de desenvolver.",
         imagem: "competencias/pesquisa.svg",
+        relacao: { tipo: "projeto", id: "imaginaria-imobiliaria" },
       },
       
     ],
@@ -113,7 +114,7 @@ export default {
           { rotulo: "Vibe Coding consciente", valor: 85 },
         ],
         detalhes: {
-          resumo: "Planejado ao longo de dias... Desenvolvido em uma tarde. Esse projeto foi escrito quase inteiramente por modelos de IA, mas antes de qualquer prompt, existiu um planejamento profundo que olhou para a escalabilidade e resistência a atualizações antes de escrever qualquer linha.",
+          resumo: "Esse projeto foi escrito quase inteiramente por modelos de IA, mas antes de qualquer prompt, existiu um planejamento profundo que olhou para a escalabilidade e resistência a atualizações antes de escrever qualquer linha, além do cuidado em criar uma identidade visual única.",
           etapas: [
             { titulo: "Definição dos requisitos", descricao: "O site precisava funcionar independentemente de currículo, apresentando minhas capacidades para variados grupos de pessoa interessadas em diferentes habilidades. Toda a estrutura e design precisou ser desenvolvida considerando todos esses fatores." },
             { titulo: "Vibe Coding consciente", descricao: "Com a base definida, usei agentes de IA para fazerem o trabalho braçal. Algumas horas refinando os prompts ajudaram a garantir que o resultado cumprisse os requisitos." },
@@ -133,15 +134,15 @@ export default {
           { rotulo: "Design de Interfaces", valor: 95 },
           { rotulo: "Integração com Excel", valor: 85 },
           { rotulo: "Escalabilidade", valor: 70 },
-          { rotulo: "Solução de problemas complexos", valor: 95 },
+          { rotulo: "Solução de problemas", valor: 95 },
         ],
         detalhes: {
-          resumo: "Esse projeto me forçou a pensar fora da caixa para resolver um problema específico que nenhuma IA seria capaz de resolver por conta própria e me fez perceber que as vezes a melhor interface não é a que melhor aplica o padrão moderno genérico de páginas web, mas a que considera o contexto real da aplicação.",
+          resumo: "Esse projeto me forçou a pensar fora da caixa no quesito design, já que IAs são excelentes para resolver problemas comuns com design moderno, mas podem apresentar dificuldades quando precisam lidar com a apresentação de muitas informações ou uma escolha artística mais específica.",
           etapas: [
             { titulo: "Definição dos requisitos", descricao: "O site usa matemática complexa para apresentar ao usuário múltiplas informações sobre os brawlers. Isso significa que manter o design limpo seria um desafio que precisava de atenção redobrada para dar várias opções para quem quer detalhes, mas sem poluir demais para quem só quer o resultado mais simples e rápido." },
             { titulo: "Vibe Coding consciente", descricao: "Com a base definida, usei agentes de IA para fazerem o trabalho braçal. Algumas horas refinando os prompts ajudaram a garantir que o resultado cumprisse os requisitos." },
-            { titulo: "O problema do design moderno genérico", descricao: "O código entregue possuia os mesmos elementos comuns de designs modernos genéricos de sempre, o que costuma funcionar bem, mas quando eu vi essa estética ao lado da imagem dos brawlers e seus seletores com uma estética muito mais colorida e cartunesca, logo ficou claro que aquilo não ia funcionar. Os inputs de nome, cards e status simplesmente não conversavam com as imagens ao lado." },
-            { titulo: "Revisão e Ajustes", descricao: "Com os vários problemas descobertos na fase anterior, o objetivo aqui não era só ajustar, mas buscar refazer o estilo de vários elementos para que o site seguisse uma única estética que remetesse ao jogo." },
+            { titulo: "O problema do design moderno genérico", descricao: "O código entregue possuia os mesmos elementos comuns de designs modernos genéricos de sempre, o que costuma funcionar bem, mas quando eu vi essa estética ao lado da imagem dos brawlers e seus seletores com uma estética muito mais colorida e cartunesca, logo ficou claro que aquilo não iria funcionar. Os inputs de nome, cards e status simplesmente não conversavam com as imagens ao lado." },
+            { titulo: "Revisão e Ajustes", descricao: "Com os vários problemas descobertos na fase anterior, o objetivo aqui não era só ajustar, mas buscar refazer o estilo de vários elementos para que o site seguisse uma única estética que remetesse ao jogo, gerando familiaridade com o público alvo e mantendo a coesão entre os múltiplos elementos da página." },
           ],
           tecnologias: ["UX", "UI", "HTML5", "CSS3", "Javascript", "Prompt Engineering", "Claude", "ChatGPT", "Gemini", "Git", "Github", "Excel", "Integração com Backend"],
         },
