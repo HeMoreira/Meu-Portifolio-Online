@@ -16,7 +16,6 @@ import { icon } from "../icons.js";
 import { createProjeto, resetarProjeto, rotuloTipo } from "./projeto.js";
 
 const ALCANCE = 3; // posições mantidas no DOM de cada lado (±3); só ±2 são visíveis
-const SWIPE_PX = 60;
 const mod = (i, n) => ((i % n) + n) % n;
 
 /* ------------------------------------------------------------------ carrossel */
@@ -163,45 +162,7 @@ export function createCarrossel(itens, { rotulo, inicial = 0 }) {
     mover(event.key === "ArrowLeft" ? -1 : 1);
   });
 
-  /* Arrastar (mouse/toque) e rolagem lateral */
-  let drag = null;
-  let suprimirClique = false;
-  palco.addEventListener("pointerdown", (event) => {
-    if (event.button !== 0 || event.target.closest("video, a, input, select, textarea, button:not(.carrossel__escolher)")) return;
-    drag = { x: event.clientX, id: event.pointerId, moveu: false };
-  });
-  palco.addEventListener("pointermove", (event) => {
-    if (!drag || event.pointerId !== drag.id) return;
-    const dx = event.clientX - drag.x;
-    if (!drag.moveu && Math.abs(dx) > 6) {
-      drag.moveu = true;
-      palco.setPointerCapture(event.pointerId);
-      el.classList.add("is-arrastando");
-    }
-    if (drag.moveu) el.style.setProperty("--arrasto", `${dx}px`);
-  });
-  const soltar = (event) => {
-    if (!drag || event.pointerId !== drag.id) return;
-    const dx = event.clientX - drag.x;
-    const moveu = drag.moveu;
-    drag = null;
-    el.classList.remove("is-arrastando");
-    el.style.removeProperty("--arrasto");
-    if (moveu) {
-      suprimirClique = true;
-      setTimeout(() => (suprimirClique = false), 0);
-      if (Math.abs(dx) > SWIPE_PX && event.type === "pointerup") mover(dx < 0 ? 1 : -1);
-    }
-  };
-  palco.addEventListener("pointerup", soltar);
-  palco.addEventListener("pointercancel", soltar);
-  palco.addEventListener("click", (event) => {
-    if (suprimirClique) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-  }, true);
-
+  /* Rolagem lateral (trackpad / shift+roda). Não há arrastar: a navegação é por botões, pontos e cliques. */
   let ultimaRoda = 0;
   palco.addEventListener(
     "wheel",
