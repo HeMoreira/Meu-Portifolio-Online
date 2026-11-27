@@ -1,21 +1,58 @@
-/* Certificações: cards com imagem, título e descrição */
+/* Certificações: cards com imagem inteira, título, descrição e botão de detalhes */
 
 .certificacao {
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
 
+/* Moldura de proporção fixa (todos os cards alinhados). A imagem do certificado aparece
+   INTEIRA (contain, nunca cortada); o espaço que sobra nas laterais/topo é preenchido por
+   uma cópia borrada e ampliada da própria imagem (--cert-img, definida em certificacao.js),
+   então não há faixas vazias nem cores soltas, qualquer que seja a proporção do arquivo. */
 .certificacao__media {
-  display: block;
-  width: 100%;
+  position: relative;
+  isolation: isolate;
   aspect-ratio: 16 / 10;
-  object-fit: cover;
+  margin: 0;
+  overflow: hidden;
   background: var(--surface-2);
   border-bottom: 1px solid var(--border);
 }
 
+.certificacao__media::before {
+  content: "";
+  position: absolute;
+  inset: -12%; /* a borda do blur não aparece */
+  z-index: -2;
+  background: var(--cert-img) center / cover no-repeat;
+  filter: blur(22px) saturate(1.1);
+  transform: scale(1.05);
+}
+
+/* véu na cor da superfície: uniformiza o fundo nos dois temas e não compete com o certificado */
+.certificacao__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in srgb, var(--surface) 38%, transparent);
+}
+
+.certificacao__imagem {
+  position: absolute;
+  inset: var(--space-3);
+  width: calc(100% - 2 * var(--space-3));
+  height: calc(100% - 2 * var(--space-3));
+  object-fit: contain;
+  /* a sombra acompanha o desenho do certificado, não a caixa da imagem */
+  filter: drop-shadow(0 3px 10px rgb(0 0 0 / 0.28));
+}
+
 .certificacao__body {
-  display: grid;
-  align-content: start;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   gap: var(--space-2);
   padding: var(--space-5);
 }
@@ -23,4 +60,10 @@
 .certificacao__desc {
   color: var(--text-muted);
   font-size: var(--fs-sm);
+}
+
+/* o botão fica sempre no fim do card: alinhados em cards de alturas diferentes */
+.certificacao__acoes {
+  margin-top: auto;
+  padding-top: var(--space-4);
 }

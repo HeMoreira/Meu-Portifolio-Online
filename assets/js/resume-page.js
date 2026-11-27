@@ -59,7 +59,7 @@ function render(data) {
         titulo: certificacoes.titulo ?? "Certificações",
         intro: certificacoes.intro,
       },
-      createCertificacoesGrid(certificacoes.itens),
+      createCertificacoesGrid(certificacoes.itens, competencias.itens),
     ),
   );
 

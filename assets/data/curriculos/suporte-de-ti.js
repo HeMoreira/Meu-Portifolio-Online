@@ -1,6 +1,8 @@
 /* Currículo: Suporte de TI — só conteúdo. Marcadores [Exemplo] = substituir. */
 import { PERFIL, contatos } from "../perfil.js";
 import { criarAnos } from "../projetos.js";
+import { criarCertificacoes } from "../certificacoes.js";
+import { criarCompetencias } from "../competencias.js";
 
 export default {
   perfil: { ...PERFIL, funcao: "Suporte de TI / Help Desk" },
@@ -16,49 +18,16 @@ export default {
 
   competencias: {
     intro: "Capacidades relacionadas ao meu trabalho como Suporte de TI / Help Desk.",
-    itens: [
-      {
-        titulo: "Redes e conectividade",
-        descricao: "Diagnóstico de acesso, Wi-Fi, VPN e infraestrutura básica de rede local.",
-        imagem: "competencias/rede.svg",
-        relacao: { tipo: "certificacao", id: "tecnico-de-informatica" },
-      },
-      {
-        titulo: "Sistemas e manutenção",
-        descricao: "Instalação, configuração e manutenção preventiva de computadores e periféricos.",
-        imagem: "competencias/servidor.svg",
-        relacao: { tipo: "certificacao", id: "tecnico-de-informatica" },
-      },
-      {
-        titulo: "Atendimento ao usuário",
-        descricao: "Triagem, diagnóstico e resolução de incidentes com comunicação objetiva e empática.",
-        imagem: "competencias/suporte.svg",
-      },
-      {
-        titulo: "Ferramentas Gerais",
-        descricao: "Uso de ferramentas específicas como Canva, Trello, Miro, CapCut, ChatGPT, Manus, etc.",
-        imagem: "competencias/ferramentas.svg",
-        relacao: { tipo: "projeto", id: "ai-tests" },
-      },
-      {
-        titulo: "Atividades de Escritório",
-        descricao: "Uso de ferramentas como Excel, Word, Powerpoint e Word para atividades ocasionais.",
-        imagem: "competencias/documentacao.svg",
-        relacao: { tipo: "certificacao", id: "tecnico-de-informatica" },
-      },
-      {
-        titulo: "Tecnologias de Desenvolvimento",
-        descricao: "Amplo conhecimento em tecnologias como HTML5, CSS3, Javascript, Python, SQL, etc.",
-        imagem: "competencias/codigo.svg",
-        relacao: { tipo: "projeto", id: "meu-portifolio-online-suporte-de-ti" },
-      },
-      {
-        titulo: "Comunicação e Didática",
-        descricao: "Facilidade de comunicação e ensino com pessoas de todas as idades.",
-        imagem: "competencias/codigo.svg",
-        relacao: { tipo: "experiencia", id: "professor-python" },
-      },
-    ],
+    // Só ids do catálogo (assets/data/competencias.js), na ordem de exibição.
+    itens: criarCompetencias([
+      "redes-e-conectividade",
+      "sistemas-e-manutencao",
+      "atendimento-ao-usuario",
+      "ferramentas-gerais",
+      "atividades-de-escritorio",
+      "tecnologias-de-desenvolvimento",
+      "comunicacao-e-didatica",
+    ]),
   },
 
   projetos: {
@@ -83,42 +52,13 @@ export default {
 
   certificacoes: {
     intro: "Formações e certificados relevantes para a área.",
-    itens: [
-      {
-        id: "fundamentos-de-ti",
-        titulo: "Fundamentos de TI: Hardware e Software",
-        descricao: "Emitido pela Fundação Bradesco em outubro de 2026. Mais detalhes no LinkedIn.",
-        imagem: "certificacoes/certificado-fundamentos-de-ti-bradesco.jpeg",
-        imagemAlt: "",
-      },
-      {
-        id: "tecnico-de-informatica",
-        titulo: "Ensino Técnico em Informática",
-        descricao: "Emitido pela Fundação Oswaldo Cruz em dezembro de 2025. Mais detalhes no LinkedIn.",
-        imagem: "certificacoes/placeholder.svg",
-        imagemAlt: "",
-      },
-      {
-        id: "devops-e-agile-culture",
-        titulo: "DevOps & Agile Culture",
-        descricao: "Emitido pela FIAP em outubro de 2026. Mais detalhes no LinkedIn.",
-        imagem: "certificacoes/certificado-devops-e-agile-culture-fiap.jpeg",
-        imagemAlt: "",
-      },
-      {
-        id: "ef-set-ingles",
-        titulo: "Certificado oficial EF SET 56/100 (B2 Independente).",
-        descricao: "Emitido pela EF SET em outubro de 2026. Mais detalhes no LinkedIn.",
-        imagem: "certificacoes/certificado-ef-set-ingles.jpeg",
-        imagemAlt: "",
-      },
-      {
-        id: "cursa-excel",
-        titulo: "Excel do básico ao avançado",
-        descricao: "Emitido pelo Cursa em fevereiro de 2025. Mais detalhes no LinkedIn.",
-        imagem: "certificacoes/certificado-cursa-excel.png",
-        imagemAlt: "",
-      },
-    ],
+    // Só ids do catálogo (assets/data/certificacoes.js), na ordem de exibição.
+    itens: criarCertificacoes([
+      "fundamentos-de-ti",
+      "tecnico-de-informatica",
+      "devops-e-agile-culture",
+      "ef-set-ingles",
+      "cursa-excel",
+    ]),
   },
 };

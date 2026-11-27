@@ -1,9 +1,21 @@
 /* ==========================================================================
-   Modal de detalhes do projeto.
+   Modal de detalhes — UM modelo para projetos, experiências e certificações.
    Um único <dialog> nativo é criado sob demanda e reaproveitado. O navegador
    cuida de: foco preso, Esc para fechar e fundo inerte. Aqui tratamos:
    fechar ao clicar no fundo, devolver o foco ao botão de origem e travar
    a rolagem da página.
+
+   O conteúdo é uma LISTA DE BLOCOS, renderizados na ordem informada; cada item
+   escolhe quais blocos mostrar e em que ordem. Todos são opcionais:
+
+     { tipo: "texto",   titulo?, texto: string | string[] }
+     { tipo: "etapas",  titulo?, itens: (string | {titulo, descricao?})[] }
+     { tipo: "badges",  titulo,  itens: string[] }
+     { tipo: "dados",   titulo?, itens: {rotulo, valor, href?}[] }      ← pares rótulo/valor
+     { tipo: "lista",   titulo?, itens: string[] }
+     { tipo: "acoes",   itens: {rotulo, href, icone?, primario?}[] }     ← botões/links
+
+   Para um novo tipo de bloco, basta registrar uma função em BLOCOS.
    ========================================================================== */
 import { h, srOnly } from "../core.js";
 import { icon } from "../icons.js";
@@ -32,96 +44,131 @@ function ensureDialog() {
 }
 
 const section = (title, content) =>
-  h("section", { class: "modal__section" }, h("h3", {}, title), content);
+  h("section", { class: "modal__section" }, title ? h("h3", {}, title) : null, content);
 
-/**
- * Detalhes aceitos em projeto.detalhes:
- *   resumo?: string
- *   etapas?: ({titulo: string, descricao?: string} | string)[]
- *   tecnologias?: string[]
- */
-function buildContent(projeto, close) {
-  const { resumo, etapas = [], tecnologias = [] } = projeto.detalhes ?? {};
+/** Só http(s): nunca javascript: ou data: vindos dos dados. */
+const urlSegura = (href) => (/^https?:\/\//i.test(href ?? "") ? href : null);
 
-  const steps = etapas.length
-    ? section(
-        "Etapas de desenvolvimento",
-        h(
-          "ol",
-          { class: "steps", role: "list" },
-          ...etapas.map((etapa) => {
-            const { titulo, descricao } = typeof etapa === "string" ? { titulo: etapa } : etapa;
-            return h(
-              "li",
-              { class: "steps__item" },
-              h(
-                "div",
-                {},
-                h("span", { class: "steps__title" }, titulo),
-                descricao ? h("p", { class: "steps__desc" }, descricao) : null,
-              ),
-            );
-          }),
-        ),
-      )
-    : null;
+/* ---------- Renderizadores de bloco ---------- */
+const BLOCOS = {
+  texto: ({ titulo, texto }) => {
+    const paragrafos = [texto].flat().filter(Boolean);
+    return paragrafos.length ? section(titulo, h("div", { class: "modal__texto" }, ...paragrafos.map((t) => h("p", {}, t)))) : null;
+  },
 
-  const techs = tecnologias.length
-    ? section(
-        "Tecnologias utilizadas",
-        h(
-          "ul",
-          { class: "badges", role: "list" },
-          ...tecnologias.map((t) => h("li", { class: "badge" }, t)),
-        ),
-      )
-    : null;
+  etapas: ({ titulo = "Etapas de desenvolvimento", itens = [] }) =>
+    itens.length
+      ? section(
+          titulo,
+          h(
+            "ol",
+            { class: "steps", role: "list" },
+            ...itens.map((etapa) => {
+              const { titulo: t, descricao } = typeof etapa === "string" ? { titulo: etapa } : etapa;
+              return h(
+                "li",
+                { class: "steps__item" },
+                h("div", {}, h("span", { class: "steps__title" }, t), descricao ? h("p", { class: "steps__desc" }, descricao) : null),
+              );
+            }),
+          ),
+        )
+      : null,
 
-  const repo = projeto.repositorio
-    ? h(
-        "div",
-        { class: "btn-group" },
+  badges: ({ titulo, itens = [] }) =>
+    itens.length
+      ? section(titulo, h("ul", { class: "badges", role: "list" }, ...itens.map((t) => h("li", { class: "badge" }, t))))
+      : null,
+
+  dados: ({ titulo, itens = [] }) => {
+    const validos = itens.filter((d) => d?.rotulo && d.valor != null && d.valor !== "");
+    if (!validos.length) return null;
+    return section(
+      titulo,
+      h(
+        "dl",
+        { class: "dados" },
+        ...validos.map((d) => {
+          const href = urlSegura(d.href);
+          return h(
+            "div",
+            { class: "dados__item" },
+            h("dt", {}, d.rotulo),
+            h("dd", {}, href ? h("a", { href, target: "_blank", rel: "noopener noreferrer" }, String(d.valor), srOnly(" (abre em nova aba)")) : String(d.valor)),
+          );
+        }),
+      ),
+    );
+  },
+
+  lista: ({ titulo, itens = [] }) =>
+    itens.length ? section(titulo, h("ul", { class: "lista" }, ...itens.map((t) => h("li", {}, t)))) : null,
+
+  acoes: ({ itens = [] }) => {
+    const links = itens.filter((a) => a?.rotulo && urlSegura(a.href));
+    if (!links.length) return null;
+    return h(
+      "div",
+      { class: "btn-group" },
+      ...links.map((a, i) =>
         h(
           "a",
           {
-            class: "btn btn--primary",
-            href: projeto.repositorio,
+            class: `btn ${a.primario === false || i > 0 ? "btn--outline" : "btn--primary"}`,
+            href: a.href,
             target: "_blank",
             rel: "noopener noreferrer",
           },
-          icon("code"),
-          "Ver repositório",
+          icon(a.icone ?? "external"),
+          a.rotulo,
           srOnly(" (abre em nova aba)"),
         ),
-      )
-    : null;
-
-  return h(
-    "div",
-    { class: "modal__panel" },
-    h(
-      "div",
-      { class: "modal__header" },
-      h("h2", { class: "modal__title", id: "modal-title" }, projeto.titulo),
-      h(
-        "button",
-        { class: "icon-btn", type: "button", "aria-label": "Fechar detalhes", onclick: close },
-        icon("close"),
       ),
-    ),
-    h("div", { class: "modal__body" }, resumo ? h("p", {}, resumo) : null, techs, steps, repo),
-  );
+    );
+  },
+};
+
+function renderBloco(bloco) {
+  const render = BLOCOS[bloco?.tipo];
+  if (!render) {
+    console.warn(`Bloco de modal desconhecido: "${bloco?.tipo}".`);
+    return null;
+  }
+  return render(bloco);
+}
+
+/** true se pelo menos um bloco tem algo a mostrar (decide se o botão "Ver detalhes" existe). */
+export function temConteudo(blocos = []) {
+  return blocos.some((bloco) => BLOCOS[bloco?.tipo]?.(bloco));
 }
 
 /**
- * @param {object} projeto  mesmo objeto usado em createProjeto()
+ * @param {{ titulo: string, rotulo?: string, blocos: object[] }} conteudo
+ *   rotulo: texto pequeno acima do título (ex.: "Projeto", "Certificação")
  * @param {HTMLElement} [openerEl]  botão que abriu o modal (recebe o foco ao fechar)
  */
-export function openProjectModal(projeto, openerEl) {
+export function openModal({ titulo, rotulo, blocos = [] }, openerEl) {
   const d = ensureDialog();
   opener = openerEl ?? null;
 
-  d.replaceChildren(buildContent(projeto, () => d.close()));
+  d.replaceChildren(
+    h(
+      "div",
+      { class: "modal__panel" },
+      h(
+        "div",
+        { class: "modal__header" },
+        h(
+          "div",
+          {},
+          rotulo ? h("p", { class: "modal__eyebrow" }, rotulo) : null,
+          h("h2", { class: "modal__title", id: "modal-title" }, titulo),
+        ),
+        h("button", { class: "icon-btn", type: "button", "aria-label": "Fechar detalhes", onclick: () => d.close() }, icon("close")),
+      ),
+      h("div", { class: "modal__body" }, ...blocos.map(renderBloco)),
+    ),
+  );
   document.documentElement.classList.add("has-modal");
 
   if (typeof d.showModal === "function") d.showModal();

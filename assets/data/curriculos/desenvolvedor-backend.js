@@ -1,6 +1,8 @@
 /* Currículo: Desenvolvedor Back-End — só conteúdo. Marcadores [Exemplo] = substituir. */
 import { PERFIL, contatos } from "../perfil.js";
 import { criarAnos } from "../projetos.js";
+import { criarCertificacoes } from "../certificacoes.js";
+import { criarCompetencias } from "../competencias.js";
 
 export default {
   perfil: { ...PERFIL, funcao: "Desenvolvedor Back-End" },
@@ -14,32 +16,13 @@ export default {
 
   competencias: {
     intro: "Do contrato da API à infraestrutura que a sustenta.",
-    itens: [
-      {
-        titulo: "APIs e serviços",
-        descricao: "Projeto e implementação de APIs REST com validação, autenticação e documentação.",
-        imagem: "competencias/servidor.svg",
-        relacao: { tipo: "projeto", id: "api-de-pedidos" },
-      },
-      {
-        titulo: "Bancos de dados",
-        descricao: "Modelagem relacional, consultas eficientes, índices e migrações versionadas.",
-        imagem: "competencias/banco-de-dados.svg",
-        relacao: { tipo: "certificacao", id: "modelagem-de-dados" },
-      },
-      {
-        titulo: "Infraestrutura e deploy",
-        descricao: "Contêineres, variáveis de ambiente e pipelines de entrega automatizados.",
-        imagem: "competencias/nuvem.svg",
-        relacao: { tipo: "projeto", id: "servico-de-notificacoes" },
-      },
-      {
-        titulo: "Testes e automação",
-        descricao: "Testes automatizados e integração contínua para mudar o código com segurança.",
-        imagem: "competencias/automacao.svg",
-        relacao: { tipo: "certificacao", id: "testes-automatizados" },
-      },
-    ],
+    // Só ids do catálogo (assets/data/competencias.js), na ordem de exibição.
+    itens: criarCompetencias([
+      "apis-e-servicos",
+      "bancos-de-dados-backend",
+      "infraestrutura-e-deploy",
+      "testes-e-automacao",
+    ]),
   },
 
   projetos: {
@@ -61,21 +44,10 @@ export default {
 
   certificacoes: {
     intro: "Cursos e certificados na área de back-end.",
-    itens: [
-      {
-        id: "modelagem-de-dados",
-        titulo: "[Exemplo] Modelagem de dados e SQL",
-        descricao: "Instituição, carga horária e ano de conclusão (substituir).",
-        imagem: "certificacoes/placeholder.svg",
-        imagemAlt: "Imagem ilustrativa de certificado (substituir)",
-      },
-      {
-        id: "testes-automatizados",
-        titulo: "[Exemplo] Testes automatizados e CI/CD",
-        descricao: "Instituição, carga horária e ano de conclusão (substituir).",
-        imagem: "certificacoes/placeholder.svg",
-        imagemAlt: "Imagem ilustrativa de certificado (substituir)",
-      },
-    ],
+    // Só ids do catálogo (assets/data/certificacoes.js), na ordem de exibição.
+    itens: criarCertificacoes([
+      "modelagem-de-dados",
+      "testes-automatizados",
+    ]),
   },
 };

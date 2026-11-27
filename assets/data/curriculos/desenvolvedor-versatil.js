@@ -1,6 +1,8 @@
 /* Currículo: Desenvolvedor Full Stack — só conteúdo. Marcadores [Exemplo] = substituir. */
 import { PERFIL, contatos } from "../perfil.js";
 import { criarAnos } from "../projetos.js";
+import { criarCertificacoes } from "../certificacoes.js";
+import { criarCompetencias } from "../competencias.js";
 
 export default {
   perfil: { ...PERFIL, funcao: "Desenvolvedor Full Stack" },
@@ -14,32 +16,13 @@ export default {
 
   competencias: {
     intro: "Visão do produto inteiro, da tela ao servidor.",
-    itens: [
-      {
-        titulo: "Front-end",
-        descricao: "Interfaces responsivas e acessíveis, integradas a APIs com tratamento de estados e erros.",
-        imagem: "competencias/interface.svg",
-        relacao: { tipo: "projeto", id: "painel-administrativo" },
-      },
-      {
-        titulo: "Back-end e APIs",
-        descricao: "Serviços com autenticação, regras de negócio claras e contratos bem documentados.",
-        imagem: "competencias/servidor.svg",
-        relacao: { tipo: "projeto", id: "plataforma-de-tarefas" },
-      },
-      {
-        titulo: "Bancos de dados",
-        descricao: "Modelagem relacional, consultas e migrações para sustentar o produto.",
-        imagem: "competencias/banco-de-dados.svg",
-        relacao: { tipo: "certificacao", id: "bancos-relacionais" },
-      },
-      {
-        titulo: "Entrega e deploy",
-        descricao: "Publicação automatizada e monitoramento básico para manter o produto no ar.",
-        imagem: "competencias/nuvem.svg",
-        relacao: { tipo: "certificacao", id: "entrega-continua" },
-      },
-    ],
+    // Só ids do catálogo (assets/data/competencias.js), na ordem de exibição.
+    itens: criarCompetencias([
+      "front-end",
+      "back-end-e-apis",
+      "bancos-de-dados",
+      "entrega-e-deploy",
+    ]),
   },
 
   projetos: {
@@ -61,21 +44,10 @@ export default {
 
   certificacoes: {
     intro: "Cursos e certificados que sustentam o perfil full stack.",
-    itens: [
-      {
-        id: "bancos-relacionais",
-        titulo: "[Exemplo] Bancos de dados relacionais",
-        descricao: "Instituição, carga horária e ano de conclusão (substituir).",
-        imagem: "certificacoes/placeholder.svg",
-        imagemAlt: "Imagem ilustrativa de certificado (substituir)",
-      },
-      {
-        id: "entrega-continua",
-        titulo: "[Exemplo] Entrega contínua e DevOps básico",
-        descricao: "Instituição, carga horária e ano de conclusão (substituir).",
-        imagem: "certificacoes/placeholder.svg",
-        imagemAlt: "Imagem ilustrativa de certificado (substituir)",
-      },
-    ],
+    // Só ids do catálogo (assets/data/certificacoes.js), na ordem de exibição.
+    itens: criarCertificacoes([
+      "bancos-relacionais",
+      "entrega-continua",
+    ]),
   },
 };

@@ -4,7 +4,7 @@
    card aparece no centro do carrossel, nas laterais (reduzido por transform) e em listas. */
 import { h, assetUrl, anchorId, srOnly, nextId } from "../core.js";
 import { icon } from "../icons.js";
-import { openProjectModal } from "./modal.js";
+import { openModal, temConteudo } from "./modal.js";
 
 const TIPOS = { projeto: "Projeto", experiencia: "Experiência" };
 
@@ -45,6 +45,24 @@ export function setVideoExpanded(card, expanded) {
 export function resetarProjeto(card) {
   setVideoExpanded(card, false);
   card.querySelector("video")?.pause();
+}
+
+/**
+ * Blocos do modal de um projeto/experiência. `detalhes` aceita:
+ *  - um ARRAY de blocos (ver modal.js): cada item monta o modal do seu jeito; ou
+ *  - o formato resumido { resumo?, tecnologias?, etapas? } (+ botão do repositório automático).
+ * Sem `detalhes`, não há modal (e nem botão).
+ */
+export function blocosDoProjeto(projeto) {
+  const d = projeto.detalhes;
+  if (!d) return [];
+  if (Array.isArray(d)) return d;
+  return [
+    { tipo: "texto", texto: d.resumo },
+    { tipo: "badges", titulo: "Tecnologias utilizadas", itens: d.tecnologias },
+    { tipo: "etapas", itens: d.etapas },
+    { tipo: "acoes", itens: projeto.repositorio ? [{ rotulo: "Ver repositório", href: projeto.repositorio, icone: "code" }] : [] },
+  ];
 }
 
 /** Mídia do projeto: imagem (images/projetos/…) ou vídeo (videos/projetos/…). */
@@ -130,7 +148,7 @@ function createMetricas(metricas) {
  *   id: string, tipo?: "projeto"|"experiencia", titulo: string, descricao: string, repositorio?: string,
  *   media?: {tipo: "imagem"|"video", src: string, alt?: string, poster?: string, mime?: string},
  *   metricas?: {rotulo: string, valor: number}[],
- *   detalhes?: object
+ *   detalhes?: object | object[]
  * }} projeto
  * @param {{ comAncora?: boolean, medicao?: boolean }} [opcoes]
  *   comAncora: define id="projeto-{id}" (só uma cópia por página)
@@ -139,6 +157,7 @@ function createMetricas(metricas) {
 export function createProjeto(projeto, { comAncora = true, medicao = false } = {}) {
   const titleId = nextId("projeto-titulo");
   const tipo = rotuloTipo(projeto.tipo);
+  const rotulo = tipo;
 
   const repoLink = projeto.repositorio
     ? h(
@@ -164,14 +183,15 @@ export function createProjeto(projeto, { comAncora = true, medicao = false } = {
           srOnly(` para ${projeto.titulo}`),
         );
 
-  const detailsButton = projeto.detalhes
+  const blocos = blocosDoProjeto(projeto);
+  const detailsButton = temConteudo(blocos)
     ? h(
         "button",
         {
           class: "btn btn--outline",
           type: "button",
           "aria-haspopup": "dialog",
-          onclick: (event) => openProjectModal(projeto, event.currentTarget),
+          onclick: (event) => openModal({ titulo: projeto.titulo, rotulo, blocos }, event.currentTarget),
         },
         icon("info"),
         "Ver detalhes",

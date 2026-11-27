@@ -9,11 +9,15 @@
    Dois currículos podem apontar para o MESMO arquivo — não copie mídia.
 
    Projetos e experiências vivem no catálogo central (assets/data/projetos.js).
+   Competências e certificações também vivem em catálogos centrais (assets/data/competencias.js,
+   assets/data/certificacoes.js); aqui usamos catálogos locais só para o styleguide.
    Ids (projeto.id, certificacao.id) viram âncoras (#projeto-{id},
    #certificacao-{id}) e são usados em competencias[].relacao.
    ========================================================================== */
 
 import { criarAnos } from "../projetos.js";
+import { criarCertificacoes } from "../certificacoes.js";
+import { criarCompetencias } from "../competencias.js";
 
 /** Item de exemplo. Nos currículos reais estes dados vivem em assets/data/projetos.js. `video` usa um arquivo que não existe: só mostra o botão. */
 function exemploItem(n, tipo, video = false) {
@@ -34,11 +38,21 @@ function exemploItem(n, tipo, video = false) {
       { rotulo: "Boas práticas", valor: 80 },
       { rotulo: "Documentação", valor: 45 },
     ],
-    detalhes: {
-      resumo: "Texto mais completo exibido no modal.",
-      etapas: ["Planejamento", "Execução", "Entrega"],
-      tecnologias: ["HTML5", "CSS3", "JavaScript"],
-    },
+    // n = 3 usa o formato em BLOCOS (modal montado do jeito que este item quiser);
+    // os demais, o formato resumido { resumo, tecnologias, etapas }.
+    detalhes:
+      n === 3
+        ? [
+            { tipo: "dados", titulo: "Ficha do projeto", itens: [{ rotulo: "Duração", valor: "3 semanas" }, { rotulo: "Equipe", valor: "Individual" }, { rotulo: "Papel", valor: "Design e código" }] },
+            { tipo: "lista", titulo: "Resultados", itens: ["Pontuação 100 em acessibilidade", "Zero dependências"] },
+            { tipo: "texto", titulo: "Aprendizados", texto: ["Primeiro parágrafo livre.", "Segundo parágrafo livre."] },
+            { tipo: "acoes", itens: [{ rotulo: "Ver online", href: "https://example.com", icone: "external" }] },
+          ]
+        : {
+            resumo: "Texto mais completo exibido no modal.",
+            etapas: ["Planejamento", "Execução", "Entrega"],
+            tecnologias: ["HTML5", "CSS3", "JavaScript"],
+          },
   };
 }
 
@@ -50,6 +64,88 @@ const CATALOGO_EXEMPLO = Object.fromEntries([
   ]),
   ["v", exemploItem(1, "projeto", true)],
 ]);
+
+/** Certificações de exemplo (nos currículos reais: assets/data/certificacoes.js). */
+const CATALOGO_CERTIFICACOES_EXEMPLO = {
+  // todos os campos opcionais preenchidos; imagem horizontal
+  c1: {
+    titulo: "Certificação completa",
+    descricao: "Preenche todos os campos opcionais do modal.",
+    imagem: "certificacoes/certificado-devops-e-agile-culture-fiap.jpeg",
+    organizacao: "Instituição de exemplo",
+    cargaHoraria: 40,
+    emissao: "2025-03-14",
+    expiracao: "2028-03",
+    credencial: { codigo: "ABC-123-XYZ", url: "https://example.com/credencial" },
+    competencias: ["Competência extra do catálogo"],
+  },
+  // imagem VERTICAL: aparece inteira e as laterais são preenchidas pelo fundo borrado
+  c2: {
+    titulo: "Certificado em retrato (imagem vertical)",
+    descricao: "A imagem nunca é cortada; o espaço lateral recebe uma versão borrada dela.",
+    imagem: "certificacoes/certificado-cursa-excel.png",
+    organizacao: "Cursa",
+    cargaHoraria: 1,
+    emissao: "2025-02",
+    expiracao: "nunca",
+  },
+  // sem nenhum campo de detalhes: o card não mostra o botão
+  c3: {
+    titulo: "Certificação com descrição longa e sem detalhes",
+    descricao:
+      "Cards aceitam descrições mais extensas sem quebrar o grid: a altura se ajusta ao conteúdo, os cards da mesma linha se igualam e o botão de detalhes (quando existe) fica sempre no fim do card.",
+    imagem: "certificacoes/certificado-ef-set-ingles.jpeg",
+    imagemAlt: "Certificado de exemplo",
+  },
+  // modal personalizado: blocos próprios, na ordem desejada
+  c4: {
+    titulo: "Certificação com modal personalizado",
+    descricao: "O modal é montado com blocos escolhidos por esta certificação.",
+    imagem: "certificacoes/placeholder.svg",
+    imagemAlt: "Certificado de exemplo",
+    detalhes: [
+      { tipo: "texto", texto: "Um texto livre antes dos dados." },
+      { tipo: "dados", titulo: "Resumo", itens: [{ rotulo: "Nível", valor: "Intermediário" }, { rotulo: "Idioma", valor: "Português" }] },
+      { tipo: "lista", titulo: "O que foi estudado", itens: ["Tópico um", "Tópico dois", "Tópico três"] },
+      { tipo: "competencias" },
+    ],
+  },
+  // imagem horizontal e só a organização
+  c5: {
+    titulo: "Certificação mínima",
+    descricao: "Só organização e data.",
+    imagem: "certificacoes/certificado-fundamentos-de-ti-bradesco.jpeg",
+    organizacao: "Outra instituição",
+    emissao: "2024-11",
+  },
+};
+
+/** Competências de exemplo (catálogo local; nos currículos reais vivem em assets/data/competencias.js). */
+const CATALOGO_COMPETENCIAS_EXEMPLO = {
+  k1: {
+    titulo: "Competência com projeto",
+    descricao: "Descrição curta do que você domina e como aplica no dia a dia.",
+    imagem: "competencias/placeholder.svg",
+    relacao: { tipo: "projeto", id: "p1" },
+  },
+  k2: {
+    titulo: "Competência com certificado",
+    descricao: "Cards com descrições de tamanhos diferentes mantêm o botão alinhado na base, graças ao layout flexível. Este texto é propositalmente mais longo para demonstrar isso.",
+    imagem: "competencias/placeholder.svg",
+    relacao: { tipo: "certificacao", id: "c1" },
+  },
+  k3: {
+    titulo: "Outra competência",
+    descricao: "Aponta para o segundo projeto.",
+    imagem: "competencias/placeholder.svg",
+    relacao: { tipo: "experiencia", id: "e2" },
+  },
+  k4: {
+    titulo: "Sem botão de relação",
+    descricao: "O botão é opcional: sem `relacao`, o card mostra apenas imagem, título e descrição.",
+    imagem: "competencias/placeholder.svg",
+  },
+};
 
 export default {
   perfil: {
@@ -72,31 +168,7 @@ export default {
 
   competencias: {
     intro: "Texto opcional de apresentação da seção. Os cards se reorganizam conforme a quantidade de itens.",
-    itens: [
-      {
-        titulo: "Competência com projeto",
-        descricao: "Descrição curta do que você domina e como aplica no dia a dia.",
-        imagem: "competencias/placeholder.svg",
-        relacao: { tipo: "projeto", id: "p1" },
-      },
-      {
-        titulo: "Competência com certificado",
-        descricao: "Cards com descrições de tamanhos diferentes mantêm o botão alinhado na base, graças ao layout flexível. Este texto é propositalmente mais longo para demonstrar isso.",
-        imagem: "competencias/placeholder.svg",
-        relacao: { tipo: "certificacao", id: "exemplo-um" },
-      },
-      {
-        titulo: "Outra competência",
-        descricao: "Aponta para o segundo projeto.",
-        imagem: "competencias/placeholder.svg",
-        relacao: { tipo: "experiencia", id: "e2" },
-      },
-      {
-        titulo: "Sem botão de relação",
-        descricao: "O botão é opcional: sem `relacao`, o card mostra apenas imagem, título e descrição.",
-        imagem: "competencias/placeholder.svg",
-      },
-    ],
+    itens: criarCompetencias(["k1", "k2", "k3", "k4"], CATALOGO_COMPETENCIAS_EXEMPLO),
   },
 
   projetos: {
@@ -117,29 +189,7 @@ export default {
 
   certificacoes: {
     intro: "Certificados e cursos concluídos.",
-    itens: [
-      {
-        id: "exemplo-um",
-        titulo: "Nome da certificação",
-        descricao: "Instituição, carga horária e ano de conclusão.",
-        imagem: "certificacoes/placeholder.svg",
-        imagemAlt: "Certificado de exemplo",
-      },
-      {
-        id: "exemplo-dois",
-        titulo: "Outra certificação",
-        descricao: "Descrição curta.",
-        imagem: "certificacoes/placeholder.svg",
-        imagemAlt: "Certificado de exemplo",
-      },
-      {
-        id: "exemplo-tres",
-        titulo: "Certificação com descrição longa",
-        descricao:
-          "Cards aceitam descrições mais extensas sem quebrar o grid: a altura se ajusta ao conteúdo e os cards da mesma linha se igualam.",
-        imagem: "certificacoes/placeholder.svg",
-        imagemAlt: "Certificado de exemplo",
-      },
-    ],
+    // Só ids; o catálogo é local porque este arquivo é o styleguide.
+    itens: criarCertificacoes(["c1", "c2", "c3", "c4", "c5"], CATALOGO_CERTIFICACOES_EXEMPLO),
   },
 };

@@ -39,6 +39,20 @@
   border-top: 5px solid var(--accent-detail);
 }
 
+.modal__eyebrow {
+  margin-bottom: var(--space-1);
+  color: var(--accent-detail);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.modal__texto {
+  display: grid;
+  gap: var(--space-3);
+}
+
 .modal__title {
   font-size: var(--fs-h2);
 }
@@ -99,6 +113,45 @@
 .steps__desc {
   color: var(--text-muted);
   font-size: var(--fs-sm);
+}
+
+/* Dados (pares rótulo/valor): carga horária, datas, código, organização… */
+.dados {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.dados__item {
+  min-width: 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.dados dt {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.dados dd {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* Lista simples com marcador na cor de destaque */
+.lista {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.lista li::marker {
+  color: var(--accent-detail);
 }
 
 @media (prefers-reduced-motion: no-preference) {

@@ -1,6 +1,8 @@
 /* Currículo: Desenvolvedor Freelancer — só conteúdo. Marcadores [Exemplo] = substituir. */
 import { PERFIL, contatos } from "../perfil.js";
 import { criarAnos } from "../projetos.js";
+import { criarCertificacoes } from "../certificacoes.js";
+import { criarCompetencias } from "../competencias.js";
 
 export default {
   perfil: { ...PERFIL, funcao: "Desenvolvedor Freelancer" },
@@ -14,32 +16,13 @@ export default {
 
   competencias: {
     intro: "Habilidades técnicas e de relacionamento com o cliente.",
-    itens: [
-      {
-        titulo: "Comunicação com clientes",
-        descricao: "Alinhamento de expectativas, acompanhamento frequente e linguagem sem jargões.",
-        imagem: "competencias/comunicacao.svg",
-        // Sem relacao: ainda não há projeto ou certificado associado (botão indisponível)
-      },
-      {
-        titulo: "Gestão de prazos",
-        descricao: "Escopo dividido em entregas menores, com estimativas honestas e prioridades claras.",
-        imagem: "competencias/tempo.svg",
-        relacao: { tipo: "projeto", id: "sistema-de-agendamento" },
-      },
-      {
-        titulo: "Entrega de ponta a ponta",
-        descricao: "Da identidade visual e do código à publicação e ao suporte pós-entrega.",
-        imagem: "competencias/codigo.svg",
-        relacao: { tipo: "projeto", id: "site-institucional" },
-      },
-      {
-        titulo: "Documentação e repasse",
-        descricao: "Manuais e orientações para que o cliente consiga operar o que recebeu.",
-        imagem: "competencias/documentacao.svg",
-        relacao: { tipo: "certificacao", id: "gestao-de-projetos" },
-      },
-    ],
+    // Só ids do catálogo (assets/data/competencias.js), na ordem de exibição.
+    itens: criarCompetencias([
+      "comunicacao-com-clientes",
+      "gestao-de-prazos",
+      "entrega-de-ponta-a-ponta",
+      "documentacao-e-repasse",
+    ]),
   },
 
   projetos: {
@@ -61,21 +44,10 @@ export default {
 
   certificacoes: {
     intro: "Cursos e certificados que complementam o trabalho independente.",
-    itens: [
-      {
-        id: "gestao-de-projetos",
-        titulo: "[Exemplo] Gestão de projetos",
-        descricao: "Instituição, carga horária e ano de conclusão (substituir).",
-        imagem: "certificacoes/placeholder.svg",
-        imagemAlt: "Imagem ilustrativa de certificado (substituir)",
-      },
-      {
-        id: "ux-basico",
-        titulo: "[Exemplo] Fundamentos de UX",
-        descricao: "Instituição, carga horária e ano de conclusão (substituir).",
-        imagem: "certificacoes/placeholder.svg",
-        imagemAlt: "Imagem ilustrativa de certificado (substituir)",
-      },
-    ],
+    // Só ids do catálogo (assets/data/certificacoes.js), na ordem de exibição.
+    itens: criarCertificacoes([
+      "gestao-de-projetos",
+      "ux-basico",
+    ]),
   },
 };
