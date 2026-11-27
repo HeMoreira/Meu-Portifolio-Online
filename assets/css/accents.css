@@ -25,7 +25,7 @@
 }
 
 /* Página inicial — azul-cobalto claro / azul-royal (claro); azul neon / azul escuro (escuro).
-   Distinta das seis identidades de currículo. */
+   Distinta das três identidades de currículo. */
 :root[data-accent="inicio"] {
   --accent-light-fill: #86b6ff;
   --accent-light-detail: #173185;
@@ -47,30 +47,6 @@
   --accent-light-detail: #441786;
   --accent-dark-fill: #8c1097;
   --accent-dark-detail: #f4b7ff;
-}
-
-/* Back-End — azul-claro / verde-escuro */
-:root[data-accent="desenvolvedor-backend"] {
-  --accent-light-fill: #22d3ee;
-  --accent-light-detail: #0b4f5c;
-  --accent-dark-fill: #0e7490;
-  --accent-dark-detail: #67e8f9;
-}
-
-/* Full Stack — índigo-violeta / azul-escuro */
-:root[data-accent="desenvolvedor-fullstack"] {
-  --accent-light-fill: #a5b4fc;
-  --accent-light-detail: #1e2a78;
-  --accent-dark-fill: #4338ca;
-  --accent-dark-detail: #a5b4fc;
-}
-
-/* Freelancer — laranja / marrom-escuro */
-:root[data-accent="desenvolvedor-freelancer"] {
-  --accent-light-fill: #fdba74;
-  --accent-light-detail: #6b3410;
-  --accent-dark-fill: #9a3412;
-  --accent-dark-detail: #fdba74;
 }
 
 /* Domador de IAs — ciano / turquesa-escuro */

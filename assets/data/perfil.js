@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Dados COMPARTILHADOS pelos seis currículos: nome, foto e contatos.
+   Dados COMPARTILHADOS pelos três currículos: nome, foto e contatos.
    Edite aqui uma vez e todas as páginas são atualizadas.
    ========================================================================== */
 

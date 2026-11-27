@@ -1,5 +1,5 @@
 /* Barra de teste: troca a identidade de cor (<html data-accent>) ao vivo,
-   para conferir as seis paletas nos dois temas sem sair da página. */
+   para conferir as paletas nos dois temas sem sair da página. */
 import { h } from "../assets/js/core.js";
 import { CURRICULOS } from "../assets/js/config.js";
 

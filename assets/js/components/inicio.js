@@ -1,4 +1,4 @@
-/* Seções da página inicial: apresentação pessoal e as seis áreas */
+/* Seções da página inicial: apresentação pessoal e as três áreas */
 import { h, srOnly, pageUrl } from "../core.js";
 import { icon } from "../icons.js";
 import { createMidia } from "./midia.js";

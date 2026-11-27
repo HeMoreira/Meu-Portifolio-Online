@@ -17,7 +17,7 @@ export const HOME_SECTIONS = [
 ];
 
 /**
- * Os seis currículos. O slug é, ao mesmo tempo:
+ * Os três currículos. O slug é, ao mesmo tempo:
  *   - a pasta/rota pública        → /{slug}/
  *   - o arquivo de dados          → assets/data/curriculos/{slug}.js
  *   - a identidade de cor (CSS)   → <html data-accent="{slug}">
@@ -25,8 +25,5 @@ export const HOME_SECTIONS = [
 export const CURRICULOS = [
   { slug: "suporte-de-ti", rotulo: "Suporte de TI" },
   { slug: "desenvolvedor-frontend", rotulo: "Front-End" },
-  { slug: "desenvolvedor-backend", rotulo: "Back-End" },
-  { slug: "desenvolvedor-fullstack", rotulo: "Full Stack" },
-  { slug: "desenvolvedor-freelancer", rotulo: "Freelancer" },
   { slug: "domador-de-ias", rotulo: "Domador de IAs" },
 ];
