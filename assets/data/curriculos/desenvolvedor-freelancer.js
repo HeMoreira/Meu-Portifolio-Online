@@ -1,5 +1,6 @@
 /* Currículo: Desenvolvedor Freelancer — só conteúdo. Marcadores [Exemplo] = substituir. */
 import { PERFIL, contatos } from "../perfil.js";
+import { criarAnos } from "../projetos.js";
 
 export default {
   perfil: { ...PERFIL, funcao: "Desenvolvedor Freelancer" },
@@ -43,51 +44,19 @@ export default {
 
   projetos: {
     intro: "Trabalhos entregues para clientes, do briefing à publicação.",
-    itens: [
-      {
-        id: "site-institucional",
-        titulo: "[Exemplo] Site institucional para pequeno negócio",
-        descricao:
-          "Site rápido e responsivo com apresentação dos serviços, galeria e formulário de contato, entregue com orientação para o cliente atualizar o conteúdo sozinho.",
-        repositorio: null, // PLACEHOLDER: URL do repositório (ou deixe null se for privado)
-        media: { tipo: "imagem", src: "projetos/placeholder.svg", alt: "Imagem ilustrativa do projeto (substituir)" },
-        metricas: [
-          { rotulo: "Entrega no prazo", valor: 100 },
-          { rotulo: "Satisfação do cliente", valor: 95 },
-          { rotulo: "Desempenho", valor: 92 },
-          { rotulo: "SEO básico", valor: 88 },
+    // Cada ano lista só os ids do catálogo (assets/data/projetos.js), na ordem de exibição.
+    anos: criarAnos({
+      2025: {
+        itens: [
+          "site-institucional",
         ],
-        detalhes: {
-          resumo: "Descrição complementar do projeto (substituir): briefing, desafios e resultado para o cliente.",
-          etapas: [
-            { titulo: "Briefing", descricao: "Objetivos, público e conteúdo disponível." },
-            { titulo: "Layout", descricao: "Proposta visual validada com o cliente." },
-            { titulo: "Desenvolvimento", descricao: "Implementação responsiva e testes em dispositivos reais." },
-            { titulo: "Publicação e treinamento", descricao: "Hospedagem, domínio e manual de uso." },
-          ],
-          tecnologias: ["HTML5", "CSS3", "JavaScript", "SEO", "Hospedagem"],
-        },
       },
-      {
-        id: "sistema-de-agendamento",
-        titulo: "[Exemplo] Sistema de agendamento online",
-        descricao:
-          "Aplicação para um prestador de serviços receber agendamentos, evitar conflitos de horário e enviar lembretes aos clientes.",
-        repositorio: null, // PLACEHOLDER
-        media: { tipo: "imagem", src: "projetos/placeholder.svg", alt: "Imagem ilustrativa do projeto (substituir)" },
-        metricas: [
-          { rotulo: "Escopo entregue", valor: 90 },
-          { rotulo: "Estabilidade", valor: 85 },
-          { rotulo: "Facilidade de uso", valor: 93 },
-          { rotulo: "Documentação", valor: 75 },
+      2026: {
+        itens: [
+          "sistema-de-agendamento",
         ],
-        detalhes: {
-          resumo: "Descrição complementar do projeto (substituir).",
-          etapas: ["Levantamento de regras", "Protótipo", "Desenvolvimento", "Entrega e suporte"],
-          tecnologias: ["JavaScript", "Node.js", "SQL", "E-mail transacional"],
-        },
       },
-    ],
+    }),
   },
 
   certificacoes: {

@@ -1,5 +1,6 @@
 /* Currículo: Desenvolvedor Full Stack — só conteúdo. Marcadores [Exemplo] = substituir. */
 import { PERFIL, contatos } from "../perfil.js";
+import { criarAnos } from "../projetos.js";
 
 export default {
   perfil: { ...PERFIL, funcao: "Desenvolvedor Full Stack" },
@@ -43,51 +44,19 @@ export default {
 
   projetos: {
     intro: "Aplicações completas, do banco de dados à interface.",
-    itens: [
-      {
-        id: "plataforma-de-tarefas",
-        titulo: "[Exemplo] Plataforma de gestão de tarefas",
-        descricao:
-          "Aplicação web para organizar tarefas em equipe, com quadros, prazos e notificações. Inclui autenticação, API própria e interface responsiva, cobrindo todo o ciclo de desenvolvimento.",
-        repositorio: null, // PLACEHOLDER: URL do repositório
-        media: { tipo: "imagem", src: "projetos/placeholder.svg", alt: "Imagem ilustrativa do projeto (substituir)" },
-        metricas: [
-          { rotulo: "Front-end", valor: 90 },
-          { rotulo: "Back-end", valor: 88 },
-          { rotulo: "Banco de dados", valor: 85 },
-          { rotulo: "Deploy", valor: 75 },
+    // Cada ano lista só os ids do catálogo (assets/data/projetos.js), na ordem de exibição.
+    anos: criarAnos({
+      2025: {
+        itens: [
+          "plataforma-de-tarefas",
         ],
-        detalhes: {
-          resumo: "Descrição complementar do projeto (substituir): arquitetura geral e principais decisões.",
-          etapas: [
-            { titulo: "Requisitos", descricao: "Histórias de usuário e escopo da primeira versão." },
-            { titulo: "Modelagem e API", descricao: "Banco de dados e contratos entre front e back." },
-            { titulo: "Interface", descricao: "Telas, estados e integração com a API." },
-            { titulo: "Publicação", descricao: "Pipeline de deploy e monitoramento." },
-          ],
-          tecnologias: ["JavaScript", "Node.js", "SQL", "HTML5", "CSS3", "Docker"],
-        },
       },
-      {
-        id: "painel-administrativo",
-        titulo: "[Exemplo] Painel administrativo com relatórios",
-        descricao:
-          "Painel com autenticação por perfis, tabelas filtráveis e exportação de relatórios, integrado a uma API de dados.",
-        repositorio: null, // PLACEHOLDER
-        media: { tipo: "imagem", src: "projetos/placeholder.svg", alt: "Imagem ilustrativa do projeto (substituir)" },
-        metricas: [
-          { rotulo: "Usabilidade", valor: 88 },
-          { rotulo: "Cobertura de testes", valor: 68 },
-          { rotulo: "Desempenho das consultas", valor: 82 },
-          { rotulo: "Acessibilidade", valor: 92 },
+      2026: {
+        itens: [
+          "painel-administrativo",
         ],
-        detalhes: {
-          resumo: "Descrição complementar do projeto (substituir).",
-          etapas: ["Perfis e permissões", "Tabelas e filtros", "Relatórios"],
-          tecnologias: ["JavaScript", "REST", "SQL", "Acessibilidade"],
-        },
       },
-    ],
+    }),
   },
 
   certificacoes: {

@@ -1,5 +1,6 @@
 /* Currículo: Desenvolvedor Front-End — só conteúdo. Marcadores [Exemplo] = substituir. */
 import { PERFIL, contatos } from "../perfil.js";
+import { criarAnos } from "../projetos.js";
 
 export default {
   perfil: { ...PERFIL, funcao: "Desenvolvedor Front-End" },
@@ -75,79 +76,20 @@ export default {
 
   projetos: {
     intro: "Interfaces construídas com atenção a detalhes e a quem as usa.",
-    itens: [
-      {
-        id: "imaginaria-imobiliaria",
-        titulo: "Imaginaria-Imobiliária",
-        descricao:
-          "Website completo para anúncio e venda de imóveis com o objetivo de ser simples e robusto. Design pensado nos usuários considerando o público alvo antes de qualquer decisão.",
-        repositorio: "https://github.com/HeMoreira/imaginaria-imobiliaria",
-        media: { tipo: "video", src: "projetos/imaginaria_imobiliaria_project.mp4", alt: "Vídeo ilustrativo do projeto" },
-        metricas: [
-          { rotulo: "Design de Interfaces", valor: 80 },
-          { rotulo: "Processo de testagem", valor: 80 },
-          { rotulo: "Documentação de processos", valor: 65 },
-          { rotulo: "Integração com backend", valor: 95 },
+    // Cada ano lista só os ids do catálogo (assets/data/projetos.js), na ordem de exibição.
+    anos: criarAnos({
+      2025: {
+        itens: [
+          "brawl-stars-brawler-picker",
         ],
-        detalhes: {
-          resumo: "Esse projeto não vive apenas de interface escalável e responsiva. Todo o design precisou ser pensado considerando um público alvo mais velho, além de ter sido integrado à um sistema CRUD real com foco em segurança e robustês.",
-          etapas: [
-            { titulo: "Pesquisa de Design", descricao: "Antes mesmo de abrir o editor de código, pesquisei por alguns websites de venda de imóveis e analisei com calma cada detalhe." },
-            { titulo: "Definição dos requisitos", descricao: "Após entender as necessidades do cliente e produto, comecei a definir o que era necessário para garantir uma boa experiência de usuário e conforto visual. Tudo integrado a um sistema real desenvolvido com o framework Flask" },
-            { titulo: "Vibe Coding consciente", descricao: "Com a base definida, usei agentes de IA para fazerem o trabalho braçal. Algumas horas refinando os prompts ajudaram a garantir que o resultado cumprisse os requisitos." },
-            { titulo: "Revisão e Ajustes", descricao: "Mesmo com todo o cuidado, sempre sobra algum ponto fora da curva. Felizmente, com minha bagagem técnica nas tecnologias utilizadas, não tive dificuldade em perceber e corrigir cada imprecisão." },
-          ],
-          tecnologias: ["UX", "UI", "HTML5", "CSS3", "Javascript", "Jinja2", "Prompt Engineering", "Claude", "Gemini", "Git", "Integração com Backend", "Pesquisa"],
-        },
       },
-      {
-        id: "meu-portifolio-online",
-        titulo: "Meu Portifolio Online",
-        descricao:
-          "Website completo desenvolvido para exibição do meu portifólio (esse em que você está agora). Desenvolvido com IA, mas com cuidado em design, escalabilidade, responsividade e mais.",
-        repositorio: "https://github.com/HeMoreira/Meu-Portifolio-Online",
-        media: { tipo: "video", src: "projetos/meu_portifolio_online_project.mp4" },
-        metricas: [
-          { rotulo: "Design de Interfaces", valor: 85 },
-          { rotulo: "Organização", valor: 90 },
-          { rotulo: "Escalabilidade", valor: 95 },
-          { rotulo: "Vibe Coding consciente", valor: 85 },
+      2026: {
+        itens: [
+          "imaginaria-imobiliaria",
+          "meu-portifolio-online",
         ],
-        detalhes: {
-          resumo: "Esse projeto foi escrito quase inteiramente por modelos de IA, mas antes de qualquer prompt, existiu um planejamento profundo que olhou para a escalabilidade e resistência a atualizações antes de escrever qualquer linha, além do cuidado em criar uma identidade visual única.",
-          etapas: [
-            { titulo: "Definição dos requisitos", descricao: "O site precisava funcionar independentemente de currículo, apresentando minhas capacidades para variados grupos de pessoa interessadas em diferentes habilidades. Toda a estrutura e design precisou ser desenvolvida considerando todos esses fatores." },
-            { titulo: "Vibe Coding consciente", descricao: "Com a base definida, usei agentes de IA para fazerem o trabalho braçal. Algumas horas refinando os prompts ajudaram a garantir que o resultado cumprisse os requisitos." },
-            { titulo: "Revisão e Ajustes", descricao: "Mesmo com todo o cuidado, sempre sobra algum ponto fora da curva. Felizmente, com minha bagagem técnica nas tecnologias utilizadas, não tive dificuldade em perceber e corrigir cada imprecisão." },
-          ],
-          tecnologias: ["UX", "UI", "HTML5", "CSS3", "Javascript", "Prompt Engineering", "Claude", "ChatGPT", "Git", "Github"],
-        },
       },
-      {
-        id: "brawl-stars-brawler-picker",
-        titulo: "Brawl Stars Brawler Picker",
-        descricao:
-          "Website completo desenvolvido para comparar dados complexos de diferentes personagens do jogo 'Brawl Stars' com o objetivo de encontrar as combinações mais favoráveis.",
-        repositorio: "https://github.com/HeMoreira/Brawl-Stars-Brawler-Picker",
-        media: { tipo: "video", src: "projetos/brawler_picker_project.mp4" },
-        metricas: [
-          { rotulo: "Design de Interfaces", valor: 95 },
-          { rotulo: "Integração com Excel", valor: 85 },
-          { rotulo: "Escalabilidade", valor: 70 },
-          { rotulo: "Solução de problemas", valor: 95 },
-        ],
-        detalhes: {
-          resumo: "Esse projeto me forçou a pensar fora da caixa no quesito design, já que IAs são excelentes para resolver problemas comuns com design moderno, mas podem apresentar dificuldades quando precisam lidar com a apresentação de muitas informações ou uma escolha artística mais específica.",
-          etapas: [
-            { titulo: "Definição dos requisitos", descricao: "O site usa matemática complexa para apresentar ao usuário múltiplas informações sobre os brawlers. Isso significa que manter o design limpo seria um desafio que precisava de atenção redobrada para dar várias opções para quem quer detalhes, mas sem poluir demais para quem só quer o resultado mais simples e rápido." },
-            { titulo: "Vibe Coding consciente", descricao: "Com a base definida, usei agentes de IA para fazerem o trabalho braçal. Algumas horas refinando os prompts ajudaram a garantir que o resultado cumprisse os requisitos." },
-            { titulo: "O problema do design moderno genérico", descricao: "O código entregue possuia os mesmos elementos comuns de designs modernos genéricos de sempre, o que costuma funcionar bem, mas quando eu vi essa estética ao lado da imagem dos brawlers e seus seletores com uma estética muito mais colorida e cartunesca, logo ficou claro que aquilo não iria funcionar. Os inputs de nome, cards e status simplesmente não conversavam com as imagens ao lado." },
-            { titulo: "Revisão e Ajustes", descricao: "Com os vários problemas descobertos na fase anterior, o objetivo aqui não era só ajustar, mas buscar refazer o estilo de vários elementos para que o site seguisse uma única estética que remetesse ao jogo, gerando familiaridade com o público alvo e mantendo a coesão entre os múltiplos elementos da página." },
-          ],
-          tecnologias: ["UX", "UI", "HTML5", "CSS3", "Javascript", "Prompt Engineering", "Claude", "ChatGPT", "Gemini", "Git", "Github", "Excel", "Integração com Backend"],
-        },
-      },
-    ],
+    }),
   },
 
   certificacoes: {

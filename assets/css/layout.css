@@ -197,6 +197,26 @@
   }
 }
 
+/* Links não quebram de linha ("Projetos e Experiência"); em tablets o menu fica mais compacto */
+.site-nav__link {
+  white-space: nowrap;
+}
+
+@media (min-width: 48rem) and (max-width: 63.99rem) {
+  .site-header__inner {
+    gap: var(--space-3);
+  }
+
+  .site-nav__link {
+    padding-inline: var(--space-2);
+    font-size: 0.875rem;
+  }
+
+  .site-header__role {
+    display: none;
+  }
+}
+
 /* ---------- Rodapé ---------- */
 .site-footer {
   border-top: 1px solid var(--border);

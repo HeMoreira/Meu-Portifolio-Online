@@ -1,0 +1,302 @@
+/* ==========================================================================
+   Painel do ano, carrossel infinito (2+ itens) e card único (1 item).
+
+   Carrossel: todos os cards ocupam a mesma célula de um grid e são posicionados por
+   transform conforme data-o (distância ao centro, -3…3). Percentuais de translateX são
+   relativos à largura do card (--card-w). Só ±2 aparecem; ±3 esperam escondidos.
+   ========================================================================== */
+
+.pe__painel {
+  --card-w: clamp(17rem, calc(100cqw - 4.5rem), 48rem);
+  container-type: inline-size;
+}
+
+.pe__largo {
+  padding-inline: var(--gutter);
+}
+
+/* Item único: card em tamanho cheio, centralizado */
+.pe__unico {
+  width: var(--card-w);
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+.pe__resumo {
+  margin-bottom: var(--space-5);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+.pe__resumo strong {
+  color: var(--accent-detail);
+  font-size: var(--fs-lg);
+}
+
+.pe__vazio {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  max-width: 32rem;
+  margin-inline: auto;
+  padding: var(--space-6);
+  color: var(--text-muted);
+  text-align: center;
+  background: var(--surface);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.pe__vazio .icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--accent-detail);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pe__painel.is-entrando > * {
+    animation: pe-in 0.4s var(--ease) both;
+  }
+
+  @keyframes pe-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+}
+
+/* ---------- Carrossel ---------- */
+.carrossel {
+  position: relative;
+  --arrasto: 0px;
+}
+
+/* Régua de medição: cópias invisíveis (sem mídia) de todos os cards, na largura real do card */
+.carrossel__regua {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.carrossel__regua-item {
+  display: flex;
+  width: var(--card-w);
+}
+
+.carrossel__regua-item > .projeto {
+  flex: 1;
+}
+
+.carrossel__palco {
+  display: grid;
+  margin: 0;
+  padding: var(--space-5) 0 var(--space-6);
+  list-style: none;
+  overflow: hidden;
+  touch-action: pan-y;
+  /* a linha "continua": cards das pontas esmaecem */
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
+
+.carrossel__item {
+  --tx: 0;
+  --s: 1;
+  --z: 1;
+
+  position: relative;
+  grid-area: 1 / 1;
+  justify-self: center;
+  display: flex;
+  width: var(--card-w);
+  z-index: var(--z);
+  transform: translateX(calc(var(--card-w) * var(--tx) + var(--arrasto))) scale(var(--s));
+  transition:
+    transform 0.5s var(--ease),
+    filter 0.5s var(--ease),
+    opacity 0.5s var(--ease),
+    visibility 0s;
+}
+
+/* mesma altura para todos: a do maior card do ano (--card-h, medida em JS) */
+.carrossel__item {
+  min-height: var(--card-h, 0px);
+}
+
+.carrossel__item > .projeto {
+  flex: 1;
+}
+
+.carrossel__item[data-o="0"] {
+  --z: 5;
+}
+
+.carrossel__item[data-o="0"] > .projeto {
+  box-shadow: var(--shadow-3);
+}
+
+.carrossel__item[data-o="1"],
+.carrossel__item[data-o="-1"] {
+  --s: 0.8;
+  --z: 4;
+}
+
+.carrossel__item[data-o="2"],
+.carrossel__item[data-o="-2"] {
+  --s: 0.64;
+  --z: 3;
+}
+
+.carrossel__item[data-o="3"],
+.carrossel__item[data-o="-3"] {
+  --s: 0.5;
+  --z: 2;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    transform 0.5s var(--ease),
+    filter 0.5s var(--ease),
+    opacity 0.5s var(--ease),
+    visibility 0s 0.5s;
+}
+
+.carrossel__item[data-o="1"] { --tx: 0.43; }
+.carrossel__item[data-o="2"] { --tx: 0.67; }
+.carrossel__item[data-o="3"] { --tx: 0.8; }
+.carrossel__item[data-o="-1"] { --tx: -0.43; }
+.carrossel__item[data-o="-2"] { --tx: -0.67; }
+.carrossel__item[data-o="-3"] { --tx: -0.8; }
+
+/* laterais: mais apagadas (o filtro, e não a opacidade, evita transparência entre cards) */
+.carrossel__item:not([data-o="0"]) {
+  filter: saturate(0.8) brightness(0.93);
+}
+
+:root[data-theme="dark"] .carrossel__item:not([data-o="0"]) {
+  filter: saturate(0.8) brightness(0.7);
+}
+
+/* Mouse sobre um card lateral: cresce um pouco, indicando que dá para trazê-lo ao centro */
+@media (hover: hover) {
+  .carrossel__item[data-o="1"]:hover,
+  .carrossel__item[data-o="-1"]:hover {
+    --s: 0.85;
+    filter: none;
+  }
+
+  .carrossel__item[data-o="2"]:hover,
+  .carrossel__item[data-o="-2"]:hover {
+    --s: 0.7;
+  }
+}
+
+.carrossel__item[data-entrando] {
+  animation: carrossel-entra 0.4s var(--ease) both;
+}
+
+@keyframes carrossel-entra {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Clique/toque num card lateral o traz para o centro */
+.carrossel__escolher {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: none;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+}
+
+.carrossel__item:not([data-o="0"]):not([data-o="3"]):not([data-o="-3"]) .carrossel__escolher {
+  display: block;
+}
+
+.carrossel.is-arrastando .carrossel__item {
+  transition: none;
+}
+
+.carrossel.is-arrastando {
+  cursor: grabbing;
+  user-select: none;
+}
+
+/* ---------- Controles ---------- */
+.carrossel__controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.carrossel__nav {
+  border-color: var(--accent-detail);
+  border-radius: 50%;
+  background: var(--surface);
+}
+
+.carrossel__nav:hover {
+  background: var(--accent-fill);
+  color: var(--on-accent-fill);
+}
+
+.carrossel__status {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  min-width: 6rem;
+}
+
+.carrossel__pontos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.carrossel__ponto {
+  position: relative;
+  width: 0.75rem;
+  height: 0.75rem;
+  padding: 0;
+  background: var(--surface-2);
+  border: 1.5px solid var(--accent-detail);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+/* alvo de toque maior que o ponto visível */
+.carrossel__ponto::after {
+  content: "";
+  position: absolute;
+  inset: -0.6rem -0.25rem;
+}
+
+.carrossel__ponto[aria-current="true"] {
+  background: var(--accent-detail);
+  transform: scale(1.25);
+}
+
+.carrossel__contador {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carrossel__item {
+    transition: none !important;
+  }
+}

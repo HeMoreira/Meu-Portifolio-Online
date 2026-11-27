@@ -1,16 +1,62 @@
-/* Projetos: texto + 2 botões à esquerda, mídia à direita, 4 barras abaixo */
+/* Projeto / experiência: "Projeto: " ou "Experiência: " + título, texto e 2 botões à esquerda,
+   mídia à direita e 4 barras (no máximo 2 por linha) abaixo.
+   O layout (1 ou 2 colunas) responde à LARGURA DO PRÓPRIO CARD (container query), porque o mesmo
+   card aparece no centro do carrossel, nas laterais (reduzido por transform) e em listas. */
 import { h, assetUrl, anchorId, srOnly, nextId } from "../core.js";
 import { icon } from "../icons.js";
 import { openProjectModal } from "./modal.js";
 
+const TIPOS = { projeto: "Projeto", experiencia: "Experiência" };
+
+/** Rótulo do tipo ("Projeto" | "Experiência"). Desconhecido vira projeto. */
+export const rotuloTipo = (tipo) => TIPOS[tipo] ?? TIPOS.projeto;
+
+/** Botão que amplia o vídeo sobre o card inteiro (só em telas largas — ver projetos.css). */
+function createVideoToggle(card, titulo) {
+  const label = h("span", { class: "projeto__video-toggle-label" }, "Ampliar vídeo");
+  const button = h(
+    "button",
+    { class: "projeto__video-toggle", type: "button" },
+    icon("expand", "icon-expand"),
+    icon("collapse", "icon-collapse"),
+    label,
+    srOnly(` de ${titulo}`),
+  );
+  button.addEventListener("click", () => {
+    const expanded = card.dataset.videoExpanded !== "true";
+    setVideoExpanded(card, expanded);
+    button.focus();
+  });
+  return button;
+}
+
+/** Amplia/reduz o vídeo do card. O mesmo <video> permanece no DOM: reprodução e tempo são preservados. */
+export function setVideoExpanded(card, expanded) {
+  const button = card.querySelector(".projeto__video-toggle");
+  if (!button) return;
+  if (expanded) card.dataset.videoExpanded = "true";
+  else delete card.dataset.videoExpanded;
+  button.querySelector(".projeto__video-toggle-label").textContent = expanded
+    ? "Reduzir vídeo"
+    : "Ampliar vídeo";
+}
+
+/** Volta o card ao estado normal (vídeo reduzido e pausado). Usado quando ele sai de cena. */
+export function resetarProjeto(card) {
+  setVideoExpanded(card, false);
+  card.querySelector("video")?.pause();
+}
+
 /** Mídia do projeto: imagem (images/projetos/…) ou vídeo (videos/projetos/…). */
-function createMedia(media, titulo) {
+function createMedia(media, titulo, card, medicao) {
   if (!media) return null;
+  // Cópia só para medir altura (ver carrossel.js): a moldura tem proporção fixa, não precisa de arquivo
+  if (medicao) return h("figure", { class: "projeto__media" });
 
   if (media.tipo === "video") {
     return h(
       "figure",
-      { class: "projeto__media" },
+      { class: "projeto__media projeto__media--video" },
       h(
         "video",
         {
@@ -18,11 +64,12 @@ function createMedia(media, titulo) {
           playsinline: true,
           preload: "metadata", // sem autoplay: respeita prefers-reduced-motion e dados móveis
           poster: media.poster ? assetUrl("images", media.poster) : null,
-          "aria-label": media.alt ?? `Vídeo do projeto ${titulo}`,
+          "aria-label": media.alt ?? `Vídeo de ${titulo}`,
         },
         h("source", { src: assetUrl("videos", media.src), type: media.mime }),
         "Seu navegador não suporta vídeo HTML5.",
       ),
+      createVideoToggle(card, titulo),
     );
   }
 
@@ -36,6 +83,7 @@ function createMedia(media, titulo) {
       height: 800,
       loading: "lazy",
       decoding: "async",
+      draggable: "false",
     }),
   );
 }
@@ -46,7 +94,7 @@ function createMetricas(metricas) {
 
   return h(
     "ul",
-    { class: "metricas", role: "list", "aria-label": "Indicadores do projeto" },
+    { class: "metricas", role: "list", "aria-label": "Indicadores" },
     ...metricas.map((m) => {
       const valor = Math.max(0, Math.min(100, Number(m.valor) || 0));
       const labelId = nextId("metrica");
@@ -79,14 +127,18 @@ function createMetricas(metricas) {
 
 /**
  * @param {{
- *   id: string, titulo: string, descricao: string, repositorio?: string,
+ *   id: string, tipo?: "projeto"|"experiencia", titulo: string, descricao: string, repositorio?: string,
  *   media?: {tipo: "imagem"|"video", src: string, alt?: string, poster?: string, mime?: string},
  *   metricas?: {rotulo: string, valor: number}[],
  *   detalhes?: object
  * }} projeto
+ * @param {{ comAncora?: boolean, medicao?: boolean }} [opcoes]
+ *   comAncora: define id="projeto-{id}" (só uma cópia por página)
+ *   medicao:   cópia sem mídia, usada só para medir a altura do maior card do ano
  */
-export function createProjeto(projeto) {
-  const titleId = `${anchorId("projeto", projeto.id)}-titulo`;
+export function createProjeto(projeto, { comAncora = true, medicao = false } = {}) {
+  const titleId = nextId("projeto-titulo");
+  const tipo = rotuloTipo(projeto.tipo);
 
   const repoLink = projeto.repositorio
     ? h(
@@ -99,16 +151,18 @@ export function createProjeto(projeto) {
         },
         icon("code"),
         "Repositório",
-        srOnly(` do projeto ${projeto.titulo} (abre em nova aba)`),
+        srOnly(` de ${projeto.titulo} (abre em nova aba)`),
       )
-    : // sem repositório informado: botão desabilitado, nunca um link fictício
-      h(
-        "button",
-        { class: "btn btn--primary", type: "button", disabled: true },
-        icon("code"),
-        "Repositório indisponível",
-        srOnly(` para o projeto ${projeto.titulo}`),
-      );
+    : projeto.tipo === "experiencia"
+      ? null // experiência não tem repositório: nada de botão desabilitado sem sentido
+      : // sem repositório informado: botão desabilitado, nunca um link fictício
+        h(
+          "button",
+          { class: "btn btn--primary", type: "button", disabled: true },
+          icon("code"),
+          "Repositório indisponível",
+          srOnly(` para ${projeto.titulo}`),
+        );
 
   const detailsButton = projeto.detalhes
     ? h(
@@ -121,33 +175,46 @@ export function createProjeto(projeto) {
         },
         icon("info"),
         "Ver detalhes",
-        srOnly(` do projeto ${projeto.titulo}`),
+        srOnly(` de ${projeto.titulo}`),
       )
     : null;
 
-  return h(
-    "article",
-    {
-      class: "card projeto",
-      id: anchorId("projeto", projeto.id),
-      "aria-labelledby": titleId,
-    },
+  const card = h("article", {
+    class: "card projeto",
+    id: comAncora ? anchorId("projeto", projeto.id) : null,
+    "aria-labelledby": titleId,
+    "data-tipo": projeto.tipo ?? "projeto",
+  });
+
+  card.append(
     h(
       "div",
-      { class: "projeto__texto" },
-      h("h3", { id: titleId }, projeto.titulo),
-      h("p", {}, projeto.descricao),
-      repoLink || detailsButton ? h("div", { class: "btn-group" }, repoLink, detailsButton) : null,
+      { class: "projeto__inner" },
+      h(
+        "div",
+        { class: "projeto__texto" },
+        h(
+          "h3",
+          { id: titleId },
+          h("span", { class: "projeto__tipo" }, `${tipo}: `),
+          projeto.titulo,
+        ),
+        h("p", {}, projeto.descricao),
+        repoLink || detailsButton ? h("div", { class: "btn-group" }, repoLink, detailsButton) : null,
+      ),
+      createMedia(projeto.media, projeto.titulo, card, medicao),
+      createMetricas(projeto.metricas),
     ),
-    createMedia(projeto.media, projeto.titulo),
-    createMetricas(projeto.metricas),
   );
-}
 
-export function createProjetosList(itens = []) {
-  return h(
-    "ul",
-    { class: "projetos__lista", role: "list" },
-    ...itens.map((item) => h("li", {}, createProjeto(item))),
-  );
+  // Esc reduz o vídeo ampliado
+  card.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && card.dataset.videoExpanded === "true") {
+      event.stopPropagation();
+      setVideoExpanded(card, false);
+      card.querySelector(".projeto__video-toggle")?.focus();
+    }
+  });
+
+  return card;
 }

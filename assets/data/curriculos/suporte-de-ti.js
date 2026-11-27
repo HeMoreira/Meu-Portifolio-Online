@@ -1,5 +1,6 @@
 /* Currículo: Suporte de TI — só conteúdo. Marcadores [Exemplo] = substituir. */
 import { PERFIL, contatos } from "../perfil.js";
+import { criarAnos } from "../projetos.js";
 
 export default {
   perfil: { ...PERFIL, funcao: "Suporte de TI / Help Desk" },
@@ -49,90 +50,35 @@ export default {
         titulo: "Tecnologias de Desenvolvimento",
         descricao: "Amplo conhecimento em tecnologias como HTML5, CSS3, Javascript, Python, SQL, etc.",
         imagem: "competencias/codigo.svg",
-        relacao: { tipo: "projeto", id: "meu-portifolio-online" },
+        relacao: { tipo: "projeto", id: "meu-portifolio-online-suporte-de-ti" },
       },
       {
         titulo: "Comunicação e Didática",
         descricao: "Facilidade de comunicação e ensino com pessoas de todas as idades.",
         imagem: "competencias/codigo.svg",
-        relacao: { tipo: "projeto", id: "professor-python" },
+        relacao: { tipo: "experiencia", id: "professor-python" },
       },
     ],
   },
 
   projetos: {
     intro: "Projetos diversos que demonstram minhas capacidades na prática.",
-    itens: [
-      {
-        id: "ai-tests",
-        titulo: "AI-Tests",
-        descricao:
-          "Projeto com o objetivo de testar e avaliar diferentes modelos de IA. Foco em testagem e documentação para solucionar problemas de eficiência e agilizar processos.",
-        repositorio: "https://github.com/HeMoreira/AI-Tests",
-        media: { tipo: "video", src: "projetos/ai_tests_project.mp4", alt: "Vídeo ilustrativo do projeto" },
-        metricas: [
-          { rotulo: "Documentação de processos", valor: 95 },
-          { rotulo: "Processo de testagem", valor: 80 },
-          { rotulo: "Design de apresentações", valor: 65 },
-          { rotulo: "Dados atualizados", valor: 85 },
+    // Cada ano lista só os ids do catálogo (assets/data/projetos.js), na ordem de exibição.
+    anos: criarAnos({
+      2025: {
+        imagem: "projetos/professor.jpeg",
+        itens: [
+          "professor-python",
+          "ai-tests",
         ],
-        detalhes: {
-          resumo: "O projeto teve como objetivo testar e documentar as capacidades de cada modelo de IA avaliado, tendo utilizado múltiplas ferramentas para atingir esse objetivo pensando no consumidor.",
-          etapas: [
-            { titulo: "Definição dos requisitos", descricao: "Planejamento do objetivo a ser alcançado, critérios de avaliação justos, seleção das LLMs, etc." },
-            { titulo: "Análise cuidadosa", descricao: "Cada teste foi realizado com cautela para garantir um resultado agradável e funcional considerando o objetivo final da avaliação." },
-            { titulo: "Anotações organizadas", descricao: "Ferranentas como o Trello e o Word foram utilizadas para anotar os resultados obtidos." },
-            { titulo: "Desenvolvimento da apresentação", descricao: "Para garantir que o resultado fosse apresentável ao público geral, os documentos desenvolvidos foram reorganizados em uma apresentação simples e curta feita pelo Canva/Powerpoint e que foca só no essencial." },
-          ],
-          tecnologias: ["ChatGPT", "Claude", "Copilot", "DeepSeek", "Gemini", "Powerpoint", "Word", "Canva", "Documentação", "Trello"],
-        },
       },
-      {
-        id: "meu-portifolio-online",
-        titulo: "Meu Portifolio Online",
-        descricao:
-          "Website completo desenvolvido para exibição do meu portifólio (esse em que você está agora). Utiliza tecnologias de desenvolvimento diversas como HTML5, CSS3 e Javascript.",
-        repositorio: "https://github.com/HeMoreira/Meu-Portifolio-Online",
-        media: { tipo: "video", src: "projetos/meu_portifolio_online_project.mp4" },
-        metricas: [
-          { rotulo: "Organização", valor: 90 },
-          { rotulo: "Simplificação de processos", valor: 85 },
-          { rotulo: "Design de Interfaces", valor: 95 },
-          { rotulo: "Cobertura da documentação", valor: 70 },
+      2026: {
+        itens: [
+          "professor-python",
+          "meu-portifolio-online-suporte-de-ti",
         ],
-        detalhes: {
-          resumo: "O processo de desenvolvimento da página envolveu múltiplas etapas que envolveram mais do que as tecnologias em si, mas o pensamento de resolução do problema.",
-          etapas: [
-            { titulo: "Definição dos requisitos", descricao: "Mapeamento dos problemas que a página precisava resolver. Precisei considerar os tipos de usuários que consumiriam a página e encontrar um equilíbrio entre múltiplas funcionalidades e escalabilidade." },
-            { titulo: "Desenvolvimento com IA", descricao: "Com a base definida, usei agentes de IA para fazerem o trabalho braçal." },
-            { titulo: "Revisão e Ajustes", descricao: "Para garantir que o resultado fosse adequado, múltiplos testes e correções foram aplicadas." },
-          ],
-          tecnologias: ["HTML5", "CSS3", "Git", "ChatGPT", "Documentação", "Javascript"],
-        },
       },
-      {
-        id: "professor-python",
-        titulo: "Professor de Python",
-        descricao:
-          "Entre agosto de 2025 e fevereiro de 2026, fui professor de Python para alguns senhores de idade, o que me deu experiência real com comunicação clara e didática.",
-        media: { tipo: "imagem", src: "projetos/professor.jpeg" },
-        metricas: [
-          { rotulo: "Organização", valor: 90 },
-          { rotulo: "Preparo de apresentações", valor: 90 },
-          { rotulo: "Didática e Comunicação", valor: 95 },
-          { rotulo: "Experiência Real", valor: 90 },
-        ],
-        detalhes: {
-          resumo: "Já possuia o hábito de ensinar programação para colegas e amigos, mas a partir de agosto de 2025 o serviço evoluiu para aulas pagas para pais e conhecidos mais velhos de alguns dos meus amigos.",
-          etapas: [
-            { titulo: "Preparação de apresentações", descricao: "Antes de cada aula, preparei aprentações com o Canva e Powerpoint para facilitar o aprendizado." },
-            { titulo: "Didática e Paciência", descricao: "Como a maioria dos alunos tinha mais de 50 anos, me esforçei para apresentar o conteúdo de forma didática, parando para entender os problemas dos alunos assim que surgissem com calma e empatia." },
-            { titulo: "Aprendizado contínuo", descricao: "Analisando o perfil dos alunos, fui adaptando o material continuamente para associar os problemas novos à antigos e facilitar o aprendizado." },
-          ],
-          tecnologias: ["Python", "Powerpoint", "Canva", "Documentação", "Didática e comunicação"],
-        },
-      },
-    ],
+    }),
   },
 
   certificacoes: {

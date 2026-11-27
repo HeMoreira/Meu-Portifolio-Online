@@ -30,7 +30,7 @@ export function assetUrl(category, path) {
   return new URL(`${category}/${path}`, ASSETS_ROOT).href;
 }
 
-/** Ids de âncora padronizados: competências apontam para eles. */
+/** Ids de âncora padronizados: competências apontam para eles. Experiências usam o prefixo "projeto-". */
 export function anchorId(tipo, id) {
   return `${tipo === "certificacao" ? "certificacao" : "projeto"}-${id}`;
 }

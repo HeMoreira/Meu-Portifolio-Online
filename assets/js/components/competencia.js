@@ -2,12 +2,12 @@
 import { h, assetUrl, anchorId, srOnly } from "../core.js";
 import { icon } from "../icons.js";
 
-const ACTION_LABEL = { projeto: "Ver projeto", certificacao: "Ver certificação" };
+const ACTION_LABEL = { projeto: "Ver projeto", experiencia: "Ver experiência", certificacao: "Ver certificação" };
 
 /**
  * @param {{
  *   titulo: string, descricao: string, imagem: string, imagemAlt?: string,
- *   relacao?: {tipo: "projeto"|"certificacao", id: string}
+ *   relacao?: {tipo: "projeto"|"experiencia"|"certificacao", id: string}
  * }} item
  * @param {Set<string>} [destinos] ids de âncora realmente existentes na página.
  *   Se informado, uma relação que aponte para fora dele vira botão indisponível

@@ -8,9 +8,48 @@
      vídeos  → assets/videos/<categoria>/…   (ex.: "projetos/demo.mp4")
    Dois currículos podem apontar para o MESMO arquivo — não copie mídia.
 
+   Projetos e experiências vivem no catálogo central (assets/data/projetos.js).
    Ids (projeto.id, certificacao.id) viram âncoras (#projeto-{id},
    #certificacao-{id}) e são usados em competencias[].relacao.
    ========================================================================== */
+
+import { criarAnos } from "../projetos.js";
+
+/** Item de exemplo. Nos currículos reais estes dados vivem em assets/data/projetos.js. `video` usa um arquivo que não existe: só mostra o botão. */
+function exemploItem(n, tipo, video = false) {
+  return {
+    tipo,
+    titulo: n === 2 ? "Título propositalmente mais longo para testar a quebra de linha do cartão" : `Exemplo ${n}`,
+    descricao:
+      n === 3
+        ? "Um resumo bem mais longo para provar que todos os cards de um ano têm a mesma altura: quando o parágrafo de um cresce, os demais acompanham. Contexto, problema, solução, o seu papel e os resultados alcançados."
+        : "Resumo curto do item: o problema, a solução e o seu papel.",
+    repositorio: tipo === "projeto" ? "https://github.com/" : null,
+    media: video
+      ? { tipo: "video", src: "projetos/exemplo.mp4", alt: "Vídeo de exemplo" }
+      : { tipo: "imagem", src: "projetos/placeholder.svg", alt: "Imagem de exemplo" },
+    metricas: [
+      { rotulo: "Desempenho", valor: 90 },
+      { rotulo: "Acessibilidade", valor: 100 },
+      { rotulo: "Boas práticas", valor: 80 },
+      { rotulo: "Documentação", valor: 45 },
+    ],
+    detalhes: {
+      resumo: "Texto mais completo exibido no modal.",
+      etapas: ["Planejamento", "Execução", "Entrega"],
+      tecnologias: ["HTML5", "CSS3", "JavaScript"],
+    },
+  };
+}
+
+/** Catálogo local do styleguide: ids "p{n}" (projeto), "e{n}" (experiência), "v" (com vídeo). */
+const CATALOGO_EXEMPLO = Object.fromEntries([
+  ...[1, 2, 3, 4, 5, 6].flatMap((n) => [
+    [`p${n}`, exemploItem(n, "projeto")],
+    [`e${n}`, exemploItem(n, "experiencia")],
+  ]),
+  ["v", exemploItem(1, "projeto", true)],
+]);
 
 export default {
   perfil: {
@@ -38,7 +77,7 @@ export default {
         titulo: "Competência com projeto",
         descricao: "Descrição curta do que você domina e como aplica no dia a dia.",
         imagem: "competencias/placeholder.svg",
-        relacao: { tipo: "projeto", id: "exemplo-um" },
+        relacao: { tipo: "projeto", id: "p1" },
       },
       {
         titulo: "Competência com certificado",
@@ -50,7 +89,7 @@ export default {
         titulo: "Outra competência",
         descricao: "Aponta para o segundo projeto.",
         imagem: "competencias/placeholder.svg",
-        relacao: { tipo: "projeto", id: "exemplo-dois" },
+        relacao: { tipo: "experiencia", id: "e2" },
       },
       {
         titulo: "Sem botão de relação",
@@ -61,51 +100,19 @@ export default {
   },
 
   projetos: {
-    intro: "Cada projeto tem repositório, modal de detalhes, mídia e quatro indicadores.",
-    itens: [
+    intro: "Cada ano do roadmap tem a sua lista: 0 itens (vazio), 1 (card único) ou 2+ (carrossel infinito).",
+    // Aqui só ids e ordem (o catálogo é local, pois este arquivo é só o styleguide).
+    anos: criarAnos(
       {
-        id: "exemplo-um",
-        titulo: "Nome do primeiro projeto",
-        descricao:
-          "Resumo do projeto em um ou dois parágrafos curtos: o problema, a solução e o seu papel. A mídia fica à direita em telas largas e abaixo do texto em telas pequenas.",
-        repositorio: "https://github.com/",
-        media: { tipo: "imagem", src: "projetos/placeholder.svg", alt: "Captura de tela do primeiro projeto" },
-        metricas: [
-          { rotulo: "Desempenho", valor: 95 },
-          { rotulo: "Acessibilidade", valor: 100 },
-          { rotulo: "Boas práticas", valor: 90 },
-          { rotulo: "SEO", valor: 85 },
-        ],
-        detalhes: {
-          resumo: "Texto mais completo sobre o projeto, exibido no modal: contexto, objetivos e resultados.",
-          etapas: [
-            { titulo: "Planejamento", descricao: "Levantamento de requisitos e definição do escopo." },
-            { titulo: "Prototipação", descricao: "Wireframes e validação rápida com usuários." },
-            { titulo: "Desenvolvimento", descricao: "Implementação incremental com revisões frequentes." },
-            { titulo: "Entrega", descricao: "Testes finais, publicação e documentação." },
-          ],
-          tecnologias: ["HTML5", "CSS3", "JavaScript", "Git", "Acessibilidade"],
-        },
+        2021: { itens: ["p1"] },
+        2022: { itens: ["p1", "e2"] },
+        2023: { itens: ["p1", "e2", "p3"] },
+        2024: { itens: ["p1", "e2", "p3", "e4"] },
+        2025: { itens: ["p1", "e2", "p3", "e4", "p5", "e6"] },
+        2026: { itens: ["v", "e2"] },
       },
-      {
-        id: "exemplo-dois",
-        titulo: "Nome do segundo projeto, com um título propositalmente mais longo",
-        descricao: "Um texto curto.",
-        repositorio: "https://github.com/",
-        media: { tipo: "imagem", src: "projetos/placeholder.svg", alt: "Captura de tela do segundo projeto" },
-        metricas: [
-          { rotulo: "Cobertura de testes", valor: 72 },
-          { rotulo: "Entrega do escopo", valor: 100 },
-          { rotulo: "Performance", valor: 64 },
-          { rotulo: "Documentação", valor: 38 },
-        ],
-        detalhes: {
-          resumo: "Detalhes do segundo projeto.",
-          etapas: ["Descoberta", "Implementação", "Publicação"],
-          tecnologias: ["Node.js", "SQL", "Docker", "CI/CD", "REST", "Testes automatizados", "Linux"],
-        },
-      },
-    ],
+      { de: 2020, ate: 2026, catalogo: CATALOGO_EXEMPLO },
+    ),
   },
 
   certificacoes: {

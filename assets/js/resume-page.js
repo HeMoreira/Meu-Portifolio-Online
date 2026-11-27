@@ -16,7 +16,7 @@ import { mountPage } from "./page-shell.js";
 import { createSection } from "./components/section.js";
 import { createSobre } from "./components/sobre.js";
 import { createCompetenciasGrid } from "./components/competencia.js";
-import { createProjetosList } from "./components/projeto.js";
+import { createProjetosExperiencia } from "./components/projetos-experiencia.js";
 import { createCertificacoesGrid } from "./components/certificacao.js";
 
 const SLUG_PATTERN = /^[a-z0-9-]+$/;
@@ -33,7 +33,7 @@ function render(data) {
 
   // Âncoras que existem nesta página: competências só linkam para elas
   const destinos = new Set([
-    ...(projetos.itens ?? []).map((p) => anchorId("projeto", p.id)),
+    ...(projetos.anos ?? []).flatMap((a) => a.itens.map((p) => anchorId("projeto", p.id))),
     ...(certificacoes.itens ?? []).map((c) => anchorId("certificacao", c.id)),
   ]);
 
@@ -50,8 +50,8 @@ function render(data) {
       createCompetenciasGrid(competencias.itens, destinos),
     ),
     createSection(
-      { id: "projetos", titulo: projetos.titulo ?? "Projetos", intro: projetos.intro },
-      createProjetosList(projetos.itens),
+      { id: "projetos", titulo: projetos.titulo ?? "Projetos e Experiência", intro: projetos.intro, bleed: true },
+      createProjetosExperiencia(projetos),
     ),
     createSection(
       {

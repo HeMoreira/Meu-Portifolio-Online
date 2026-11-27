@@ -1,5 +1,6 @@
 /* Currículo: Desenvolvedor Back-End — só conteúdo. Marcadores [Exemplo] = substituir. */
 import { PERFIL, contatos } from "../perfil.js";
+import { criarAnos } from "../projetos.js";
 
 export default {
   perfil: { ...PERFIL, funcao: "Desenvolvedor Back-End" },
@@ -43,51 +44,19 @@ export default {
 
   projetos: {
     intro: "Serviços construídos para serem testáveis, seguros e fáceis de operar.",
-    itens: [
-      {
-        id: "api-de-pedidos",
-        titulo: "[Exemplo] API de pedidos",
-        descricao:
-          "API REST para cadastro e acompanhamento de pedidos, com autenticação, paginação, validação de entrada e documentação dos endpoints, projetada para ser consumida por aplicações web e móveis.",
-        repositorio: null, // PLACEHOLDER: URL do repositório
-        media: { tipo: "imagem", src: "projetos/placeholder.svg", alt: "Imagem ilustrativa do projeto (substituir)" },
-        metricas: [
-          { rotulo: "Cobertura de testes", valor: 85 },
-          { rotulo: "Endpoints documentados", valor: 100 },
-          { rotulo: "Segurança", valor: 90 },
-          { rotulo: "Desempenho", valor: 80 },
+    // Cada ano lista só os ids do catálogo (assets/data/projetos.js), na ordem de exibição.
+    anos: criarAnos({
+      2025: {
+        itens: [
+          "api-de-pedidos",
         ],
-        detalhes: {
-          resumo: "Descrição complementar do projeto (substituir): arquitetura, decisões e resultados.",
-          etapas: [
-            { titulo: "Modelagem", descricao: "Entidades, relacionamentos e contratos da API." },
-            { titulo: "Implementação", descricao: "Rotas, regras de negócio e autenticação." },
-            { titulo: "Testes", descricao: "Testes unitários e de integração automatizados." },
-            { titulo: "Publicação", descricao: "Contêiner, variáveis de ambiente e pipeline de deploy." },
-          ],
-          tecnologias: ["Node.js", "SQL", "REST", "Docker", "Testes automatizados"],
-        },
       },
-      {
-        id: "servico-de-notificacoes",
-        titulo: "[Exemplo] Serviço de notificações assíncronas",
-        descricao:
-          "Serviço que recebe eventos e envia notificações por fila, com reenvio em caso de falha e registro de cada tentativa para auditoria.",
-        repositorio: null, // PLACEHOLDER
-        media: { tipo: "imagem", src: "projetos/placeholder.svg", alt: "Imagem ilustrativa do projeto (substituir)" },
-        metricas: [
-          { rotulo: "Entregas confirmadas", valor: 96 },
-          { rotulo: "Resiliência a falhas", valor: 82 },
-          { rotulo: "Observabilidade", valor: 70 },
-          { rotulo: "Cobertura de testes", valor: 75 },
+      2026: {
+        itens: [
+          "servico-de-notificacoes",
         ],
-        detalhes: {
-          resumo: "Descrição complementar do projeto (substituir).",
-          etapas: ["Desenho da fila", "Consumidores e reenvio", "Logs e métricas"],
-          tecnologias: ["Filas", "Logs estruturados", "Docker", "SQL"],
-        },
       },
-    ],
+    }),
   },
 
   certificacoes: {

@@ -16,6 +16,11 @@ const PATHS = {
   external: '<path d="M7 17 17 7M7 7h10v10"/>',
   up: '<path d="m18 15-6-6-6 6"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  prev: '<path d="m15 18-6-6 6-6"/>',
+  next: '<path d="m9 18 6-6-6-6"/>',
+  expand: '<path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>',
+  collapse: '<path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/>',
+  flag: '<path d="M4 22V4M4 4h13l-2.5 4L17 12H4"/>',
   triangle: '<path d="M8 11 L32 2 L56 11 Z"/>', // triângulo achatado (setas do easter egg)
 };
 

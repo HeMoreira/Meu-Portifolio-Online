@@ -24,20 +24,22 @@ python3 -m http.server 8000      # depois abra http://localhost:8000/
 │   ├── css/
 │   │   ├── main.css                 único arquivo linkado pelas páginas (@import dos demais)
 │   │   ├── tokens.css  accents.css  base.css  layout.css
-│   │   └── components/              buttons, badges, cards, sobre, competencias, projetos,
-│   │                                certificacoes, modal, inicio, easter-egg
+│   │   └── components/              buttons, badges, cards, sobre, competencias, projetos (card),
+│   │                                roadmap, carrossel, certificacoes, modal, inicio, easter-egg
 │   ├── js/
 │   │   ├── theme.js                 tema claro/escuro (clássico, no <head>)
 │   │   ├── config.js  core.js  icons.js
 │   │   ├── page-shell.js            montagem comum: skip link, header, rodapé, scroll-spy
 │   │   ├── resume-page.js           entrada dos 6 currículos
 │   │   ├── home-page.js             entrada da página inicial
-│   │   ├── components/              header, footer, section, sobre, competencia, projeto,
+│   │   ├── components/              header, footer, section, sobre, competencia, projeto (card),
+│   │   │                            projetos-experiencia, roadmap, carrossel,
 │   │   │                            certificacao, modal, midia, inicio
 │   │   └── easter-egg/              módulo ISOLADO do easter egg (ver abaixo)
 │   ├── data/
 │   │   ├── perfil.js                nome, foto e contatos compartilhados
 │   │   ├── inicio.js                conteúdo da página inicial
+│   │   ├── projetos.js              CATÁLOGO central de projetos/experiências + criarAnos()
 │   │   └── curriculos/              um arquivo por currículo ({slug}.js) + exemplo.js
 │   ├── fonts/                       Press Start 2P (OFL) — só o campo "Faça!" usa
 │   ├── images/{perfil,competencias,projetos,certificacoes,inicio,site}/
@@ -58,8 +60,50 @@ python3 -m http.server 8000      # depois abra http://localhost:8000/
 Tudo em `assets/data/` (detalhes dos campos em `curriculos/exemplo.js`):
 
 - **Nome, foto, e-mail, LinkedIn, GitHub:** `perfil.js` (vale para as seis páginas e para a home; `href: null` = indisponível).
-- **Competência / projeto / certificação:** itens em `competencias.itens`, `projetos.itens`, `certificacoes.itens`. Projetos: `media` (imagem em `assets/images/projetos/` ou vídeo em `assets/videos/projetos/`), 4 `metricas` (`valor` 0–100 → `--value`), `detalhes` (resumo, etapas, tecnologias).
+- **Competência / certificação:** itens em `competencias.itens` e `certificacoes.itens`.
+- **Projetos e experiências:** escritos UMA vez em `assets/data/projetos.js` (catálogo) e associados a cada currículo por id — veja a seção abaixo.
 - **`<title>` e descrição de cada aba:** no `<head>` do `.html`.
+
+## Projetos e Experiência
+
+A seção `#projetos` é um **roadmap de anos** (linha larga, um círculo com imagem por ano, o ativo no centro com o dobro do tamanho) sobre um **carrossel** dos itens do ano ativo.
+
+### Catálogo central — `assets/data/projetos.js`
+
+TODAS as informações de cada item ficam aqui (a chave é o id, que vira a âncora `#projeto-{id}`):
+
+```js
+export const CATALOGO = {
+  "meu-portifolio-online": {
+    tipo: "projeto",              // "projeto" (padrão) | "experiencia" → prefixo "Projeto: " / "Experiência: "
+    titulo, descricao, repositorio, media, metricas /* 4 */, detalhes,
+  },
+};
+```
+
+`media`: imagem em `assets/images/projetos/` ou vídeo em `assets/videos/projetos/`. Vídeos têm botão "Ampliar vídeo" em telas ≥ 56rem (o `<video>` cobre o card com `height: 100%; width: auto`; clicar de novo, ou `Esc`, reduz).
+
+Precisa de um texto diferente em outro currículo? Crie outro item no catálogo com id próprio (ex.: `meu-portifolio-online-suporte-de-ti`) — os currículos nunca sobrescrevem campos.
+
+### Currículos — só ids e ordem (`projetos.anos` em `curriculos/{slug}.js`)
+
+```js
+projetos: {
+  intro: "…",
+  anos: criarAnos({
+    2025: { imagem: "projetos/foto-do-ano.jpeg", itens: ["professor-python", "ai-tests"] }, // ordem = ordem de exibição
+    2026: { itens: ["professor-python", "meu-portifolio-online-suporte-de-ti"] },
+  }),                                   // intervalo padrão 2020–2026; outro: criarAnos({...}, { de: 2018, ate: 2030 })
+},
+```
+
+- O **mesmo id** pode aparecer em vários anos e em vários currículos.
+- Anos sem entrada ficam no roadmap, vazios. `imagem` do ano é opcional (senão usa a imagem de um item, ou um ícone).
+- **Ano inicial = sempre o último da lista** (ou o ano do item citado em `#projeto-{id}`). Para estender a linha do tempo basta aumentar `ate`.
+- **2+ itens** no ano → carrossel infinito (central maior, 2 de cada lado, repetindo quando há poucos; setas, pontos, arrastar, clique nos laterais). **1 item** → card único. **Nenhum** → estado vazio.
+- **Todos os cards do ano têm a mesma altura** (a do maior): uma régua invisível mede uma cópia de cada item e define `--card-h`.
+- Competências continuam apontando para `#projeto-{id}` (`relacao: { tipo: "projeto" | "experiencia", id }`): o link troca de ano e leva ao card.
+- `/styleguide/` (dados em `exemplo.js`, com catálogo local) mostra os estados: 0, 1, 2, 3, 4 e 6 itens.
 
 ## Página inicial
 
@@ -127,7 +171,7 @@ Cada identidade define 4 valores em `accents.css`: `--accent-{light|dark}-{fill|
 
 ## Acessibilidade e movimento
 
-HTML semântico, skip link, foco visível, `aria-current` na seção ativa, menu mobile com `aria-expanded`, modal em `<dialog>` nativo, barras com `role="meter"`, setas do easter egg como `<button>` com `aria-label` em um `role="group"`, gatilho da foto com `role="button"`/`aria-expanded` só quando habilitado. Animações respeitam `prefers-reduced-motion`.
+HTML semântico, skip link, foco visível, `aria-current` na seção ativa, menu mobile com `aria-expanded`, modal em `<dialog>` nativo, barras com `role="meter"`, roadmap como `tablist`/`tab` (setas, Home/End), carrossel com `aria-roledescription` e região `aria-live`, setas do easter egg como `<button>` com `aria-label` em um `role="group"`, gatilho da foto com `role="button"`/`aria-expanded` só quando habilitado. Animações respeitam `prefers-reduced-motion`.
 
 ## Placeholders pendentes
 

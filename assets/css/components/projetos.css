@@ -1,24 +1,36 @@
 /* ==========================================================================
-   Projetos: título + texto + 2 botões à esquerda, mídia à direita e,
-   abaixo de ambos, barras de métrica.
-   Áreas do grid: "texto media" / "metricas metricas" (desktop);
-   empilhado na ordem texto → mídia → métricas no mobile.
+   Projeto / experiência (card). Usado no carrossel e nos cartões; ver carrossel.css.
+
+   O card é um container (container-type) e o layout depende da SUA largura:
+     < 40rem  empilhado: texto → mídia → métricas
+     ≥ 40rem  "texto mídia" / "métricas métricas"
+   Métricas: 1 coluna; 2 colunas a partir de 28rem (máximo de 2 por linha).
+   Vídeo ampliado: em telas largas, o <video> cobre o card inteiro (height 100%, width auto).
    ========================================================================== */
 
-.projetos__lista {
-  display: grid;
-  gap: var(--space-6);
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.projeto {
+  container: projeto / inline-size;
+  position: relative;
+  height: 100%;
 }
 
-.projeto {
+.projeto__inner {
+  flex: 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas: "texto" "media" "metricas";
-  gap: var(--space-5) var(--space-7);
-  padding: clamp(1.25rem, 3vw, 2.25rem);
+  align-content: start;
+  gap: var(--space-5);
+  padding: var(--space-5);
+}
+
+@container projeto (min-width: 40rem) {
+  .projeto__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "texto media" "metricas metricas";
+    gap: var(--space-5) var(--space-6);
+    padding: var(--space-6);
+  }
 }
 
 .projeto__texto {
@@ -33,7 +45,14 @@
   margin-top: var(--space-2);
 }
 
+/* "Projeto: " / "Experiência: " antes do título */
+.projeto__tipo {
+  color: var(--accent-detail);
+  font-weight: 600;
+}
+
 .projeto__media {
+  position: relative;
   grid-area: media;
   margin: 0;
   align-self: center;
@@ -51,11 +70,110 @@
   object-fit: cover;
 }
 
+/* ---------- Ampliar vídeo (telas largas) ---------- */
+.projeto__video-toggle {
+  display: none;
+}
+
 @media (min-width: 56rem) {
-  .projeto {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas: "texto media" "metricas metricas";
+  .projeto__video-toggle {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 2.5rem;
+    padding: var(--space-1) var(--space-3);
+    background: var(--surface);
+    color: var(--text-main);
+    border: 1.5px solid var(--accent-detail);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-1);
+    font: inherit;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
   }
+
+  .projeto__video-toggle:hover {
+    background: var(--accent-fill);
+    color: var(--on-accent-fill);
+  }
+
+  .projeto__video-toggle .icon-collapse,
+  .projeto[data-video-expanded="true"] .projeto__video-toggle .icon-expand {
+    display: none;
+  }
+
+  .projeto[data-video-expanded="true"] .projeto__video-toggle .icon-collapse {
+    display: inline;
+  }
+
+  /* Modo vídeo: o conteúdo some, mas continua ocupando espaço (o card não muda de altura).
+     A figura sai da frente (static, invisível) e o vídeo cobre o card inteiro, centrado,
+     com height: 100% e width: auto. O botão e o fundo preto continuam visíveis. */
+  .projeto[data-video-expanded="true"] .projeto__inner > :not(.projeto__media) {
+    visibility: hidden;
+  }
+
+  .projeto[data-video-expanded="true"] .projeto__media {
+    position: static;
+    visibility: hidden;
+    background: none;
+    border-color: transparent;
+    overflow: visible;
+  }
+
+  .projeto[data-video-expanded="true"] .projeto__media::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    visibility: visible;
+    background: #000;
+  }
+
+  .projeto[data-video-expanded="true"] .projeto__media video {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 3;
+    visibility: visible;
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    transform: translateX(-50%);
+    object-fit: contain;
+  }
+
+  .projeto[data-video-expanded="true"] .projeto__video-toggle {
+    z-index: 4;
+    visibility: visible;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @media (min-width: 56rem) {
+    .projeto[data-video-expanded="true"] .projeto__media::before,
+    .projeto[data-video-expanded="true"] .projeto__media video {
+      animation: video-in 220ms var(--ease);
+    }
+
+    @keyframes video-in {
+      from {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+/* Destaque ao chegar por um link interno (#projeto-x) */
+.card.is-alvo {
+  outline: 3px solid var(--accent-detail);
+  outline-offset: 4px;
 }
 
 /* ---------- Barras de métrica ----------
@@ -72,15 +190,10 @@
   border-top: 1px solid var(--border);
 }
 
-@media (min-width: 30rem) {
+/* No máximo 2 barras por linha, conforme a largura do card (nunca 4) */
+@container projeto (min-width: 28rem) {
   .metricas {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 64rem) {
-  .metricas {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 

@@ -1,0 +1,251 @@
+/* ==========================================================================
+   Roadmap de anos. Variáveis (todas em .roadmap):
+     --d      diâmetro dos círculos inativos (o ativo tem 2×)
+     --gap    distância entre centros dos círculos (≈ 36vw: o vizinho cabe inteiro na tela)
+     --line-h espessura da linha (50–72px)
+     --i      índice ativo (JS)  --n  quantidade de anos (JS)
+   O trilho (.roadmap__track) é deslocado para o círculo ativo ficar no centro da tela.
+   ========================================================================== */
+
+.roadmap {
+  --d: clamp(4.5rem, 3.4rem + 3.4vw, 6.5rem);
+  --gap: clamp(7.5rem, 36vw, 34rem);
+  --line-h: clamp(3.2rem, 2.6rem + 1.6vw, 4.5rem);
+  --stage-h: calc(var(--d) * 2 + 5.25rem);
+  --center-y: calc(var(--stage-h) / 2 + 1rem); /* eixo da linha: mais baixo, pois o ano ocupa o topo */
+  --ring: #ffffff; /* aro grosso: branco no claro, preto no escuro */
+  --line: var(--accent-fill);
+
+  position: relative;
+  margin-bottom: var(--space-4);
+}
+
+:root[data-theme="dark"] .roadmap {
+  --ring: #000000;
+}
+
+.roadmap__stage {
+  position: relative;
+  height: var(--stage-h);
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+  /* a linha "continua" além da tela: as bordas esmaecem */
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+
+.roadmap__track {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: flex;
+  width: calc(var(--n) * var(--gap));
+  height: 100%;
+  transform: translateX(calc((var(--i) + 0.5) * var(--gap) * -1));
+  transition: transform 0.55s var(--ease);
+}
+
+/* ---------- Linha ---------- */
+.roadmap__line {
+  position: absolute;
+  top: var(--center-y);
+  left: calc(var(--gap) / 2);
+  width: calc((var(--n) - 1) * var(--gap));
+  height: var(--line-h);
+  transform: translateY(-50%);
+  background: var(--line);
+  border: 3px solid var(--accent-detail);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+/* faixa central tracejada, como uma estrada */
+.roadmap__line::before {
+  content: "";
+  position: absolute;
+  inset: calc(50% - 2px) 0 auto;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent-detail) 60%, transparent) 0 14px,
+    transparent 14px 30px
+  );
+}
+
+/* trecho já percorrido (do 1º ano até o ativo) */
+.roadmap__progress {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--i) * var(--gap));
+  background: color-mix(in srgb, var(--accent-detail) 32%, transparent);
+  transition: width 0.55s var(--ease);
+}
+
+/* ---------- Círculos ---------- */
+.roadmap__stop {
+  position: relative;
+  flex: 0 0 var(--gap);
+  height: 100%;
+}
+
+.roadmap__node {
+  --nd: var(--d);
+
+  position: absolute;
+  top: var(--center-y);
+  left: 50%;
+  z-index: 1;
+  width: var(--nd);
+  height: var(--nd);
+  padding: 0;
+  background: var(--surface-2);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  /* aro grosso (branco/preto) + aro fino na cor da linha */
+  border: calc(var(--nd) * 0.075) solid var(--ring);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 calc(var(--nd) * 0.035) var(--line),
+    var(--shadow-1);
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.55s var(--ease),
+    height 0.55s var(--ease),
+    border-width 0.55s var(--ease),
+    box-shadow 0.55s var(--ease),
+    transform var(--dur) var(--ease),
+    filter 0.3s ease;
+}
+
+.roadmap__node[aria-selected="true"] {
+  --nd: calc(var(--d) * 2);
+  z-index: 3;
+  cursor: default;
+  box-shadow:
+    0 0 0 calc(var(--nd) * 0.035) var(--line),
+    0 0 0 calc(var(--nd) * 0.035 + 3px) var(--accent-detail),
+    var(--shadow-3);
+}
+
+.roadmap__node:not([aria-selected="true"]) {
+  filter: saturate(0.75) brightness(0.96);
+}
+
+.roadmap__node:not([aria-selected="true"]):hover {
+  filter: none;
+  transform: translate(-50%, -50%) scale(1.07);
+}
+
+.roadmap__node[data-vazio="true"]:not([aria-selected="true"]) {
+  filter: grayscale(1) brightness(0.95);
+}
+
+.roadmap__node:focus-visible {
+  outline-offset: calc(var(--nd) * 0.06 + 5px);
+}
+
+.roadmap__avatar {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--accent-subtle);
+  color: var(--accent-detail);
+}
+
+.roadmap__avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.roadmap__fallback {
+  width: 42%;
+  height: 42%;
+}
+
+/* ---------- Ano acima do círculo ---------- */
+.roadmap__year {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + var(--nd) * 0.11 + 0.5rem);
+  transform: translateX(-50%);
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  transition:
+    font-size 0.55s var(--ease),
+    bottom 0.55s var(--ease),
+    color 0.3s ease;
+}
+
+.roadmap__node[aria-selected="true"] .roadmap__year {
+  color: var(--accent-detail);
+  font-size: clamp(1.6rem, 1.3rem + 1vw, 2.1rem);
+}
+
+/* ---------- Setas ---------- */
+.roadmap__nav {
+  position: absolute;
+  top: var(--center-y);
+  z-index: 4;
+  width: 3rem;
+  height: 3rem;
+  background: var(--surface);
+  border-color: var(--accent-detail);
+  border-radius: 50%;
+  box-shadow: var(--shadow-1);
+  transform: translateY(-50%);
+}
+
+.roadmap__nav[hidden] {
+  display: none;
+}
+
+.roadmap__nav:hover {
+  background: var(--accent-fill);
+  color: var(--on-accent-fill);
+}
+
+.roadmap__nav--prev {
+  right: calc(50% + var(--d) + 0.75rem);
+}
+
+.roadmap__nav--next {
+  left: calc(50% + var(--d) + 0.75rem);
+}
+
+/* Telas estreitas: não há espaço entre o círculo ativo e os vizinhos; as setas descem */
+@media (max-width: 29.99rem) {
+  .roadmap {
+    padding-bottom: 3.75rem;
+  }
+
+  .roadmap__nav {
+    top: calc(var(--stage-h) + 0.25rem);
+    transform: none;
+  }
+
+  .roadmap__nav--prev {
+    right: calc(50% + 0.5rem);
+  }
+
+  .roadmap__nav--next {
+    left: calc(50% + 0.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roadmap__track,
+  .roadmap__progress {
+    transition: none;
+  }
+}
