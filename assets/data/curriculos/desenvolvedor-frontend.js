@@ -57,6 +57,7 @@ export default {
       "fundamentos-de-ti",
       "tecnico-de-informatica",
       "devops-e-agile-culture",
+      "agentes-autonomos",
       "ef-set-ingles",
       "cursa-excel",
     ]),

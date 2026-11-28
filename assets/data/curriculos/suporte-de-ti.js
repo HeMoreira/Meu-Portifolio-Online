@@ -34,17 +34,33 @@ export default {
     intro: "Projetos diversos que demonstram minhas capacidades na prática.",
     // Cada ano lista só os ids do catálogo (assets/data/projetos.js), na ordem de exibição.
     anos: criarAnos({
-      2025: {
-        imagem: "projetos/professor.jpeg",
+      2023: {
+        imagem: "exibicao_anos/fiocruz.jpeg",
         itens: [
+          "formacao-tecnico-em-informatica",
+        ],
+      },
+      2024: {
+        imagem: "exibicao_anos/fiocruz.jpeg",
+        itens: [
+          "formacao-tecnico-em-informatica",
+        ],
+      },
+      2025: {
+        imagem: "exibicao_anos/fiocruz.jpeg",
+        itens: [
+          "formacao-tecnico-em-informatica",
           "professor-python",
           "ai-tests",
         ],
       },
       2026: {
         itens: [
+          "formacao-analise-e-desenvolvimento-de-sistemas",
+          "exam-flow-automation-suporte-de-ti",
+          "uni-eletronics-suporte-de-ti",
           "professor-python",
-          "meu-portifolio-online-suporte-de-ti",
+          "torne-se-um-programador-melhor-newsletter",
         ],
       },
     }),
@@ -57,6 +73,7 @@ export default {
       "fundamentos-de-ti",
       "tecnico-de-informatica",
       "devops-e-agile-culture",
+      "agentes-autonomos",
       "ef-set-ingles",
       "cursa-excel",
     ]),

@@ -77,7 +77,7 @@ const CATALOGO_CERTIFICACOES_EXEMPLO = {
     emissao: "2025-03-14",
     expiracao: "2028-03",
     credencial: { codigo: "ABC-123-XYZ", url: "https://example.com/credencial" },
-    competencias: ["Competência extra do catálogo"],
+    competencias: ["Competência com certificado", "Outra competência"],
   },
   // imagem VERTICAL: aparece inteira e as laterais são preenchidas pelo fundo borrado
   c2: {

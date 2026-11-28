@@ -15,16 +15,9 @@ export function formatarData(valor) {
   return data.toLocaleDateString("pt-BR", dia ? { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" } : { month: "long", year: "numeric", timeZone: "UTC" });
 }
 
-/** Títulos das competências do currículo ligadas a esta certificação (+ as extras do catálogo). */
-function competenciasRelacionadas(item, competencias) {
-  const doCurriculo = competencias
-    .filter((c) => c.relacao?.tipo === "certificacao" && c.relacao.id === item.id)
-    .map((c) => c.titulo);
-  return [...new Set([...(item.competencias ?? []), ...doCurriculo])];
-}
-
-/** Blocos do modal. `detalhes` (array) substitui o modelo padrão; { tipo: "competencias" } insere os badges. */
-export function blocosDaCertificacao(item, relacionadas) {
+/** Blocos do modal. `detalhes` (array) substitui o modelo padrão; { tipo: "competencias" } insere os badges de `item.competencias`. */
+export function blocosDaCertificacao(item) {
+  const relacionadas = item.competencias ?? [];
   const badges = (titulo) => ({ tipo: "badges", titulo: titulo ?? "Competências relacionadas", itens: relacionadas });
   if (Array.isArray(item.detalhes)) {
     return item.detalhes.map((b) => (b?.tipo === "competencias" ? badges(b.titulo) : b));
@@ -48,12 +41,11 @@ export function blocosDaCertificacao(item, relacionadas) {
 
 /**
  * @param {object} item  certificação resolvida (ver data/certificacoes.js)
- * @param {{ competencias?: object[] }} [opcoes]  competências do currículo (para os badges do modal)
  */
-export function createCertificacao(item, { competencias = [] } = {}) {
+export function createCertificacao(item) {
   const titleId = nextId("certificacao-titulo");
   const src = assetUrl("images", item.imagem);
-  const blocos = blocosDaCertificacao(item, competenciasRelacionadas(item, competencias));
+  const blocos = blocosDaCertificacao(item);
 
   return h(
     "article",
@@ -104,10 +96,10 @@ export function createCertificacao(item, { competencias = [] } = {}) {
   );
 }
 
-export function createCertificacoesGrid(itens = [], competencias = []) {
+export function createCertificacoesGrid(itens = []) {
   return h(
     "ul",
     { class: "grid grid--cards", role: "list" },
-    ...itens.map((item) => h("li", {}, createCertificacao(item, { competencias }))),
+    ...itens.map((item) => h("li", {}, createCertificacao(item))),
   );
 }
