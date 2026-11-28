@@ -2,7 +2,7 @@
    mídia à direita e 4 barras (no máximo 2 por linha) abaixo.
    O layout (1 ou 2 colunas) responde à LARGURA DO PRÓPRIO CARD (container query), porque o mesmo
    card aparece no centro do carrossel, nas laterais (reduzido por transform) e em listas. */
-import { h, assetUrl, anchorId, srOnly, nextId } from "../core.js";
+import { h, assetUrl, anchorId, srOnly, nextId, videoEmbed, pauseEmbed } from "../core.js";
 import { icon } from "../icons.js";
 import { openModal, temConteudo } from "./modal.js";
 
@@ -30,7 +30,7 @@ function createVideoToggle(card, titulo) {
   return button;
 }
 
-/** Amplia/reduz o vídeo do card. O mesmo <video> permanece no DOM: reprodução e tempo são preservados. */
+/** Amplia/reduz o vídeo do card. O mesmo <iframe> permanece no DOM: reprodução e tempo são preservados. */
 export function setVideoExpanded(card, expanded) {
   const button = card.querySelector(".projeto__video-toggle");
   if (!button) return;
@@ -41,10 +41,10 @@ export function setVideoExpanded(card, expanded) {
     : "Ampliar vídeo";
 }
 
-/** Volta o card ao estado normal (vídeo reduzido e pausado). Usado quando ele sai de cena. */
+/** Volta o card ao estado normal (vídeo reduzido e pausado — o player do YouTube recebe o comando de pausa). Usado quando ele sai de cena. */
 export function resetarProjeto(card) {
   setVideoExpanded(card, false);
-  card.querySelector("video")?.pause();
+  pauseEmbed(card.querySelector(".projeto__media iframe"));
 }
 
 /**
@@ -65,28 +65,30 @@ export function blocosDoProjeto(projeto) {
   ];
 }
 
-/** Mídia do projeto: imagem (images/projetos/…) ou vídeo (videos/projetos/…). */
+/** Mídia do projeto: imagem (images/projetos/…) ou vídeo (link do YouTube, exibido em iframe). */
 function createMedia(media, titulo, card, medicao) {
   if (!media) return null;
   // Cópia só para medir altura (ver carrossel.js): a moldura tem proporção fixa, não precisa de arquivo
   if (medicao) return h("figure", { class: "projeto__media" });
 
   if (media.tipo === "video") {
+    const embed = videoEmbed(media.src);
+    if (!embed) {
+      console.warn(`[projeto] Link de vídeo inválido em "${titulo}":`, media.src);
+      return null; // sem link válido: o card fica só com texto e métricas, sem botão de ampliar
+    }
     return h(
       "figure",
       { class: "projeto__media projeto__media--video" },
-      h(
-        "video",
-        {
-          controls: true,
-          playsinline: true,
-          preload: "metadata", // sem autoplay: respeita prefers-reduced-motion e dados móveis
-          poster: media.poster ? assetUrl("images", media.poster) : null,
-          "aria-label": media.alt ?? `Vídeo de ${titulo}`,
-        },
-        h("source", { src: assetUrl("videos", media.src), type: media.mime }),
-        "Seu navegador não suporta vídeo HTML5.",
-      ),
+      h("iframe", {
+        src: embed.url,
+        title: media.alt ?? `Vídeo de ${titulo}`,
+        "data-provider": embed.youtube ? "youtube" : null,
+        loading: "lazy", // só carrega o player quando o card se aproxima da tela
+        allow: "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen",
+        allowfullscreen: true,
+        referrerpolicy: "strict-origin-when-cross-origin",
+      }),
       createVideoToggle(card, titulo),
     );
   }
@@ -146,7 +148,7 @@ function createMetricas(metricas) {
 /**
  * @param {{
  *   id: string, tipo?: "projeto"|"experiencia", titulo: string, descricao: string, repositorio?: string,
- *   media?: {tipo: "imagem"|"video", src: string, alt?: string, poster?: string, mime?: string},
+ *   media?: {tipo: "imagem"|"video", src: string, alt?: string},  // vídeo: src = link do YouTube
  *   metricas?: {rotulo: string, valor: number}[],
  *   detalhes?: object | object[]
  * }} projeto

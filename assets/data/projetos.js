@@ -7,6 +7,8 @@
    Campos de um item (a chave do objeto é o id e vira a âncora #projeto-{id}):
      tipo        "projeto" (padrão) | "experiencia"  → prefixo "Projeto: " / "Experiência: "
      titulo, descricao, repositorio?, media?, metricas (4), detalhes?
+     media       { tipo: "imagem", src: "projetos/arquivo.webp" }   → assets/images/projetos/
+                 { tipo: "video",  src: VIDEOS.chave }              → link do YouTube, exibido em iframe
 
    Precisa de um texto diferente em outro currículo? Crie outro item com id próprio
    (ex.: "meu-portifolio-online-suporte-de-ti") e referencie esse id no currículo.
@@ -14,6 +16,18 @@
 
 /** Intervalo padrão do roadmap. Cada currículo pode informar o seu em criarAnos(…, { de, ate }). */
 export const ANOS_PADRAO = { de: 2023, ate: 2026 };
+
+const VIDEOS = {
+  meuPortifolioOnline: "https://youtu.be/COLE_O_ID_MEUPORTIFOLIOONLINE",
+  examflowAutomation: "https://youtu.be/QbmaNfXAEBA",
+  uniEletronics: "https://youtu.be/N3SIoyP6tAk",
+  newsletterLinkedin: "https://youtu.be/JgssIQpqyv8",
+  imaginariaImobiliaria: "https://youtu.be/Lhgud_nmj8E",
+  brawlerPicker: "https://youtu.be/zVK575CxKmc",
+  professorPython: "https://youtu.be/a0H85c0e9Y0",
+  consultationStation: "https://youtu.be/COLE_O_ID_CONSULTATIONSTATION",
+  aiTests: "https://youtu.be/EDgC-W2cxNM",
+};
 
 
 const formacaoAnaliseDesenvolvimentoSistemas = {
@@ -38,7 +52,7 @@ const meuPortifolioOnlineDesenvolvedorFrontend = {
   titulo: "Meu Portifolio Online",
   descricao: "Website completo desenvolvido para exibição do meu portifólio (esse em que você está agora). Desenvolvido com IA, mas com cuidado em design, escalabilidade, responsividade e mais.",
   repositorio: "https://github.com/HeMoreira/Meu-Portifolio-Online",
-  media: { tipo: "video", src: "projetos/meu_portifolio_online_project.mp4" },
+  media: { tipo: "video", src: VIDEOS.meuPortifolioOnline },
   metricas: [
     { rotulo: "Design de Interfaces", valor: 85 },
     { rotulo: "Organização", valor: 90 },
@@ -70,7 +84,7 @@ const meuPortifolioOnlineDesenvolvedorDeIA = {
   titulo: "Meu Portifolio Online",
   descricao: "Website completo desenvolvido para exibição do meu portifólio (esse em que você está agora). Desenvolvido com IA, mas com cuidado em design, escalabilidade, responsividade e mais.",
   repositorio: "https://github.com/HeMoreira/Meu-Portifolio-Online",
-  media: { tipo: "video", src: "projetos/meu_portifolio_online_project.mp4" },
+  media: { tipo: "video", src: VIDEOS.meuPortifolioOnline },
   metricas: [
     { rotulo: "Design de Interfaces", valor: 85 },
     { rotulo: "Organização", valor: 90 },
@@ -102,7 +116,7 @@ const meuPortifolioOnlineSuporteDeTI = {
   titulo: "Meu Portifolio Online",
   descricao: "Website completo desenvolvido para exibição do meu portifólio (esse em que você está agora). Utiliza tecnologias de desenvolvimento web diversas como HTML5, CSS3 e Javascript.",
   repositorio: "https://github.com/HeMoreira/Meu-Portifolio-Online",
-  media: { tipo: "video", src: "projetos/meu_portifolio_online_project.mp4" },
+  media: { tipo: "video", src: VIDEOS.meuPortifolioOnline },
   metricas: [
     { rotulo: "Organização", valor: 90 },
     { rotulo: "Simplificação de processos", valor: 85 },
@@ -134,7 +148,7 @@ const examFlowAutomationSuporteDeTI = {
   titulo: "Exam Flow Automation",
   descricao: "Projeto de automação com agentes de IA. A automação resumiu um processo que demorava mais de 30 horas para menos de 4 horas (1 hora e meia para a geração + 2 horas de verificação manual).",
   repositorio: "https://github.com/HeMoreira/Examflow-automation",
-  media: { tipo: "video", src: "projetos/examflow_automation_project.mp4" },
+  media: { tipo: "video", src: VIDEOS.examflowAutomation },
   metricas: [
     { rotulo: "Poupança de tempo", valor: 95 },
     { rotulo: "Automação de processos", valor: 80 },
@@ -166,7 +180,7 @@ const uniEletronicsSuporteDeTI = {
   titulo: "UniElectronics Projeto Uninove",
   descricao: "Projeto CRUD desenvolvido em ASP.NET com Razor Pages com meu grupo da faculdade. Utiliza tecnologias diversas como HTML5, CSS3, Javascript e outras tecnologias relacionadas ao ASP.NET.",
   repositorio: "https://github.com/HeMoreira/UniEletronicsProjetoUninove",
-  media: { tipo: "video", src: "projetos/uni_eletronics_project.mp4" },
+  media: { tipo: "video", src: VIDEOS.uniEletronics },
   metricas: [
     { rotulo: "Trabalho em equipe", valor: 90 },
     { rotulo: "Planejamento", valor: 85 },
@@ -197,7 +211,7 @@ const torneSeUmProgramadorMelhorNewsletter = {
   tipo: "projeto",
   titulo: "Torne-se um Programador Melhor - Newsletter",
   descricao: "Newsletter do LinkedIn focada em servir como conteúdo diferente do habitual para ajudar pessoas nos estudos de programação.",
-  media: { tipo: "video", src: "projetos/newsletter_linkedin_project.mp4" },
+  media: { tipo: "video", src: VIDEOS.newsletterLinkedin },
   metricas: [
     { rotulo: "Poupança de tempo", valor: 95 },
     { rotulo: "Automação de processos", valor: 80 },
@@ -227,7 +241,7 @@ const imaginariaImobiliaria = {
   repositorio: "https://github.com/HeMoreira/imaginaria-imobiliaria",
   media: {
     tipo: "video",
-    src: "projetos/imaginaria_imobiliaria_project.mp4",
+    src: VIDEOS.imaginariaImobiliaria,
     alt: "Vídeo ilustrativo do projeto",
   },
   metricas: [
@@ -280,7 +294,7 @@ const imaginariaImobiliariaDesenvolvedorDeIA = {
   repositorio: "https://github.com/HeMoreira/imaginaria-imobiliaria",
   media: {
     tipo: "video",
-    src: "projetos/imaginaria_imobiliaria_project.mp4",
+    src: VIDEOS.imaginariaImobiliaria,
     alt: "Vídeo ilustrativo do projeto",
   },
   metricas: [
@@ -335,7 +349,7 @@ const brawlStarsBrawlerPicker = {
   titulo: "Brawl Stars Brawler Picker",
   descricao: "Website completo desenvolvido para comparar dados complexos de diferentes personagens do jogo 'Brawl Stars' com o objetivo de encontrar as combinações mais favoráveis.",
   repositorio: "https://github.com/HeMoreira/Brawl-Stars-Brawler-Picker",
-  media: { tipo: "video", src: "projetos/brawler_picker_project.mp4" },
+  media: { tipo: "video", src: VIDEOS.brawlerPicker },
   metricas: [
     { rotulo: "Design de Interfaces", valor: 95 },
     { rotulo: "Integração com Excel", valor: 85 },
@@ -385,7 +399,7 @@ const brawlStarsBrawlerPickerDesenvolvedorDeIA = {
   titulo: "Brawl Stars Brawler Picker",
   descricao: "Website completo desenvolvido para comparar dados complexos de diferentes personagens do jogo 'Brawl Stars' com o objetivo de encontrar as combinações mais favoráveis.",
   repositorio: "https://github.com/HeMoreira/Brawl-Stars-Brawler-Picker",
-  media: { tipo: "video", src: "projetos/brawler_picker_project.mp4" },
+  media: { tipo: "video", src: VIDEOS.brawlerPicker },
   metricas: [
     { rotulo: "Design de Interfaces", valor: 95 },
     { rotulo: "Integração com Excel", valor: 85 },
@@ -437,7 +451,7 @@ const professorPython = {
   tipo: "experiencia",
   titulo: "Professor de Python",
   descricao: "Entre agosto de 2025 e fevereiro de 2026, fui professor pessoal de Python para amigos de conhecidos, o que me deu experiência real com comunicação clara e didática.",
-  media: { tipo: "video", src: "projetos/professor_python.mp4" },
+  media: { tipo: "video", src: VIDEOS.professorPython },
   metricas: [
     { rotulo: "Organização", valor: 90 },
     { rotulo: "Preparo de apresentações", valor: 90 },
@@ -486,7 +500,7 @@ const consultationStation = {
   titulo: "Consultation Station",
   descricao: "Sistema web completo para agendamento de consultas. Permite que clientes marquem consultas, enquanto administradores podem gerenciar e visualizar todos os agendamentos.",
   repositorio: "https://github.com/HeMoreira/Consultation-Station",
-  media: { tipo: "video", src: "projetos/consultation_station_project.mp4" },
+  media: { tipo: "video", src: VIDEOS.consultationStation },
   metricas: [
     { rotulo: "Integração com Backend", valor: 85 },
     { rotulo: "Desenvolvimento de Testes", valor: 90 },
@@ -529,7 +543,7 @@ const aiTests = {
   titulo: "AI-Tests",
   descricao: "Projeto com o objetivo de testar e avaliar diferentes modelos de IA. Foco em testagem e documentação para solucionar problemas de eficiência e agilizar processos.",
   repositorio: "https://github.com/HeMoreira/AI-Tests",
-  media: { tipo: "video", src: "projetos/ai_tests_project.mp4", alt: "Vídeo ilustrativo do projeto" },
+  media: { tipo: "video", src: VIDEOS.aiTests, alt: "Vídeo ilustrativo do projeto" },
   metricas: [
     { rotulo: "Documentação de processos", valor: 95 },
     { rotulo: "Processo de testagem", valor: 80 },

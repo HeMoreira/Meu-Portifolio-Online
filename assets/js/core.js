@@ -30,6 +30,50 @@ export function assetUrl(category, path) {
   return new URL(`${category}/${path}`, ASSETS_ROOT).href;
 }
 
+/**
+ * Converte o link de um vídeo na URL de incorporação (iframe).
+ * Aceita links do YouTube (watch?v=, youtu.be/, /embed/, /shorts/, /live/) e usa o domínio
+ * youtube-nocookie. O tempo inicial (t= / start=) é preservado. Qualquer outro link
+ * https:// (Vimeo, Drive etc.) é usado como está — deve ser uma URL de embed.
+ * Caminhos locais, javascript: e afins são recusados (retorna null).
+ * @param {string} [src]
+ * @returns {{ url: string, youtube: boolean } | null}
+ */
+export function videoEmbed(src) {
+  let u;
+  try {
+    u = new URL(String(src ?? "").trim());
+  } catch {
+    return null;
+  }
+  if (u.protocol !== "https:" && u.protocol !== "http:") return null;
+
+  const host = u.hostname.replace(/^(www|m)\./, "");
+  let id = null;
+  if (host === "youtu.be") id = u.pathname.split("/")[1];
+  else if (host === "youtube.com" || host === "youtube-nocookie.com") {
+    const [, kind, rest] = u.pathname.split("/");
+    id = kind === "watch" ? u.searchParams.get("v") : ["embed", "shorts", "live", "v"].includes(kind) ? rest : null;
+  }
+
+  if (!id) return u.protocol === "https:" && !/youtube/.test(host) ? { url: u.href, youtube: false } : null;
+  if (!/^[\w-]+$/.test(id)) return null;
+
+  const params = new URLSearchParams({ rel: "0", playsinline: "1", enablejsapi: "1" });
+  const start = parseInt(u.searchParams.get("start") ?? u.searchParams.get("t") ?? "", 10);
+  if (start > 0) params.set("start", String(start));
+  return { url: `https://www.youtube-nocookie.com/embed/${id}?${params}`, youtube: true };
+}
+
+/** Pausa um iframe do YouTube (precisa de enablejsapi=1, já incluído por videoEmbed). */
+export function pauseEmbed(iframe) {
+  if (iframe?.dataset.provider !== "youtube") return;
+  iframe.contentWindow?.postMessage(
+    JSON.stringify({ event: "command", func: "pauseVideo", args: "" }),
+    "https://www.youtube-nocookie.com",
+  );
+}
+
 /** Ids de âncora padronizados: competências apontam para eles. Experiências usam o prefixo "projeto-". */
 export function anchorId(tipo, id) {
   return `${tipo === "certificacao" ? "certificacao" : "projeto"}-${id}`;

@@ -5,7 +5,7 @@
 
    Caminhos de mídia são relativos à CATEGORIA:
      imagens → assets/images/<categoria>/…   (ex.: "competencias/html.svg")
-     vídeos  → assets/videos/<categoria>/…   (ex.: "projetos/demo.mp4")
+     vídeos  → link do YouTube, exibido em iframe (ex.: "https://youtu.be/ID")
    Dois currículos podem apontar para o MESMO arquivo — não copie mídia.
 
    Projetos e experiências vivem no catálogo central (assets/data/projetos.js).
@@ -19,7 +19,7 @@ import { criarAnos } from "../projetos.js";
 import { criarCertificacoes } from "../certificacoes.js";
 import { criarCompetencias } from "../competencias.js";
 
-/** Item de exemplo. Nos currículos reais estes dados vivem em assets/data/projetos.js. `video` usa um arquivo que não existe: só mostra o botão. */
+/** Item de exemplo. Nos currículos reais estes dados vivem em assets/data/projetos.js. `video` usa um link fictício do YouTube: só mostra o player/botão. */
 function exemploItem(n, tipo, video = false) {
   return {
     tipo,
@@ -30,7 +30,7 @@ function exemploItem(n, tipo, video = false) {
         : "Resumo curto do item: o problema, a solução e o seu papel.",
     repositorio: tipo === "projeto" ? "https://github.com/" : null,
     media: video
-      ? { tipo: "video", src: "projetos/exemplo.mp4", alt: "Vídeo de exemplo" }
+      ? { tipo: "video", src: "https://youtu.be/EXEMPLO0000", alt: "Vídeo de exemplo" }
       : { tipo: "imagem", src: "projetos/placeholder.svg", alt: "Imagem de exemplo" },
     metricas: [
       { rotulo: "Desempenho", valor: 90 },

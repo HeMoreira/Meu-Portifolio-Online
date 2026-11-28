@@ -5,7 +5,7 @@
      < 40rem  empilhado: texto → mídia → métricas
      ≥ 40rem  "texto mídia" / "métricas métricas"
    Métricas: 1 coluna; 2 colunas a partir de 28rem (máximo de 2 por linha).
-   Vídeo ampliado: em telas largas, o <video> cobre o card inteiro (height 100%, width auto).
+   Vídeo ampliado: em telas largas, o <iframe> do vídeo cobre o card inteiro (height 100%, width auto).
    ========================================================================== */
 
 .projeto {
@@ -63,11 +63,16 @@
   border-radius: var(--radius-md);
 }
 
-.projeto__media :is(img, video) {
+.projeto__media :is(img, iframe) {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.projeto__media iframe {
+  border: 0;
+  background: #000;
 }
 
 /* ---------- Ampliar vídeo (telas largas) ---------- */
@@ -136,7 +141,7 @@
     background: #000;
   }
 
-  .projeto[data-video-expanded="true"] .projeto__media video {
+  .projeto[data-video-expanded="true"] .projeto__media iframe {
     position: absolute;
     top: 0;
     left: 50%;
@@ -145,8 +150,8 @@
     width: auto;
     height: 100%;
     max-width: 100%;
+    aspect-ratio: 16 / 9; /* iframe não tem proporção própria: largura sai da altura */
     transform: translateX(-50%);
-    object-fit: contain;
   }
 
   .projeto[data-video-expanded="true"] .projeto__video-toggle {
@@ -158,7 +163,7 @@
 @media (prefers-reduced-motion: no-preference) {
   @media (min-width: 56rem) {
     .projeto[data-video-expanded="true"] .projeto__media::before,
-    .projeto[data-video-expanded="true"] .projeto__media video {
+    .projeto[data-video-expanded="true"] .projeto__media iframe {
       animation: video-in 220ms var(--ease);
     }
 
